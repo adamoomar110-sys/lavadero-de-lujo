@@ -9,31 +9,13 @@ export interface SystemSettings {
 }
 
 export async function getSystemSettings(): Promise<SystemSettings> {
-  const { data, error } = await supabase
-    .from('system_settings')
-    .select('key, value');
-
-  if (error) {
-    console.error('Error fetching system settings:', error);
-    return {
-      brand_name: 'Lavadero VIP',
-      brand_logo: '',
-      primary_color: '#06B6D4',
-      contact_email: 'soporte@lavaderovip.com',
-      currency_symbol: '$',
-    };
-  }
-
-  const settings: any = {};
-  data.forEach((item) => {
-    settings[item.key] = item.value;
-  });
-
+  // Desconectado temporalmente de la DB para forzar la marca del Lavadero VIP
+  // hasta que tengan su propia base de datos independiente.
   return {
-    brand_name: settings.brand_name || 'Lavadero VIP',
-    brand_logo: settings.brand_logo || '',
-    primary_color: settings.primary_color || '#06B6D4',
-    contact_email: settings.contact_email || 'soporte@lavaderovip.com',
-    currency_symbol: settings.currency_symbol || '$',
+    brand_name: 'Lavadero VIP',
+    brand_logo: '',
+    primary_color: '#06B6D4',
+    contact_email: 'contacto@lavaderovip.com',
+    currency_symbol: '$',
   };
 }
