@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 
 export default function PortalUnico() {
   return (
-    <div className="flex flex-col h-screen bg-orange-50 text-black font-sans overflow-hidden selection:bg-orange-400 selection:text-black">
+    <div className="flex flex-col min-h-screen bg-orange-50 text-black font-sans overflow-y-auto selection:bg-orange-400 selection:text-black">
       {/* Background Orbs */}
       <div className="absolute top-[20%] left-[-10%] w-[40vw] h-[40vw] bg-cyan-600/10 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-[-10%] right-[-10%] w-[30vw] h-[30vw] bg-blue-500/10 rounded-full blur-[100px] pointer-events-none" />

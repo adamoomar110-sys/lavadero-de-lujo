@@ -123,7 +123,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex flex-col h-screen bg-orange-50 text-black font-sans overflow-hidden selection:bg-orange-400 selection:text-black">
+    <div className="flex flex-col min-h-screen bg-orange-50 text-black font-sans overflow-y-auto selection:bg-orange-400 selection:text-black">
       {/* Background Orbs de Agua */}
       <div className="absolute top-[10%] right-[-10%] w-[40vw] h-[40vw] bg-cyan-600/10 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-[-10%] left-[-10%] w-[50vw] h-[50vw] bg-blue-600/10 rounded-full blur-[150px] pointer-events-none" />
@@ -136,7 +136,7 @@ export default function LoginPage() {
         </Link>
       </header>
 
-      <main className="flex-1 flex items-center justify-center relative z-10 px-4">
+      <main className="flex-1 flex items-center justify-center relative z-10 px-4 py-24">
         <div className="bg-white/80 backdrop-blur-xl border border-orange-200 p-12 rounded-[3rem] shadow-2xl w-full max-w-md relative overflow-hidden">
           <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent" />
           
@@ -199,7 +199,7 @@ export default function LoginPage() {
       </main>
 
       {/* FOOTER GENERAL */}
-      <footer className="absolute bottom-6 left-0 right-0 text-center space-y-1.5 opacity-40 hover:opacity-100 transition-opacity z-20">
+      <footer className="py-8 w-full text-center space-y-1.5 opacity-40 hover:opacity-100 transition-opacity z-20 mt-auto">
         <p className="text-[10px] text-orange-500/50 font-bold">
           © 2026 Omar Adamo. Todos los derechos reservados.
         </p>
