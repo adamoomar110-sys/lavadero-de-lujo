@@ -60,11 +60,7 @@ export async function GET() {
           vehicle_model: vehicle ? `${vehicle.brand} ${vehicle.model}` : 'Desconocido',
           revenue: Number(r.revenue || 0),
           km: (r.end_km || r.start_km) - (r.start_km || 0),
-        return {
-          id: r.id,
-          vehicle_plate: vehicle ? vehicle.plate : 'S/P',
-          vehicle_model: vehicle ? `${vehicle.brand} ${vehicle.model}` : 'Desconocido',
-          revenue: Number(r.revenue || 0),
+          hours: hours,
           date: r.created_at || r.start_time
         };
       }).sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime());
