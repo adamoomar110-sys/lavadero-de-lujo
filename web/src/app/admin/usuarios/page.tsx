@@ -383,7 +383,9 @@ export default function UsuariosAdmin() {
                       <option value="Fin de Semana">Fin de Semana</option>
                     </select>
                   </div>
-                    <div className="flex items-center justify-between p-4 bg-white/40 rounded-xl border border-orange-200">
+                </div>
+
+                <div className="flex items-center justify-between p-4 bg-white/40 rounded-xl border border-orange-200">
                   <div className="flex flex-col">
                      <span className="text-[10px] font-black text-black uppercase tracking-tight">Notificar por Email</span>
                      <span className="text-[8px] text-zinc-600 font-bold uppercase tracking-widest">Enviar credenciales al empleado</span>
