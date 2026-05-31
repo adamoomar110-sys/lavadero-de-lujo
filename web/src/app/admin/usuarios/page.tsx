@@ -1,6 +1,6 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import { Users, UserPlus, Shield, Mail, X, Trash2, Gauge, Clock, DollarSign, ChevronRight } from 'lucide-react';
+import { Users, UserPlus, Shield, Mail, X, Trash2, Gauge, Clock, DollarSign, ChevronRight, Car } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 
 export default function UsuariosAdmin() {
@@ -95,12 +95,33 @@ export default function UsuariosAdmin() {
     setLoading(false);
   };
 
+  const handleAddExtraHours = async (user: any) => {
+    const currentExtra = user.stats.hs_extra || 0;
+    const input = prompt(`¿Cuántas horas extra NUEVAS quieres sumarle a ${user.full_name}? (Actualmente tiene ${currentExtra} hs extra guardadas).\n\nIngresa el número de horas a sumar:`);
+    if (input !== null && input.trim() !== '' && !isNaN(Number(input))) {
+      const newTotalExtra = currentExtra + Number(input);
+      setLoading(true);
+      try {
+        const res = await fetch('/api/admin/usuarios', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id: user.id, hs_extra: newTotalExtra })
+        });
+        if (!res.ok) throw new Error('Error al actualizar');
+        fetchUsersWithStats();
+      } catch (err: any) {
+        alert('Error: ' + err.message);
+      }
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="flex flex-col h-full bg-orange-50">
       <header className="h-24 px-10 flex items-center justify-between border-b border-orange-200 bg-orange-100/50 backdrop-blur-md sticky top-0 z-20">
         <div>
           <h2 className="text-3xl font-black text-black tracking-tighter italic">Legajos de Personal</h2>
-          <p className="text-zinc-600 text-sm font-bold uppercase tracking-widest">Rendimiento y Perfiles de Choferes</p>
+          <p className="text-zinc-600 text-sm font-bold uppercase tracking-widest">Rendimiento y Perfiles del Personal</p>
         </div>
         
         <button onClick={() => setShowAddModal(true)} className="bg-green-400 text-black font-black px-6 py-3 rounded-2xl flex items-center gap-2 hover:bg-yellow-400 transition-all shadow-xl shadow-yellow-500/20">
@@ -176,27 +197,43 @@ export default function UsuariosAdmin() {
 
                <div>
                   {/* Stats Bar */}
-                  <div className="grid grid-cols-3 bg-white/40 border-t border-orange-200 p-8 gap-4">
+                  <div className="grid grid-cols-4 bg-white/40 border-t border-orange-200 p-6 gap-2">
                      <div className="text-center space-y-1">
-                        <div className="flex items-center justify-center gap-2 text-zinc-600 mb-1">
-                           <Gauge size={14} className="text-green-600" />
-                           <span className="text-[10px] font-black uppercase tracking-widest">Total KM</span>
+                        <div className="flex items-center justify-center gap-1.5 text-zinc-600 mb-1">
+                           <Clock size={12} className="text-blue-500" />
+                           <span className="text-[9px] font-black uppercase tracking-widest leading-none">Hs Trabajadas</span>
                         </div>
-                        <p className="text-xl font-black text-black">{user.stats.km.toLocaleString()}</p>
+                        <div className="flex items-center justify-center gap-2">
+                           <p className="text-lg font-black text-black">{user.stats.hs_trabajadas}</p>
+                           <button 
+                             onClick={() => handleAddExtraHours(user)}
+                             title="Sumar horas extra"
+                             className="w-5 h-5 rounded-full bg-blue-100 text-blue-600 hover:bg-blue-500 hover:text-white flex items-center justify-center transition-colors text-xs font-black shadow-sm"
+                           >
+                             +
+                           </button>
+                        </div>
                      </div>
-                     <div className="text-center border-x border-orange-200 space-y-1">
-                        <div className="flex items-center justify-center gap-2 text-zinc-600 mb-1">
-                           <Clock size={14} className="text-blue-500" />
-                           <span className="text-[10px] font-black uppercase tracking-widest">Horas Uso</span>
+                     <div className="text-center border-l border-orange-200 space-y-1">
+                        <div className="flex items-center justify-center gap-1.5 text-zinc-600 mb-1">
+                           <Car size={12} className="text-green-600" />
+                           <span className="text-[9px] font-black uppercase tracking-widest leading-none">Autos Lavados</span>
                         </div>
-                        <p className="text-xl font-black text-black">{user.stats.hours} hs</p>
+                        <p className="text-lg font-black text-black mt-1">{user.stats.autos_lavados}</p>
                      </div>
-                     <div className="text-center space-y-1">
-                        <div className="flex items-center justify-center gap-2 text-zinc-600 mb-1">
-                           <DollarSign size={14} className="text-lime-400 drop-shadow-[0_0_5px_rgba(163,230,53,0.5)]" />
-                           <span className="text-[10px] font-black uppercase tracking-widest">Recaudado</span>
+                     <div className="text-center border-l border-orange-200 space-y-1">
+                        <div className="flex items-center justify-center gap-1.5 text-zinc-600 mb-1">
+                           <Clock size={12} className="text-purple-500" />
+                           <span className="text-[9px] font-black uppercase tracking-widest leading-none">Días Trabajados</span>
                         </div>
-                        <p className="text-xl font-black text-lime-400 drop-shadow-[0_0_8px_rgba(163,230,53,0.3)]">${user.stats.revenue.toLocaleString()}</p>
+                        <p className="text-lg font-black text-black mt-1">{user.stats.dias_trabajados}</p>
+                     </div>
+                     <div className="text-center border-l border-orange-200 space-y-1">
+                        <div className="flex items-center justify-center gap-1.5 text-zinc-600 mb-1">
+                           <DollarSign size={12} className="text-lime-500 drop-shadow-[0_0_5px_rgba(132,204,22,0.5)]" />
+                           <span className="text-[9px] font-black uppercase tracking-widest leading-none">Recaudado</span>
+                        </div>
+                        <p className="text-lg font-black text-lime-500 drop-shadow-[0_0_8px_rgba(132,204,22,0.3)] mt-1">${user.stats.revenue.toLocaleString()}</p>
                      </div>
                   </div>
 
@@ -351,7 +388,7 @@ export default function UsuariosAdmin() {
                <div className="flex items-center justify-between p-5 bg-white/40 rounded-2xl border border-orange-200">
                   <div className="flex flex-col">
                      <span className="text-xs font-black text-black uppercase tracking-tight">Notificar por Email</span>
-                     <span className="text-[9px] text-zinc-600 font-bold uppercase tracking-widest">Enviar credenciales al chofer</span>
+                     <span className="text-[9px] text-zinc-600 font-bold uppercase tracking-widest">Enviar credenciales al empleado</span>
                   </div>
                   <button 
                     type="button"

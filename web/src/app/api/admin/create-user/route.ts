@@ -27,24 +27,20 @@ export async function POST(request: Request) {
       email,
       password,
       email_confirm: true,
-      user_metadata: { full_name, role }
+      user_metadata: { full_name, role, cargo, funcion, turno, legajo }
     });
 
     if (authError) {
       return NextResponse.json({ error: authError.message }, { status: 400 });
     }
 
-    // 2. Insertar en perfiles
+    // 2. Insertar en perfiles (solo lo basico soportado por schema original)
     const userId = authData.user.id;
     const { error: profileError } = await supabaseAdmin.from('profiles').upsert({
       id: userId,
       email,
       full_name,
-      role: role || 'driver',
-      cargo: cargo || null,
-      funcion: funcion || null,
-      turno: turno || null,
-      legajo: legajo || null
+      role: role || 'driver'
     });
 
     if (profileError) {
