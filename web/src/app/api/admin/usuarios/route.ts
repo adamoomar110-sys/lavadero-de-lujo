@@ -89,7 +89,8 @@ export async function GET() {
           autos_lavados: autosLavados,
           dias_trabajados: diasTrabajados,
           hs_trabajadas: hsTrabajadas,
-          hs_extra: Number(meta.hs_extra || 0)
+          hs_extra: Number(meta.hs_extra || 0),
+          autos_extra: Number(meta.autos_extra || 0)
         },
         work_history: workHistory
       };
@@ -139,7 +140,7 @@ export async function DELETE(req: Request) {
 
 export async function PUT(req: Request) {
   try {
-    const { id, vehicle_id, hs_extra } = await req.json();
+    const { id, vehicle_id, hs_extra, autos_extra } = await req.json();
     if (!id) return NextResponse.json({ error: 'ID requerido' }, { status: 400 });
 
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
@@ -149,13 +150,17 @@ export async function PUT(req: Request) {
       auth: { autoRefreshToken: false, persistSession: false }
     });
 
-    if (hs_extra !== undefined) {
+    if (hs_extra !== undefined || autos_extra !== undefined) {
       // Fetch current metadata to avoid overwriting other fields
       const { data: userData } = await supabaseAdmin.auth.admin.getUserById(id);
       const currentMeta = userData?.user?.user_metadata || {};
       
+      const updateData = { ...currentMeta };
+      if (hs_extra !== undefined) updateData.hs_extra = Number(hs_extra);
+      if (autos_extra !== undefined) updateData.autos_extra = Number(autos_extra);
+
       const { error: authError } = await supabaseAdmin.auth.admin.updateUserById(id, {
-        user_metadata: { ...currentMeta, hs_extra: Number(hs_extra) }
+        user_metadata: updateData
       });
       if (authError) throw authError;
     }

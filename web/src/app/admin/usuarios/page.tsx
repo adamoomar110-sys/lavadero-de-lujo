@@ -116,6 +116,27 @@ export default function UsuariosAdmin() {
     }
   };
 
+  const handleAddExtraWashes = async (user: any) => {
+    const currentExtra = user.stats.autos_extra || 0;
+    const input = prompt(`¿Cuántos autos lavados NUEVOS quieres sumarle a ${user.full_name}? (Actualmente tiene ${currentExtra} autos extra guardados).\n\nIngresa el número de autos a sumar:`);
+    if (input !== null && input.trim() !== '' && !isNaN(Number(input))) {
+      const newTotalExtra = currentExtra + Number(input);
+      setLoading(true);
+      try {
+        const res = await fetch('/api/admin/usuarios', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id: user.id, autos_extra: newTotalExtra })
+        });
+        if (!res.ok) throw new Error('Error al actualizar');
+        fetchUsersWithStats();
+      } catch (err: any) {
+        alert('Error: ' + err.message);
+      }
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="flex flex-col h-full bg-orange-50">
       <header className="h-24 px-10 flex items-center justify-between border-b border-orange-200 bg-orange-100/50 backdrop-blur-md sticky top-0 z-20">
@@ -219,7 +240,16 @@ export default function UsuariosAdmin() {
                            <Car size={12} className="text-green-600" />
                            <span className="text-[9px] font-black uppercase tracking-widest leading-none">Autos Lavados</span>
                         </div>
-                        <p className="text-lg font-black text-black mt-1">{user.stats.autos_lavados}</p>
+                        <div className="flex items-center justify-center gap-2 mt-1">
+                           <p className="text-lg font-black text-black">{user.stats.autos_lavados}</p>
+                           <button 
+                             onClick={() => handleAddExtraWashes(user)}
+                             title="Sumar autos lavados"
+                             className="w-5 h-5 rounded-full bg-green-100 text-green-600 hover:bg-green-500 hover:text-white flex items-center justify-center transition-colors text-xs font-black shadow-sm"
+                           >
+                             +
+                           </button>
+                        </div>
                      </div>
                      <div className="text-center border-l border-orange-200 space-y-1">
                         <div className="flex items-center justify-center gap-1.5 text-zinc-600 mb-1">
