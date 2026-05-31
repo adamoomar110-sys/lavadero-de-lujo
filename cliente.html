@@ -123,13 +123,78 @@
         </div>
 
         <p id="eta-text" style="color: var(--color-text-dim); font-size: 0.9rem; margin-top: 1rem;">Calculando demora...</p>
+
+        <!-- Tarjeta de Servicio Premium Contratado -->
+        <div id="service-card" style="margin-top: 2rem; border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 1.5rem; text-align: left; display: none;">
+            <div style="font-size: 0.65rem; text-transform: uppercase; color: var(--color-text-dim); font-weight: 700; letter-spacing: 0.1em; margin-bottom: 0.5rem;">Servicio Contratado</div>
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
+                <h4 id="service-name" style="font-size: 0.95rem; font-weight: 900; color: #fff; margin: 0;">-</h4>
+                <span id="service-price" style="font-size: 1.1rem; font-weight: 900; color: var(--color-lime); font-family: var(--font-mono);">-</span>
+            </div>
+            <div id="service-items" style="display: flex; flex-direction: column; gap: 0.5rem;">
+                <!-- items se inyectan dinámicamente -->
+            </div>
+        </div>
     </div>
 
     <div class="client-footer">
-        © @adamo. Todos los derechos reservados. <br> Lavadero Estética Vehicular
+        © 2026 Omar Adamo. Todos los derechos reservados. <br> Lavadero Estética Vehicular • Software Independiente
     </div>
 
     <script>
+        const WASH_DETAILS = {
+            'combo-limpieza-total': {
+                name: 'Combo Limpieza Total 🌀',
+                price: 18000,
+                items: ['Lavado exterior espuma activa', 'Aspirado alfombras/butacas', 'Limpieza cristales/pantallas', 'Silicona y perfumado clásico']
+            },
+            'combo-vip-gold': {
+                name: 'Combo VIP Gold 🏆',
+                price: 25000,
+                items: ['Lavado pH neutro artesanal', 'Descontaminado de pintura', 'Encerado Carnauba brasileña', 'Aspirado con vapor']
+            },
+            'lavado-carroceria': {
+                name: 'Lavado Exterior Simple 🚗',
+                price: 12000,
+                items: ['Lavado shampoo pH balanceado', 'Secado manual microfibra', 'Acondicionado de neumáticos']
+            },
+            'aspirado-interior': {
+                name: 'Aspirado e Interior Pro 💨',
+                price: 10000,
+                items: ['Aspirado butacas y paneles', 'Desinfección de contacto', 'Acondicionado de plásticos']
+            },
+            'lavado-express': {
+                name: 'Lavado Express ⚡',
+                price: 8000,
+                items: ['Lavado exterior a presión', 'Secado rápido', 'Brillo básico de cubiertas']
+            },
+            'lavado-motor': {
+                name: 'Limpieza de Motor a Vapor 🔥',
+                price: 15000,
+                items: ['Limpieza técnica a vapor', 'Desengrasantes biodegradables', 'Protector dieléctrico plásticos']
+            },
+            'encerado-acrilico': {
+                name: 'Encerado Acrílico Sellador 🛡️',
+                price: 22000,
+                items: ['Lavado artesanal descontaminante', 'Cera selladora acrílica manual', 'Efecto hidrofóbico extremo']
+            },
+            'lavado-chasis': {
+                name: 'Limpieza de Chasis & Motor 🔩',
+                price: 28000,
+                items: ['Limpieza chasis inferior', 'Desengrasado pesado a vapor', 'Protector antioxidante metal']
+            },
+            'pulido-opticas': {
+                name: 'Restauración de Ópticas 💡',
+                price: 16000,
+                items: ['Lijado al agua multietapa', 'Pulido de policarbonato', 'Sellado UV de ópticas']
+            },
+            'tratamiento-ceramico': {
+                name: 'Tratamiento Cerámico 9H 💎',
+                price: 65000,
+                items: ['Corrección de pintura 2 etapas', 'Sellador cerámico 9H importado', 'Protección contra rayones UV']
+            }
+        };
+
         // Dibujo de Auto SVG adaptado
         function getCarSvg(color) {
             return `
@@ -161,6 +226,7 @@
         const color = urlParams.get('c') ? '#' + urlParams.get('c') : '#06b6d4';
         const plate = urlParams.get('p') || 'SIN PATENTE';
         const zone = urlParams.get('z') || 'espera';
+        const type = urlParams.get('t') || '';
 
         document.getElementById('car-nickname').innerText = nick;
         document.getElementById('car-plate').innerText = plate;
@@ -184,6 +250,30 @@
             statusContainer.className = 'status-badge status-terminado';
             statusContainer.innerText = '¡Listo para retirar!';
             etaText.innerText = 'Tu vehículo ha quedado impecable. Te esperamos en la salida.';
+        }
+
+        // Cargar detalles del servicio contratado
+        const serviceCard = document.getElementById('service-card');
+        if (type && WASH_DETAILS[type]) {
+            const details = WASH_DETAILS[type];
+            document.getElementById('service-name').innerText = details.name;
+            document.getElementById('service-price').innerText = `$${details.price.toLocaleString('es-AR')}`;
+            
+            const itemsContainer = document.getElementById('service-items');
+            itemsContainer.innerHTML = details.items.map(item => `
+                <div style="display: flex; align-items: center; gap: 0.5rem; text-transform: uppercase; font-size: 0.7rem; font-weight: 700; color: rgba(255,255,255,0.85)">
+                    <span style="color: var(--color-lime);">✔</span>
+                    <span>${item}</span>
+                </div>
+            `).join('');
+            
+            serviceCard.style.display = 'block';
+        } else if (type) {
+            // Caso en el que venga un string personalizado no catalogado
+            document.getElementById('service-name').innerText = decodeURIComponent(type);
+            document.getElementById('service-price').innerText = '';
+            document.getElementById('service-items').innerHTML = '';
+            serviceCard.style.display = 'block';
         }
     </script>
 </body>

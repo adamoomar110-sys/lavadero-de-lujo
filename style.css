@@ -673,6 +673,7 @@ body {
 .form-group input[type="number"],
 .form-group input[type="url"],
 .form-group input[type="password"],
+.form-group select,
 .form-group textarea {
     background-color: rgba(0, 0, 0, 0.4);
     border: 1px solid rgba(255, 255, 255, 0.08);
@@ -686,7 +687,13 @@ body {
     transition: all 0.2s;
 }
 
+.form-group select option {
+    background-color: #121218;
+    color: #fff;
+}
+
 .form-group input:focus,
+.form-group select:focus,
 .form-group textarea:focus {
     border-color: var(--color-cyan);
     box-shadow: 0 0 10px rgba(0, 240, 255, 0.15);

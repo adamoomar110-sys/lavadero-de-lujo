@@ -44,6 +44,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   const rawNavItems = [
     { id: 'lavadero', name: 'Control Lavadero', href: '/admin/lavadero', icon: Waves },
+    { id: 'facturacion', name: 'Facturación', href: '/admin/facturacion', icon: CreditCard },
     { id: 'usuarios', name: 'Gestión de Usuarios', href: '/admin/usuarios', icon: Users },
     { id: 'configuracion', name: 'Configuración', href: '/admin/configuracion', icon: Settings },
   ];
@@ -185,7 +186,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                   <span>•</span>
                   <a href="https://wa.me/5491178295317" target="_blank" rel="noopener noreferrer" className="hover:text-green-600 transition-colors">WhatsApp</a>
                   <span>•</span>
-                  <span className="font-black text-zinc-700">v1.0</span>
+                  <span className="font-black text-zinc-700">v1.1</span>
                 </div>
               </div>
             </div>
@@ -281,7 +282,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               <span>•</span>
               <a href="https://wa.me/5491178295317" target="_blank" rel="noopener noreferrer" className="hover:text-green-600 transition-colors">WhatsApp</a>
               <span>•</span>
-              <span className="text-zinc-600 font-black">v1.0</span>
+              <span className="text-zinc-600 font-black">v1.1</span>
             </div>
           </div>
         </div>

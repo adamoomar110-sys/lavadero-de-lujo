@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Sparkles, Waves, Car, Wind, Flame, Shield, ShoppingCart, Check, X, 
-  ArrowRight, Palette, User, Info, ChevronRight, Loader2, Droplets 
+  ArrowRight, Palette, User, Info, ChevronRight, Loader2, Droplets, Zap, Wrench 
 } from 'lucide-react';
 
 interface WashPackage {
@@ -118,6 +118,67 @@ const WASH_PACKAGES: WashPackage[] = [
     icon: Shield,
     color: 'text-emerald-500',
     bgGradient: 'from-emerald-500/20 via-green-600/10 to-transparent border-emerald-500/30'
+  },
+  {
+    id: 'lavado-express',
+    name: 'Lavado Express ⚡',
+    category: 'lavados',
+    price: 8000,
+    description: 'Lavado rápido de carrocería (agua a presión y shampoo rápido), ideal si estás con prisa.',
+    features: [
+      'Lavado exterior express a presión',
+      'Secado rápido con soplador',
+      'Brillo básico de cubiertas'
+    ],
+    icon: Zap,
+    color: 'text-yellow-400',
+    bgGradient: 'from-yellow-400/20 via-amber-600/10 to-transparent border-yellow-400/30'
+  },
+  {
+    id: 'lavado-chasis',
+    name: 'Limpieza de Chasis & Motor 🔩',
+    category: 'estetica',
+    price: 28000,
+    description: 'Lavado a fondo de la parte inferior del auto y motor a vapor para remover grasas pesadas y salitre.',
+    features: [
+      'Limpieza inferior de chasis a presión',
+      'Desengrasado pesado con vapor a 140°C',
+      'Aplicación de protector antioxidante metal'
+    ],
+    icon: Wrench,
+    color: 'text-indigo-400',
+    bgGradient: 'from-indigo-400/20 via-blue-600/10 to-transparent border-indigo-400/30'
+  },
+  {
+    id: 'pulido-opticas',
+    name: 'Restauración de Ópticas 💡',
+    category: 'estetica',
+    price: 16000,
+    description: 'Pulido y sellado cerámico de faros delanteros opacos o amarillentos para recuperar la visibilidad original.',
+    features: [
+      'Lijado al agua multietapa (grano 1000 a 3000)',
+      'Pulido rotativo de policarbonato con compuesto fino',
+      'Aplicación de sellador protector UV de ópticas'
+    ],
+    icon: Sparkles,
+    color: 'text-cyan-400',
+    bgGradient: 'from-cyan-400/20 via-sky-600/10 to-transparent border-cyan-400/30'
+  },
+  {
+    id: 'tratamiento-ceramico',
+    name: 'Tratamiento Cerámico 9H 💎',
+    category: 'estetica',
+    price: 65000,
+    description: 'Sellado cerámico de alta gama que brinda protección extrema de brillo espejo y repelencia al agua por hasta 2 años.',
+    features: [
+      'Corrección de pintura en 2 etapas (eliminación de rayas)',
+      'Descontaminado físico y químico de carrocería',
+      'Aplicación de sellador cerámico premium 9H',
+      'Efecto hidrofóbico y protección UV extrema'
+    ],
+    icon: Shield,
+    color: 'text-rose-400',
+    bgGradient: 'from-rose-400/20 via-pink-600/10 to-transparent border-rose-400/30'
   }
 ];
 
@@ -540,7 +601,7 @@ export default function PedidoClienteKiosco() {
           <span>•</span>
           <a href="https://wa.me/5491178295317" target="_blank" rel="noopener noreferrer" className="hover:text-orange-500 transition-colors">WhatsApp</a>
           <span>•</span>
-          <span className="text-zinc-600 font-black">v1.0</span>
+          <span className="text-zinc-600 font-black">v1.1</span>
         </div>
       </footer>
     </div>

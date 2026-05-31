@@ -55,7 +55,7 @@ export default function PortalUnico() {
           <span>•</span>
           <a href="https://wa.me/5491178295317" target="_blank" rel="noopener noreferrer" className="hover:text-orange-600 transition-colors">WhatsApp</a>
           <span>•</span>
-          <span className="text-slate-600 font-black">v1.0</span>
+          <span className="text-slate-600 font-black">v1.1</span>
         </div>
       </footer>
     </div>

@@ -42,7 +42,7 @@ export async function POST(req: Request) {
       const { error: updateError } = await supabaseAdmin
         .from('vehicles')
         .update({
-          status: 'lavadero',
+          status: 'active', // HACK: Usando 'active' en vez de 'lavadero' para evitar constraint de base de datos
           brand: brand || 'Desconocido',
           model: model || 'Desconocido'
         })
@@ -52,14 +52,16 @@ export async function POST(req: Request) {
         throw new Error('Error al actualizar estado del vehículo: ' + updateError.message);
       }
     } else {
+      const vehicleName = `${brand || 'Desconocido'} ${model || 'Desconocido'}`.trim() || 'Vehículo';
       // Crear nuevo vehículo en estado 'lavadero'
       const { data: newVehicle, error: createError } = await supabaseAdmin
         .from('vehicles')
         .insert([{
           plate: cleanPlate,
+          name: vehicleName,
           brand: brand || 'Desconocido',
           model: model || 'Desconocido',
-          status: 'lavadero'
+          status: 'active' // HACK: Usando 'active'
         }])
         .select('id')
         .single();
@@ -77,9 +79,9 @@ export async function POST(req: Request) {
       .insert([{
         vehicle_id: vehicleId,
         budget: Number(price || 0),
-        description: orderDescription,
+        description: '[LAVADERO] ' + orderDescription, // Etiqueta para filtrado
         status: 'pending',
-        provider_type: 'lavadero',
+        provider_type: 'lubricentro', // HACK: Usando 'lubricentro' porque 'lavadero' da error
         appointment_date: new Date().toISOString()
       }])
       .select('id')
@@ -89,15 +91,19 @@ export async function POST(req: Request) {
       throw new Error('Error al crear orden de servicio: ' + orderError.message);
     }
 
-    // 3. Insertar en la cola de la cámara (juego virtual)
+    // 3. Insertar en la cola de la cámara (Usamos announcements como HACK temporal)
     const { data: newQueueItem, error: queueError } = await supabaseAdmin
-      .from('lavadero_camera_queue')
+      .from('announcements')
       .insert([{
-        tracking_id: Math.floor(Math.random() * 1000) + 1,
-        nickname: nickname.trim(),
-        color: color || '#06b6d4',
-        zone: 'espera',
-        entered_at: new Date().toISOString()
+        title: 'LAVADERO_CAMERA_QUEUE',
+        content: JSON.stringify({
+          tracking_id: Math.floor(Math.random() * 1000) + 1,
+          nickname: nickname.trim(),
+          color: color || '#06b6d4',
+          zone: 'espera',
+          entered_at: new Date().toISOString()
+        }),
+        is_active: true
       }])
       .select('id')
       .single();

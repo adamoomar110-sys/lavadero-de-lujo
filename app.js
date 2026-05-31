@@ -3,6 +3,19 @@ const NOMBRES = ["Rayo", "Toro", "Halcón", "Puma", "Tigre", "Furia", "Centella"
 const ADJETIVOS = ["Azul", "Rojo", "Gris", "Plata", "Verde", "Negro", "Dorado", "Feroz", "Veloz", "Oscuro", "Blanco", "Brillante", "Neon", "Rápido", "Relámpago"];
 const COLORES = ["#00f0ff", "#84cc16", "#ffb800", "#3b82f6", "#ef4444", "#a855f7", "#f97316", "#ec4899", "#14b8a6"];
 
+const WASH_NAMES = {
+    'combo-limpieza-total': 'Combo Limpieza Total 🌀',
+    'combo-vip-gold': 'Combo VIP Gold 🏆',
+    'lavado-carroceria': 'Lavado Exterior Simple 🚗',
+    'aspirado-interior': 'Aspirado e Interior Pro 💨',
+    'lavado-express': 'Lavado Express ⚡',
+    'lavado-motor': 'Limpieza de Motor a Vapor 🔥',
+    'encerado-acrilico': 'Encerado Acrílico Sellador 🛡️',
+    'lavado-chasis': 'Limpieza de Chasis & Motor 🔩',
+    'pulido-opticas': 'Restauración de Ópticas 💡',
+    'tratamiento-ceramico': 'Tratamiento Cerámico 9H 💎'
+};
+
 // --- ESTADO GLOBAL ---
 let activeVehicles = [];
 let washHistory = [];
@@ -250,18 +263,31 @@ async function syncFromSupabase() {
     const data = await fetchSupabase(`${config.queueTable}?select=*&order=entered_at.asc`);
     if (data && Array.isArray(data)) {
         // Mapear los datos de Supabase a nuestro modelo local
-        activeVehicles = data.map(dbCar => ({
-            id: dbCar.id,
-            tracking_id: dbCar.tracking_id || Math.floor(Math.random() * 100),
-            nickname: dbCar.nickname || 'Vehículo Especial',
-            plate: dbCar.plate || '',
-            color: dbCar.color || '#06b6d4',
-            zone: dbCar.zone || 'espera',
-            budget: dbCar.budget || 0,
-            description: dbCar.description || '',
-            entered_at: dbCar.entered_at || new Date().toISOString(),
-            created_at: dbCar.created_at || new Date().toISOString()
-        }));
+        activeVehicles = data.map(dbCar => {
+            let washType = 'combo-limpieza-total';
+            if (dbCar.description) {
+                for (const key in WASH_NAMES) {
+                    if (dbCar.description.toLowerCase().includes(key.toLowerCase()) || 
+                        dbCar.description.toLowerCase().includes(WASH_NAMES[key].toLowerCase())) {
+                        washType = key;
+                        break;
+                    }
+                }
+            }
+            return {
+                id: dbCar.id,
+                tracking_id: dbCar.tracking_id || Math.floor(Math.random() * 100),
+                nickname: dbCar.nickname || 'Vehículo Especial',
+                plate: dbCar.plate || '',
+                color: dbCar.color || '#06b6d4',
+                zone: dbCar.zone || 'espera',
+                budget: dbCar.budget || 0,
+                wash_type: dbCar.wash_type || washType,
+                description: dbCar.description || '',
+                entered_at: dbCar.entered_at || new Date().toISOString(),
+                created_at: dbCar.created_at || new Date().toISOString()
+            };
+        });
         saveStateLocally(false); // Guardar copia local sin re-escribir a Supabase
         renderAll();
     }
@@ -282,8 +308,10 @@ async function saveStateLocally(syncRemote = true) {
 // --- OPERACIONES DE VEHÍCULOS ---
 
 // Agregar Vehículo
-async function addVehicle(nickname, plate, color, budgetStr) {
+async function addVehicle(nickname, plate, color, budgetStr, washType) {
     const budget = budgetStr ? parseFloat(budgetStr) : 0;
+    const wType = washType || 'combo-limpieza-total';
+    const washName = WASH_NAMES[wType] || 'Combo Limpieza Total';
     const newCar = {
         id: crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).substring(2, 15),
         tracking_id: Math.floor(Math.random() * 900) + 100,
@@ -292,7 +320,8 @@ async function addVehicle(nickname, plate, color, budgetStr) {
         color,
         zone: 'espera',
         budget,
-        description: 'Lavado estándar y detallado de carrocería.',
+        wash_type: wType,
+        description: `Servicio: ${washName}. Lavado estándar y detallado de carrocería.`,
         entered_at: new Date().toISOString(),
         created_at: new Date().toISOString()
     };
@@ -592,7 +621,10 @@ function renderOperatorTable() {
             <td>
                 <div class="car-badge-name">
                     <span class="car-color-dot" style="background-color: ${car.color}; box-shadow: 0 0 6px ${car.color}"></span>
-                    <span>${car.nickname}</span>
+                    <div>
+                        <div style="font-weight: 800; color: var(--color-text);">${car.nickname}</div>
+                        <div style="font-size: 0.7rem; color: var(--color-text-dim); margin-top: 0.2rem; font-weight: 700;">${WASH_NAMES[car.wash_type] || 'Combo Limpieza Total'}</div>
+                    </div>
                 </div>
             </td>
             <td>
@@ -665,7 +697,7 @@ function renderOperatorTable() {
                 let baseUrl = window.location.origin + window.location.pathname;
                 baseUrl = baseUrl.replace('index.html', '');
                 if(!baseUrl.endsWith('/')) baseUrl += '/';
-                const url = `${baseUrl}cliente.html?n=${encodeURIComponent(car.nickname)}&c=${colorHex}&p=${encodeURIComponent(car.plate || 'SIN PATENTE')}&z=${car.zone}`;
+                const url = `${baseUrl}cliente.html?n=${encodeURIComponent(car.nickname)}&c=${colorHex}&p=${encodeURIComponent(car.plate || 'SIN PATENTE')}&z=${car.zone}&t=${encodeURIComponent(car.wash_type || 'combo-limpieza-total')}`;
                 navigator.clipboard.writeText(url).then(() => {
                     showFloatingToast("Enlace del cliente copiado al portapapeles.");
                 });
@@ -934,19 +966,31 @@ elInputColor.addEventListener('input', (e) => {
 });
 
 // Formulario de Registro
+const elInputWashType = document.getElementById('input-wash-type');
+
+if (elInputWashType) {
+    elInputWashType.addEventListener('change', (e) => {
+        const selectedOption = e.target.options[e.target.selectedIndex];
+        const price = selectedOption.getAttribute('data-price');
+        elInputBudget.value = price;
+    });
+}
+
 elFormRegister.addEventListener('submit', (e) => {
     e.preventDefault();
     const nickname = elInputNickname.value.trim();
     const plate = elInputPlate.value.trim();
     const color = elInputColor.value;
     const budget = elInputBudget.value;
+    const washType = elInputWashType ? elInputWashType.value : 'combo-limpieza-total';
 
-    addVehicle(nickname, plate, color, budget);
+    addVehicle(nickname, plate, color, budget, washType);
 
     // Resetear formulario
     elInputNickname.value = '';
     elInputPlate.value = '';
-    elInputBudget.value = '';
+    if (elInputWashType) elInputWashType.value = 'combo-limpieza-total';
+    elInputBudget.value = '18000';
     
     // Enfocar apodo para el siguiente
     elInputNickname.focus();
