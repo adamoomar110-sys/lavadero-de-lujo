@@ -1,34 +1,38 @@
-/* Variables de Diseño Premium */
+/* Variables de Diseño Premium (Glassmorphism) */
 :root {
-    --color-bg: #030306;
-    --color-card-bg: rgba(18, 18, 24, 0.6);
-    --color-card-border: rgba(255, 255, 255, 0.05);
+    --color-bg: #0a0a0f;
+    --color-card-bg: rgba(25, 25, 35, 0.35);
+    --color-card-border: rgba(255, 255, 255, 0.08);
     
-    --color-cyan: #00f0ff;
-    --color-cyan-glow: rgba(0, 240, 255, 0.4);
-    --color-cyan-dim: rgba(0, 240, 255, 0.08);
+    --color-cyan: #00d4ff;
+    --color-cyan-glow: rgba(0, 212, 255, 0.2);
+    --color-cyan-dim: rgba(0, 212, 255, 0.1);
 
-    --color-yellow: #ffb800;
-    --color-yellow-glow: rgba(255, 184, 0, 0.4);
-    --color-yellow-dim: rgba(255, 184, 0, 0.08);
+    --color-yellow: #ffb347;
+    --color-yellow-glow: rgba(255, 179, 71, 0.2);
+    --color-yellow-dim: rgba(255, 179, 71, 0.1);
 
-    --color-lime: #39ff14;
-    --color-lime-glow: rgba(57, 255, 20, 0.4);
-    --color-lime-dim: rgba(57, 255, 20, 0.08);
+    --color-lime: #00fa9a;
+    --color-lime-glow: rgba(0, 250, 154, 0.2);
+    --color-lime-dim: rgba(0, 250, 154, 0.1);
 
-    --color-red: #ff3b30;
-    --color-red-glow: rgba(255, 59, 48, 0.4);
+    --color-red: #ff4b4b;
+    --color-red-glow: rgba(255, 75, 75, 0.2);
     
-    --color-text: #f5f5f7;
-    --color-text-dim: #8e8e93;
-    --color-panel-bg: rgba(28, 28, 35, 0.9);
+    --color-text: #ffffff;
+    --color-text-dim: #a0a0ab;
+    --color-panel-bg: rgba(25, 25, 35, 0.45);
     
     --font-sans: 'Outfit', 'Inter', -apple-system, sans-serif;
-    --font-mono: 'Orbitron', monospace;
+    --font-mono: 'Outfit', monospace;
     
-    --shadow-neon-cyan: 0 0 20px var(--color-cyan-glow);
-    --shadow-neon-yellow: 0 0 20px var(--color-yellow-glow);
-    --shadow-neon-lime: 0 0 20px var(--color-lime-glow);
+    --shadow-neon-cyan: 0 4px 15px var(--color-cyan-glow);
+    --shadow-neon-yellow: 0 4px 15px var(--color-yellow-glow);
+    --shadow-neon-lime: 0 4px 15px var(--color-lime-glow);
+    
+    --glass-blur: blur(24px);
+    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+    --glass-inset: inset 0 0 0 1px rgba(255, 255, 255, 0.05);
 }
 
 /* Reset Base */
@@ -50,26 +54,14 @@ body {
 
 /* EFECTOS DE FONDO */
 .scanlines {
-    position: fixed;
-    inset: 0;
-    background: linear-gradient(
-        rgba(18, 16, 16, 0) 50%, 
-        rgba(0, 0, 0, 0.15) 50%
-    );
-    background-size: 100% 4px;
-    z-index: 9999;
-    pointer-events: none;
-    opacity: 0.8;
+    display: none;
 }
 
 .neon-grid {
     position: fixed;
     inset: 0;
-    background-image: 
-        linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
-    background-size: 30px 30px;
-    background-position: center center;
+    background: radial-gradient(circle at 50% 0%, rgba(0, 212, 255, 0.05), transparent 70%),
+                radial-gradient(circle at 80% 80%, rgba(0, 250, 154, 0.03), transparent 50%);
     z-index: 0;
     pointer-events: none;
 }
@@ -241,15 +233,16 @@ body {
 }
 
 .btn-primary {
-    background-color: var(--color-cyan);
-    color: #000;
-    box-shadow: 0 4px 14px rgba(0, 240, 255, 0.25);
+    background: linear-gradient(135deg, var(--color-cyan), #0077ff);
+    color: #fff;
+    box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
+    border: none;
 }
 
 .btn-primary:hover {
-    background-color: #33f3ff;
+    background: linear-gradient(135deg, #33e1ff, #0088ff);
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0, 240, 255, 0.4);
+    box-shadow: 0 8px 25px rgba(0, 212, 255, 0.5);
 }
 
 .btn-secondary {
@@ -321,14 +314,24 @@ body {
 .lane-card {
     background: var(--color-card-bg);
     border: 1px solid var(--color-card-border);
-    border-radius: 2rem;
+    border-radius: 1.5rem;
     padding: 1.5rem;
     display: flex;
     flex-direction: column;
     position: relative;
     overflow: hidden;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(15px);
+    box-shadow: var(--glass-shadow);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+}
+
+.lane-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 1.5rem;
+    box-shadow: var(--glass-inset);
+    pointer-events: none;
 }
 
 .lane-card::before {
@@ -337,7 +340,7 @@ body {
     top: 0;
     left: 0;
     right: 0;
-    height: 4px;
+    height: 3px;
     z-index: 10;
 }
 
@@ -555,12 +558,23 @@ body {
 
 /* PANEL DE CONTROL DEL OPERADOR */
 .app-operator-panel {
-    background: var(--color-card-bg);
+    background: var(--color-panel-bg);
     border: 1px solid var(--color-card-border);
-    border-radius: 2rem;
+    border-radius: 1.5rem;
     padding: 2rem;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(15px);
+    box-shadow: var(--glass-shadow);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    position: relative;
+}
+
+.app-operator-panel::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 1.5rem;
+    box-shadow: var(--glass-inset);
+    pointer-events: none;
 }
 
 .panel-header {
