@@ -42,7 +42,7 @@ export async function POST(req: Request) {
       const { error: updateError } = await supabaseAdmin
         .from('vehicles')
         .update({
-          status: 'active', // HACK: Usando 'active' en vez de 'lavadero' para evitar constraint de base de datos
+        status: 'active',
           brand: brand || 'Desconocido',
           model: model || 'Desconocido'
         })
@@ -61,7 +61,7 @@ export async function POST(req: Request) {
           name: vehicleName,
           brand: brand || 'Desconocido',
           model: model || 'Desconocido',
-          status: 'active' // HACK: Usando 'active'
+          status: 'active'
         }])
         .select('id')
         .single();
@@ -81,7 +81,7 @@ export async function POST(req: Request) {
         budget: Number(price || 0),
         description: '[LAVADERO] ' + orderDescription, // Etiqueta para filtrado
         status: 'pending',
-        provider_type: 'lubricentro', // HACK: Usando 'lubricentro' porque 'lavadero' da error
+        provider_type: 'lavadero',
         appointment_date: new Date().toISOString()
       }])
       .select('id')

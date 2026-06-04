@@ -21,10 +21,13 @@ export default function LavaderoPortal() {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const res = await fetch('/api/admin/flota');
-      const data = await res.json();
-      if (res.ok) {
-        setVehicles(data.vehicles.filter((v: any) => v.status === 'lavadero'));
+      // Obtener vehículos que están en la cola del lavadero (zona espera o lavado)
+      const { data, error } = await supabase
+        .from('lavadero_camera_queue')
+        .select('*')
+        .order('created_at', { ascending: true });
+      if (data) {
+        setVehicles(data.filter((v: any) => v.zone === 'espera' || v.zone === 'lavado'));
       }
     } catch (err) {
       console.error(err);
@@ -76,21 +79,20 @@ export default function LavaderoPortal() {
       // 1. Marcar orden como completada
       await supabase.from('service_orders').update({ status: 'completed' }).eq('id', editingOrder.id);
       
-      // 2. Volver el vehículo a activo
-      await fetch('/api/admin/flota', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id: selectedVehicle.id, status: 'active' })
-      });
+      // 2. Mover el vehículo a zona terminado en la cola del lavadero
+      await supabase
+        .from('lavadero_camera_queue')
+        .update({ zone: 'terminado', entered_at: new Date().toISOString() })
+        .eq('id', selectedVehicle.id);
 
       // 3. Crear aviso para el admin
       await supabase.from('announcements').insert([{
-        title: 'LAVADO FINALIZADO: ' + selectedVehicle.plate,
-        content: `El lavadero ha finalizado el lavado en la unidad ${selectedVehicle.plate}. Ya se encuentra limpia y disponible para circular.`,
+        title: 'LAVADO FINALIZADO: ' + selectedVehicle.nickname,
+        content: `El lavadero ha finalizado el lavado del vehículo ${selectedVehicle.nickname}. Ya está listo para retiro.`,
         is_active: true
       }]);
 
-      alert('Lavado finalizado y unidad liberada.');
+      alert('Lavado finalizado.');
       setSelectedVehicle(null);
       setEditingOrder(null);
       fetchData();

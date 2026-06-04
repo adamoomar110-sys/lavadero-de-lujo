@@ -1,12 +1,11 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { Waves, Car, Clock, CheckCircle, ArrowRight, Calendar, DollarSign, Search, Settings, X, Trash2, Plus, Monitor, RefreshCw } from 'lucide-react';
-import Link from 'next/link';
+import { Waves, Car, Clock, CheckCircle, Calendar, DollarSign, Search, X, Trash2, Plus, Monitor } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
+
 
 export default function LavaderoAdmin() {
   const [vehicles, setVehicles] = useState<any[]>([]);
-  const [drivers, setDrivers] = useState<any[]>([]);
   const [serviceOrders, setServiceOrders] = useState<any[]>([]);
   const [queue, setQueue] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -24,22 +23,14 @@ export default function LavaderoAdmin() {
     setLoading(true);
     try {
       const [vRes, sRes, qRes] = await Promise.all([
-        fetch('/api/admin/flota'),
-        supabase.from('service_orders').select('*').eq('provider_type', 'lavadero').eq('status', 'pending'),
+        supabase.from('lavadero_camera_queue').select('*').order('created_at', { ascending: true }),
+        supabase.from('service_orders').select('*').eq('status', 'pending'),
         supabase.from('lavadero_camera_queue').select('*').order('created_at', { ascending: true })
       ]);
-      
-      const fleetData = await vRes.json();
-      if (vRes.ok) {
-        setVehicles(fleetData.vehicles);
-        setDrivers(fleetData.drivers);
-      }
-      if (sRes.data) {
-        setServiceOrders(sRes.data);
-      }
-      if (qRes.data) {
-        setQueue(qRes.data);
-      }
+
+      if (vRes.data) setVehicles(vRes.data.filter((v: any) => v.zone === 'lavado'));
+      if (sRes.data) setServiceOrders(sRes.data);
+      if (qRes.data) setQueue(qRes.data);
     } catch (err) {
       console.error(err);
     }
@@ -114,15 +105,11 @@ export default function LavaderoAdmin() {
 
   const handleSetReady = async (id: string) => {
     try {
-      const res = await fetch('/api/admin/flota', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id, status: 'active' })
-      });
-      if (res.ok) {
-        await supabase.from('service_orders').update({ status: 'completed' }).eq('vehicle_id', id).eq('provider_type', 'lavadero');
-        fetchData();
-      }
+      await supabase
+        .from('lavadero_camera_queue')
+        .update({ zone: 'terminado', entered_at: new Date().toISOString() })
+        .eq('id', id);
+      fetchData();
     } catch (err) {
       console.error(err);
     }
@@ -141,7 +128,7 @@ export default function LavaderoAdmin() {
           <h2 className="text-2xl md:text-3xl font-black text-black tracking-tighter flex items-center gap-3">
              <Waves className="text-orange-500" /> Control de Lavadero
           </h2>
-          <p className="text-zinc-600 text-xs md:text-sm font-bold uppercase tracking-widest">Monitoreo y Auditoría de Lavado y Estética de Flota</p>
+          <p className="text-zinc-600 text-xs md:text-sm font-bold uppercase tracking-widest">Monitoreo y Auditoría del Lavadero de Lujo</p>
         </div>
         
         <div className="flex items-center bg-white border border-orange-200 px-5 py-3 rounded-2xl w-full md:w-80 shadow-inner">
@@ -312,27 +299,6 @@ export default function LavaderoAdmin() {
               )}
             </div>
 
-            {/* RESTO DE LA FLOTA */}
-            <div className="space-y-6">
-              <h3 className="text-xs font-black text-zinc-600 uppercase tracking-[0.3em] px-4">Estado General de Flota</h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                 {filteredVehicles.filter(v => v.status !== 'lavadero').map(v => (
-                    <div 
-                      key={v.id} 
-                      onClick={() => fetchVehicleHistory(v)}
-                      className="bg-white border border-orange-200 rounded-3xl p-6 hover:bg-orange-100/40 transition-all cursor-pointer group"
-                    >
-                       <div className="flex items-center justify-between mb-4">
-                          <span className="text-lg font-black text-black group-hover:text-orange-500 transition-colors">{v.plate}</span>
-                          <div className={`w-2 h-2 rounded-full ${v.status === 'active' ? 'bg-lime-500 shadow-[0_0_8px_rgba(163,230,53,0.5)]' : v.status === 'maintenance' ? 'bg-green-400' : v.status === 'lubricentro' ? 'bg-blue-500' : 'bg-red-500'}`} />
-                       </div>
-                       <p className="text-[10px] text-zinc-600 font-bold uppercase mb-4">{v.brand} {v.model}</p>
-                       <Link href="/admin/flota" className="text-[10px] font-black text-orange-600 uppercase tracking-widest flex items-center gap-2 hover:underline">
-                          Programar Lavado <Settings size={12} />
-                       </Link>
-                    </div>
-                 ))}
-              </div>
             </div>
           </div>
         )}

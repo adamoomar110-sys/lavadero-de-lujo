@@ -4,8 +4,8 @@ import { MessageCircle, Send, X } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 
 interface QuickMessageProps {
-  senderLabel: string; // Ej: "TALLER", "LUBRICENTRO", "CHOFER"
-  accentColor?: string; // Ej: "yellow", "blue", "lime"
+  senderLabel: string; // Ej: "LAVADERO", "OPERADOR"
+  accentColor?: string; // Ej: "yellow", "blue", "cyan"
 }
 
 export default function QuickMessage({ senderLabel, accentColor = 'yellow' }: QuickMessageProps) {
