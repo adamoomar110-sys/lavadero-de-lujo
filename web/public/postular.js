@@ -10,6 +10,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnSubmit = document.getElementById('btn-submit');
 
     let stream = null;
+    let videoDevices = [];
+    let currentDeviceIndex = 0;
+    const btnSwitchCamera = document.getElementById('btn-switch-camera');
 
     // Inicializar Supabase si está configurado en localStorage (del admin panel)
     const supabaseUrl = localStorage.getItem('lavadero_supabase_url') || '';
@@ -27,9 +30,35 @@ document.addEventListener('DOMContentLoaded', () => {
         formMessage.className = 'form-feedback ' + type;
     }
 
+    async function getVideoDevices() {
+        if (videoDevices.length === 0) {
+            const devices = await navigator.mediaDevices.enumerateDevices();
+            videoDevices = devices.filter(d => d.kind === 'videoinput');
+        }
+        return videoDevices;
+    }
+
     async function startCamera() {
         try {
-            stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } });
+            const devices = await getVideoDevices();
+            let constraints = { video: { facingMode: 'user' } }; // fallback
+            
+            if (devices.length > 0) {
+                // Si hay varios, intentamos usar el actual
+                if (currentDeviceIndex >= devices.length) currentDeviceIndex = 0;
+                constraints = { video: { deviceId: { exact: devices[currentDeviceIndex].deviceId } } };
+                
+                // Mostrar botón de cambio si hay más de 1
+                if (devices.length > 1) {
+                    btnSwitchCamera.style.display = 'block';
+                }
+            }
+
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+            }
+
+            stream = await navigator.mediaDevices.getUserMedia(constraints);
             video.srcObject = stream;
             video.style.display = 'block';
             canvas.style.display = 'none';
@@ -40,6 +69,13 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error("Error al acceder a la cámara:", err);
             showMessage('No se pudo acceder a la cámara. Por favor, da los permisos necesarios.', 'error');
         }
+    }
+
+    if (btnSwitchCamera) {
+        btnSwitchCamera.addEventListener('click', async () => {
+            currentDeviceIndex++;
+            await startCamera();
+        });
     }
 
     function takePhoto() {
