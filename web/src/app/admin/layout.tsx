@@ -46,6 +46,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     { id: 'lavadero', name: 'Control Lavadero', href: '/admin/lavadero', icon: Waves },
     { id: 'control', name: 'Control Maestro', href: '/admin/control', icon: ClipboardList },
     { id: 'facturacion', name: 'Facturación', href: '/admin/facturacion', icon: CreditCard },
+    { id: 'postulantes', name: 'Postulantes', href: '/admin/postulantes', icon: UserIcon },
     { id: 'usuarios', name: 'Gestión de Usuarios', href: '/admin/usuarios', icon: Users },
     { id: 'configuracion', name: 'Configuración', href: '/admin/configuracion', icon: Settings },
   ];
