@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (supabaseUrl && supabaseKey && window.supabase) {
         supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
     } else {
-        showMessage('Advertencia: El sistema no está conectado a la base de datos externa. Los datos se guardarán temporalmente.', 'error');
+        console.warn('Modo local activado: Sin conexión a Supabase.');
     }
 
     function showMessage(msg, type) {
