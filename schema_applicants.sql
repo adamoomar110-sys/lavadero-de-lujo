@@ -11,6 +11,7 @@ CREATE TABLE public.applicants (
   zone text,
   app_experience text,
   accident_history text,
+  availability text,
   has_professional_license boolean default false,
   can_pay_advance boolean default false,
   dni_front_url text,
