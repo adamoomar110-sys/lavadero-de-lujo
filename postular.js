@@ -11,16 +11,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let stream = null;
 
-    // Inicializar Supabase si está configurado en localStorage (del admin panel)
-    const supabaseUrl = localStorage.getItem('lavadero_supabase_url') || '';
-    const supabaseKey = localStorage.getItem('lavadero_supabase_key') || '';
-    
+    // Inicializar Supabase leyendo de /api/config o localStorage
     let supabase = null;
-    if (supabaseUrl && supabaseKey && window.supabase) {
-        supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
-    } else {
-        showMessage('Advertencia: El sistema no está conectado a la base de datos externa. Los datos se guardarán temporalmente.', 'error');
-    }
+    fetch('/api/config').then(r => r.json()).then(data => {
+        let sUrl = data.supabaseUrl || localStorage.getItem('lavadero_supabase_url') || '';
+        let sKey = data.supabaseKey || localStorage.getItem('lavadero_supabase_key') || '';
+        if (sUrl && sKey && window.supabase) {
+            supabase = window.supabase.createClient(sUrl, sKey);
+        } else {
+            showMessage('Advertencia: Base de datos no conectada. Guardando localmente.', 'error');
+        }
+    }).catch(e => {
+        let sUrl = localStorage.getItem('lavadero_supabase_url') || '';
+        let sKey = localStorage.getItem('lavadero_supabase_key') || '';
+        if (sUrl && sKey && window.supabase) {
+            supabase = window.supabase.createClient(sUrl, sKey);
+        }
+    });
 
     function showMessage(msg, type) {
         formMessage.textContent = msg;
@@ -29,7 +36,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function startCamera() {
         try {
-            stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } });
+            try {
+                stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } });
+            } catch (fallbackErr) {
+                // Si falla facingMode (típico en webcams USB de PC)
+                stream = await navigator.mediaDevices.getUserMedia({ video: true });
+            }
             video.srcObject = stream;
             video.style.display = 'block';
             canvas.style.display = 'none';
