@@ -109,6 +109,120 @@
         .wash-menu-card.selected { border-color: var(--color-cyan); background: rgba(0,240,255,0.1); }
         .check-badge { display: none; position: absolute; top: 5px; right: 5px; background: var(--color-cyan); border-radius: 50%; width: 15px; height: 15px; font-size: 10px; color: #000; }
         .selected .check-badge { display: block; }
+
+        /* Stepper & Tracking UI */
+        .stepper-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 1.5rem 0;
+            position: relative;
+        }
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 2;
+            opacity: 0.5;
+            transition: all 0.3s;
+        }
+        .step.active {
+            opacity: 1;
+        }
+        .step-circle {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--color-surface);
+            border: 2px solid var(--color-border);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+            transition: all 0.3s;
+        }
+        .step.active .step-circle {
+            border-color: var(--color-cyan);
+            background: rgba(0, 240, 255, 0.1);
+            color: var(--color-cyan);
+            box-shadow: 0 0 15px rgba(0,240,255,0.4);
+        }
+        .step.completed .step-circle {
+            background: var(--color-cyan);
+            color: #000;
+            border-color: var(--color-cyan);
+        }
+        .step-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 700;
+        }
+        .step-line {
+            flex-grow: 1;
+            height: 2px;
+            background: var(--color-border);
+            margin: 0 10px;
+            margin-top: -20px;
+            z-index: 1;
+            transition: background 0.3s;
+        }
+        .step-line.active {
+            background: var(--color-cyan);
+            box-shadow: 0 0 10px var(--color-cyan);
+        }
+
+        .queue-card, .progress-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+        
+        .queue-card h3, .progress-card h3 {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            color: var(--color-text-dim);
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5rem;
+        }
+
+        .queue-number {
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: var(--color-yellow);
+            font-family: var(--font-mono);
+            text-shadow: 0 0 20px rgba(255, 184, 0, 0.3);
+            line-height: 1;
+            margin: 0.5rem 0;
+        }
+
+        .progress-bar-bg {
+            width: 100%;
+            height: 12px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 6px;
+            margin: 1rem 0;
+            overflow: hidden;
+            position: relative;
+        }
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--color-cyan), var(--color-lime));
+            width: 0%;
+            border-radius: 6px;
+            transition: width 1s linear;
+            box-shadow: 0 0 15px var(--color-cyan);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
 <body>
@@ -125,11 +239,45 @@
         <div id="tracking-view">
             <div id="status-container" class="status-badge" style="display: none;"></div>
 
+            <!-- STEPPER TIMELINE -->
+            <div class="stepper-wrapper" id="stepper-wrapper" style="display: none;">
+                <div class="step" id="step-1">
+                    <div class="step-circle">1</div>
+                    <div class="step-title">En Fila</div>
+                </div>
+                <div class="step-line" id="line-1"></div>
+                <div class="step" id="step-2">
+                    <div class="step-circle">2</div>
+                    <div class="step-title">Lavado</div>
+                </div>
+                <div class="step-line" id="line-2"></div>
+                <div class="step" id="step-3">
+                    <div class="step-circle">3</div>
+                    <div class="step-title">Listo</div>
+                </div>
+            </div>
+
+            <!-- TARJETA DE ESPERA -->
+            <div id="queue-position-card" class="queue-card" style="display: none;">
+                <h3>Turno en Espera</h3>
+                <div class="queue-number" id="queue-number">#--</div>
+                <p id="queue-subtitle" style="font-size: 0.85rem; color: rgba(255,255,255,0.6)">Autos delante tuyo</p>
+            </div>
+
+            <!-- TARJETA DE PROGRESO DE LAVADO -->
+            <div id="progress-card" class="progress-card" style="display: none;">
+                <h3>Progreso de Lavado</h3>
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill" id="wash-progress"></div>
+                </div>
+                <p id="progress-text" style="font-size: 0.85rem; color: var(--color-cyan); font-weight: bold;">Calculando tiempo restante...</p>
+            </div>
+
             <div class="car-display" id="car-display-container">
                 <!-- SVG se inyecta via JS -->
             </div>
 
-            <p id="eta-text" style="color: var(--color-text-dim); font-size: 0.9rem; margin-top: 1rem;"></p>
+            <p id="eta-text" style="color: var(--color-text-dim); font-size: 0.9rem; margin-top: 1rem; display: none;"></p>
 
             <!-- Tarjeta de Servicio Premium Contratado -->
             <div id="service-card" style="margin-top: 2rem; border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 1.5rem; text-align: left; display: none;">
@@ -229,12 +377,17 @@
                 <rect x="40" y="6" width="8" height="4" rx="1" fill="#fef08a" />
                 <rect x="10" y="94" width="6" height="2" fill="#f87171" />
                 <rect x="44" y="94" width="6" height="2" fill="#f87171" />
-          // Parsear URL parameters
+            </svg>
+            `;
+        }
+
+        // Parsear URL parameters
         const urlParams = new URLSearchParams(window.location.search);
         const nick = urlParams.get('n') || 'Tu Vehículo';
         const color = urlParams.get('c') ? '#' + urlParams.get('c') : '#06b6d4';
         const plate = urlParams.get('p') || 'SIN PATENTE';
         const zone = urlParams.get('z') || 'espera';
+        const pos = parseInt(urlParams.get('pos') || '1'); // Posición en cola
         let type = urlParams.get('t') || '';
         let payment = urlParams.get('pay') || '';
 
@@ -302,20 +455,54 @@
         }
 
         function initTrackingView() {
-            statusContainer.style.display = 'inline-block';
+            statusContainer.style.display = 'none'; // Ocultamos el viejo badge en favor del stepper
+            document.getElementById('stepper-wrapper').style.display = 'flex';
+            etaText.style.display = 'block';
+            
+            const step1 = document.getElementById('step-1');
+            const step2 = document.getElementById('step-2');
+            const step3 = document.getElementById('step-3');
+            const line1 = document.getElementById('line-1');
+            const line2 = document.getElementById('line-2');
+
+            const queueCard = document.getElementById('queue-position-card');
+            const progressCard = document.getElementById('progress-card');
+
+            queueCard.style.display = 'none';
+            progressCard.style.display = 'none';
+            displayContainer.classList.remove('in-wash');
+
             // Configurar estado visual
             if (zone === 'espera') {
-                statusContainer.className = 'status-badge status-espera';
-                statusContainer.innerText = 'En Espera';
-                etaText.innerText = 'Aproximadamente 15-20 minutos para ingresar.';
+                step1.classList.add('active');
+                etaText.innerText = 'Relájate, ya casi es tu turno.';
+                
+                queueCard.style.display = 'block';
+                document.getElementById('queue-number').innerText = '#' + pos;
+                document.getElementById('queue-subtitle').innerText = pos === 1 ? '¡Eres el próximo!' : 'Autos delante tuyo';
+
             } else if (zone === 'lavado') {
-                statusContainer.className = 'status-badge status-lavado';
-                statusContainer.innerText = 'En Lavado';
-                etaText.innerText = 'Relájate. Tu auto está recibiendo el tratamiento premium.';
+                step1.classList.add('completed');
+                line1.classList.add('active');
+                step2.classList.add('active');
+                
+                etaText.innerText = 'Estamos dejando tu auto impecable.';
                 displayContainer.classList.add('in-wash');
+                
+                progressCard.style.display = 'block';
+                // Animación simulada de progreso
+                setTimeout(() => {
+                    document.getElementById('wash-progress').style.width = '65%';
+                    document.getElementById('progress-text').innerText = 'Aprox. 8 min restantes';
+                }, 500);
+
             } else if (zone === 'terminado') {
-                statusContainer.className = 'status-badge status-terminado';
-                statusContainer.innerText = '¡Listo para retirar!';
+                step1.classList.add('completed');
+                line1.classList.add('active');
+                step2.classList.add('completed');
+                line2.classList.add('active');
+                step3.classList.add('active', 'completed');
+                
                 etaText.innerText = 'Tu vehículo ha quedado impecable. Te esperamos en la salida.';
             }
 

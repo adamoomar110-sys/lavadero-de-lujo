@@ -380,6 +380,9 @@ async function addVehicle(nickname, plate, color, budgetStr, washType) {
     }
 
     renderAll();
+    
+    // Mostrar modal QR al registrar
+    showQrModal(newCar);
 }
 
 // Cambiar Zona de un Vehículo
@@ -715,14 +718,7 @@ function renderOperatorTable() {
         const qrBtn = tr.querySelector('.btn-qr-link');
         if (qrBtn) {
             qrBtn.addEventListener('click', () => {
-                const colorHex = car.color.replace('#', '');
-                let baseUrl = window.location.origin + window.location.pathname;
-                baseUrl = baseUrl.replace('index.html', '');
-                if(!baseUrl.endsWith('/')) baseUrl += '/';
-                const url = `${baseUrl}cliente.html?n=${encodeURIComponent(car.nickname)}&c=${colorHex}&p=${encodeURIComponent(car.plate || 'SIN PATENTE')}&z=${car.zone}&t=${encodeURIComponent(car.wash_type || 'combo-limpieza-total')}`;
-                navigator.clipboard.writeText(url).then(() => {
-                    showFloatingToast("Enlace del cliente copiado al portapapeles.");
-                });
+                showQrModal(car);
             });
         }
 
@@ -1416,3 +1412,48 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
+// --- FUNCIONES NUEVAS: QR Y COMPARTIR ---
+function showQrModal(car) {
+    const colorHex = car.color.replace('#', '');
+    let baseUrl = window.location.origin + window.location.pathname;
+    baseUrl = baseUrl.replace('index.html', '');
+    if(!baseUrl.endsWith('/')) baseUrl += '/';
+    
+    // Calcular pos (Posición en la fila)
+    const esperaCars = activeVehicles.filter(v => v.zone === 'espera');
+    let pos = esperaCars.findIndex(v => v.id === car.id) + 1;
+    if (pos <= 0) pos = 1;
+
+    const url = `${baseUrl}cliente.html?n=${encodeURIComponent(car.nickname)}&c=${colorHex}&p=${encodeURIComponent(car.plate || 'SIN PATENTE')}&z=${car.zone}&t=${encodeURIComponent(car.wash_type || 'combo-limpieza-total')}&pos=${pos}`;
+    
+    const qrModal = document.getElementById('modal-ticket-qr');
+    if(!qrModal) return;
+
+    const qrImage = document.getElementById('qr-image');
+    const qrLinkText = document.getElementById('qr-link-text');
+    const btnCopy = document.getElementById('btn-copy-ticket');
+
+    // Usar API de QR pública para generar la imagen
+    qrImage.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(url)}&color=00f0ff&bgcolor=18181b`;
+    qrLinkText.innerText = url;
+    
+    btnCopy.onclick = () => {
+        navigator.clipboard.writeText(url).then(() => {
+            showFloatingToast("Enlace del cliente copiado al portapapeles.");
+        });
+    };
+
+    qrModal.style.display = 'flex';
+}
+
+function copyPostularLink() {
+    let baseUrl = window.location.origin + window.location.pathname;
+    baseUrl = baseUrl.replace('index.html', '');
+    if(!baseUrl.endsWith('/')) baseUrl += '/';
+    const url = baseUrl + 'postular.html';
+    
+    navigator.clipboard.writeText(url).then(() => {
+        showFloatingToast("Enlace de postulación copiado para WhatsApp.");
+    });
+}

@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
             stream.getTracks().forEach(track => track.stop());
         }
 
-        let constraints = { video: { facingMode: 'user' } };
+        let constraints = { video: { facingMode: { ideal: 'user' } } };
         if (deviceId) {
             constraints = { video: { deviceId: { exact: deviceId } } };
         }
@@ -68,6 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 stream = await navigator.mediaDevices.getUserMedia(constraints);
             } catch (fallbackErr) {
+                console.warn("Fallo con constraints iniciales, intentando video: true", fallbackErr);
                 if (!deviceId) {
                     stream = await navigator.mediaDevices.getUserMedia({ video: true });
                 } else {
@@ -122,6 +123,47 @@ document.addEventListener('DOMContentLoaded', () => {
     btnStartCamera.addEventListener('click', startCamera);
     btnTakePhoto.addEventListener('click', takePhoto);
     btnRetakePhoto.addEventListener('click', startCamera);
+
+    const fallbackInput = document.getElementById('fallback-camera-input');
+    const btnUploadPhoto = document.getElementById('btn-upload-photo');
+
+    if (btnUploadPhoto && fallbackInput) {
+        btnUploadPhoto.addEventListener('click', () => {
+            fallbackInput.click();
+        });
+
+        fallbackInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                const img = new Image();
+                img.onload = () => {
+                    canvas.width = 400; // Ancho fijo para mantener la proporción
+                    canvas.height = 400 * (img.height / img.width);
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                    
+                    inputSelfie.value = canvas.toDataURL('image/jpeg', 0.8);
+                    
+                    video.style.display = 'none';
+                    canvas.style.display = 'block';
+                    btnTakePhoto.style.display = 'none';
+                    btnSwitchCamera.style.display = 'none';
+                    btnStartCamera.style.display = 'none';
+                    btnRetakePhoto.style.display = 'block';
+                    
+                    if (stream) {
+                        stream.getTracks().forEach(track => track.stop());
+                        stream = null;
+                    }
+                };
+                img.src = event.target.result;
+            };
+            reader.readAsDataURL(file);
+        });
+    }
 
     formPostular.addEventListener('submit', async (e) => {
         e.preventDefault();
