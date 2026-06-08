@@ -1,19 +1,19 @@
 // Paletas de apodos y colores para el generador
-const NOMBRES = ["Rayo", "Toro", "Halcón", "Puma", "Tigre", "Furia", "Centella", "Cometa", "Flecha", "Viento", "Cobra", "Trueno", "Ciclón", "Pantera", "Lobo", "Apolo", "Fénix"];
-const ADJETIVOS = ["Azul", "Rojo", "Gris", "Plata", "Verde", "Negro", "Dorado", "Feroz", "Veloz", "Oscuro", "Blanco", "Brillante", "Neon", "Rápido", "Relámpago"];
+const NOMBRES = ["Rayo", "Toro", "HalcÃ³n", "Puma", "Tigre", "Furia", "Centella", "Cometa", "Flecha", "Viento", "Cobra", "Trueno", "CiclÃ³n", "Pantera", "Lobo", "Apolo", "FÃ©nix"];
+const ADJETIVOS = ["Azul", "Rojo", "Gris", "Plata", "Verde", "Negro", "Dorado", "Feroz", "Veloz", "Oscuro", "Blanco", "Brillante", "Neon", "RÃ¡pido", "RelÃ¡mpago"];
 const COLORES = ["#00f0ff", "#84cc16", "#ffb800", "#3b82f6", "#ef4444", "#a855f7", "#f97316", "#ec4899", "#14b8a6"];
 
 const DEFAULT_WASH_PACKAGES = [
-    { id: 'combo-limpieza-total', title: 'Limpieza Total', icon: '🌀', price: 18000, category: 'combos', items: ['Lavado exterior espuma activa', 'Aspirado alfombras/butacas', 'Limpieza cristales/pantallas', 'Silicona y perfumado clásico'] },
-    { id: 'combo-vip-gold', title: 'VIP Gold', icon: '🏆', price: 25000, category: 'combos', items: ['Lavado pH neutro artesanal', 'Descontaminado de pintura', 'Encerado Carnauba brasileña', 'Aspirado con vapor'] },
-    { id: 'lavado-carroceria', title: 'Exterior Simple', icon: '🚗', price: 12000, category: 'lavados', items: ['Lavado shampoo pH balanceado', 'Secado manual microfibra', 'Acondicionado de neumáticos'] },
-    { id: 'aspirado-interior', title: 'Interior Pro', icon: '💨', price: 10000, category: 'lavados', items: ['Aspirado butacas y paneles', 'Desinfección de contacto', 'Acondicionado de plásticos'] },
-    { id: 'lavado-express', title: 'Express', icon: '⚡', price: 8000, category: 'lavados', items: ['Lavado exterior a presión', 'Secado rápido', 'Brillo básico de cubiertas'] },
-    { id: 'lavado-motor', title: 'Motor Vapor', icon: '🔥', price: 15000, category: 'especiales', items: ['Limpieza técnica a vapor', 'Desengrasantes biodegradables', 'Protector dieléctrico plásticos'] },
-    { id: 'encerado-acrilico', title: 'Encerado', icon: '🛡️', price: 22000, category: 'estetica', items: ['Lavado artesanal descontaminante', 'Cera selladora acrílica manual', 'Efecto hidrofóbico extremo'] },
-    { id: 'lavado-chasis', title: 'Chasis', icon: '🔩', price: 28000, category: 'especiales', items: ['Limpieza chasis inferior', 'Desengrasado pesado a vapor', 'Protector antioxidante metal'] },
-    { id: 'pulido-opticas', title: 'Ópticas', icon: '💡', price: 16000, category: 'estetica', items: ['Lijado al agua multietapa', 'Pulido de policarbonato', 'Sellado UV de ópticas'] },
-    { id: 'tratamiento-ceramico', title: 'Cerámico 9H', icon: '💎', price: 65000, category: 'estetica', items: ['Corrección de pintura 2 etapas', 'Sellador cerámico 9H importado', 'Protección contra rayones UV'] }
+    { id: 'combo-limpieza-total', title: 'Limpieza Total', icon: 'ðŸŒ€', price: 18000, category: 'combos', items: ['Lavado exterior espuma activa', 'Aspirado alfombras/butacas', 'Limpieza cristales/pantallas', 'Silicona y perfumado clÃ¡sico'] },
+    { id: 'combo-vip-gold', title: 'VIP Gold', icon: 'ðŸ†', price: 25000, category: 'combos', items: ['Lavado pH neutro artesanal', 'Descontaminado de pintura', 'Encerado Carnauba brasileÃ±a', 'Aspirado con vapor'] },
+    { id: 'lavado-carroceria', title: 'Exterior Simple', icon: 'ðŸš—', price: 12000, category: 'lavados', items: ['Lavado shampoo pH balanceado', 'Secado manual microfibra', 'Acondicionado de neumÃ¡ticos'] },
+    { id: 'aspirado-interior', title: 'Interior Pro', icon: 'ðŸ’¨', price: 10000, category: 'lavados', items: ['Aspirado butacas y paneles', 'DesinfecciÃ³n de contacto', 'Acondicionado de plÃ¡sticos'] },
+    { id: 'lavado-express', title: 'Express', icon: 'âš¡', price: 8000, category: 'lavados', items: ['Lavado exterior a presiÃ³n', 'Secado rÃ¡pido', 'Brillo bÃ¡sico de cubiertas'] },
+    { id: 'lavado-motor', title: 'Motor Vapor', icon: 'ðŸ”¥', price: 15000, category: 'especiales', items: ['Limpieza tÃ©cnica a vapor', 'Desengrasantes biodegradables', 'Protector dielÃ©ctrico plÃ¡sticos'] },
+    { id: 'encerado-acrilico', title: 'Encerado', icon: 'ðŸ›¡ï¸', price: 22000, category: 'estetica', items: ['Lavado artesanal descontaminante', 'Cera selladora acrÃ­lica manual', 'Efecto hidrofÃ³bico extremo'] },
+    { id: 'lavado-chasis', title: 'Chasis', icon: 'ðŸ”©', price: 28000, category: 'especiales', items: ['Limpieza chasis inferior', 'Desengrasado pesado a vapor', 'Protector antioxidante metal'] },
+    { id: 'pulido-opticas', title: 'Ã“pticas', icon: 'ðŸ’¡', price: 16000, category: 'estetica', items: ['Lijado al agua multietapa', 'Pulido de policarbonato', 'Sellado UV de Ã³pticas'] },
+    { id: 'tratamiento-ceramico', title: 'CerÃ¡mico 9H', icon: 'ðŸ’Ž', price: 65000, category: 'estetica', items: ['CorrecciÃ³n de pintura 2 etapas', 'Sellador cerÃ¡mico 9H importado', 'ProtecciÃ³n contra rayones UV'] }
 ];
 
 let WASH_PACKAGES = [];
@@ -83,7 +83,7 @@ function getCarSvg(color) {
         <!-- Luneta Trasera -->
         <path d="M16 74 L 44 74 L 41 82 L 19 82 Z" fill="#09090b" />
         
-        <!-- Capó / Detalles Delanteros -->
+        <!-- CapÃ³ / Detalles Delanteros -->
         <rect x="14" y="16" width="32" height="6" rx="1" fill="#18181b" fill-opacity="0.4" />
         
         <!-- Faros Delanteros -->
@@ -138,7 +138,7 @@ const elSupabaseServiceTable = document.getElementById('supabase-service-table')
 const elBtnSaveConfig = document.getElementById('btn-save-config');
 const elBtnClearHistory = document.getElementById('btn-clear-history');
 
-// --- CARGAR CONFIGURACIÓN REMOTA DESDE VERCEL ENV ---
+// --- CARGAR CONFIGURACIÃ“N REMOTA DESDE VERCEL ENV ---
 async function loadRemoteConfig() {
     try {
         const res = await fetch('/api/config');
@@ -150,9 +150,9 @@ async function loadRemoteConfig() {
                 config.supabaseKey = data.supabaseKey;
                 config.queueTable = data.queueTable || 'lavadero_camera_queue';
                 config.serviceTable = data.serviceTable || 'service_orders';
-                console.log("🔌 Configuración de Supabase cargada desde Vercel Environment Variables.");
+                console.log("ðŸ”Œ ConfiguraciÃ³n de Supabase cargada desde Vercel Environment Variables.");
                 
-                // Actualizar la interfaz para reflejar que está conectado externamente
+                // Actualizar la interfaz para reflejar que estÃ¡ conectado externamente
                 if (elConnectionStatus) {
                     elConnectionStatus.className = "connection-status supabase-active";
                     elConnectionStatus.querySelector('.status-label').innerText = "Supabase Sincronizado";
@@ -160,7 +160,7 @@ async function loadRemoteConfig() {
             }
         }
     } catch (err) {
-        console.warn("⚠️ No se pudo obtener la configuración remota (usando fallback local):", err);
+        console.warn("âš ï¸ No se pudo obtener la configuraciÃ³n remota (usando fallback local):", err);
     }
 }
 
@@ -169,7 +169,7 @@ function loadLocalData() {
     // Config
     const savedConfig = localStorage.getItem('lavadero_config');
     if (savedConfig) {
-        // Solo sobreescribir si no se cargó remotamente de Vercel
+        // Solo sobreescribir si no se cargÃ³ remotamente de Vercel
         const loadedConfig = JSON.parse(savedConfig);
         if (!config.useSupabase) {
             config = loadedConfig;
@@ -179,7 +179,7 @@ function loadLocalData() {
         }
     }
     
-    // Vehículos Activos
+    // VehÃ­culos Activos
     const savedVehicles = localStorage.getItem('lavadero_active_vehicles');
     if (savedVehicles) {
         activeVehicles = JSON.parse(savedVehicles);
@@ -203,7 +203,7 @@ function loadLocalData() {
     }
 }
 
-// --- CONEXIÓN DE DATOS & SYNC SUPABASE ---
+// --- CONEXIÃ“N DE DATOS & SYNC SUPABASE ---
 async function fetchSupabase(endpoint, options = {}) {
     if (!config.useSupabase || !config.supabaseUrl || !config.supabaseKey) return null;
     
@@ -232,7 +232,7 @@ async function fetchSupabase(endpoint, options = {}) {
         if (response.status === 204) return true;
         return await response.json();
     } catch (err) {
-        console.error("❌ Fallo en API Supabase:", err);
+        console.error("âŒ Fallo en API Supabase:", err);
         showFloatingToast(`Error de base de datos externa. Operando en modo local.`);
         return null;
     }
@@ -274,11 +274,11 @@ function showFloatingToast(message) {
     }, 4000);
 }
 
-// Cargar estado de cola de Supabase si está activado
+// Cargar estado de cola de Supabase si estÃ¡ activado
 async function syncFromSupabase() {
     if (!config.useSupabase) return;
     
-    // Cambiar visualización
+    // Cambiar visualizaciÃ³n
     elConnectionStatus.className = "connection-status supabase-active";
     elConnectionStatus.querySelector('.status-label').innerText = "Supabase Sincronizado";
 
@@ -299,7 +299,7 @@ async function syncFromSupabase() {
             return {
                 id: dbCar.id,
                 tracking_id: dbCar.tracking_id || Math.floor(Math.random() * 100),
-                nickname: dbCar.nickname || 'Vehículo Especial',
+                nickname: dbCar.nickname || 'VehÃ­culo Especial',
                 plate: dbCar.plate || '',
                 color: dbCar.color || '#06b6d4',
                 zone: dbCar.zone || 'espera',
@@ -320,16 +320,16 @@ async function saveStateLocally(syncRemote = true) {
     localStorage.setItem('lavadero_active_vehicles', JSON.stringify(activeVehicles));
     localStorage.setItem('lavadero_completed_history', JSON.stringify(washHistory));
 
-    // Si la sincronización remota está habilitada y se solicita sync
+    // Si la sincronizaciÃ³n remota estÃ¡ habilitada y se solicita sync
     if (config.useSupabase && syncRemote) {
-        // En una app robusta, haríamos sincronizaciones granulares. Aquí reflejamos los cambios individuales
+        // En una app robusta, harÃ­amos sincronizaciones granulares. AquÃ­ reflejamos los cambios individuales
         // pero como plan de contingencia guardamos en local por si falla el API.
     }
 }
 
-// --- OPERACIONES DE VEHÍCULOS ---
+// --- OPERACIONES DE VEHÃCULOS ---
 
-// Agregar Vehículo
+// Agregar VehÃ­culo
 async function addVehicle(nickname, plate, color, budgetStr, washType) {
     const budget = budgetStr ? parseFloat(budgetStr) : 0;
     const wType = washType || 'combo-limpieza-total';
@@ -343,7 +343,7 @@ async function addVehicle(nickname, plate, color, budgetStr, washType) {
         zone: 'espera',
         budget,
         wash_type: wType,
-        description: `Servicio: ${washName}. Lavado estándar y detallado de carrocería.`,
+        description: `Servicio: ${washName}. Lavado estÃ¡ndar y detallado de carrocerÃ­a.`,
         entered_at: new Date().toISOString(),
         created_at: new Date().toISOString()
     };
@@ -365,7 +365,7 @@ async function addVehicle(nickname, plate, color, budgetStr, washType) {
             })
         });
 
-        // Crear una orden de servicio si la tabla está configurada
+        // Crear una orden de servicio si la tabla estÃ¡ configurada
         await fetchSupabase(config.serviceTable, {
             method: 'POST',
             body: JSON.stringify({
@@ -385,7 +385,7 @@ async function addVehicle(nickname, plate, color, budgetStr, washType) {
     showQrModal(newCar);
 }
 
-// Cambiar Zona de un Vehículo
+// Cambiar Zona de un VehÃ­culo
 async function updateVehicleZone(id, targetZone) {
     const car = activeVehicles.find(v => v.id === id);
     if (!car) return;
@@ -396,7 +396,7 @@ async function updateVehicleZone(id, targetZone) {
     saveStateLocally(true);
 
     if (config.useSupabase) {
-        // Actualizar zona en cola de cámara
+        // Actualizar zona en cola de cÃ¡mara
         await fetchSupabase(`${config.queueTable}?id=eq.${id}`, {
             method: 'PATCH',
             body: JSON.stringify({
@@ -431,7 +431,7 @@ async function finishVehicle(id) {
     saveStateLocally(true);
 
     if (config.useSupabase) {
-        // Eliminar de la cola de cámara
+        // Eliminar de la cola de cÃ¡mara
         await fetchSupabase(`${config.queueTable}?id=eq.${id}`, {
             method: 'DELETE'
         });
@@ -450,7 +450,7 @@ async function finishVehicle(id) {
     renderAll();
 }
 
-// Eliminar vehículo (Cancelar lavado)
+// Eliminar vehÃ­culo (Cancelar lavado)
 async function deleteVehicle(id) {
     const index = activeVehicles.findIndex(v => v.id === id);
     if (index === -1) return;
@@ -495,7 +495,7 @@ function createVehicleElement(car) {
             </div>
         `;
     } else if (car.zone === 'terminado') {
-        timerHtml = `<span class="timer-badge finished">✔ LISTO</span>`;
+        timerHtml = `<span class="timer-badge finished">âœ” LISTO</span>`;
     }
 
     container.innerHTML = `
@@ -506,7 +506,7 @@ function createVehicleElement(car) {
         </div>
     `;
 
-    // Interacción al hacer clic para abrir gestión rápida
+    // InteracciÃ³n al hacer clic para abrir gestiÃ³n rÃ¡pida
     container.addEventListener('click', () => {
         highlightTableRow(car.id);
     });
@@ -514,7 +514,7 @@ function createVehicleElement(car) {
     return container;
 }
 
-// Resaltar fila de la tabla de operaciones para llamar atención
+// Resaltar fila de la tabla de operaciones para llamar atenciÃ³n
 function highlightTableRow(id) {
     const row = document.getElementById(`row-op-${id}`);
     if (row) {
@@ -548,7 +548,7 @@ function renderAll() {
         elTrackEspera.innerHTML = `
             <div class="empty-lane-placeholder">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-                <p>Línea Libre</p>
+                <p>LÃ­nea Libre</p>
             </div>`;
     } else {
         esperaVehicles.forEach(car => {
@@ -560,7 +560,7 @@ function renderAll() {
         elTrackLavado.innerHTML = `
             <div class="empty-lane-placeholder">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-                <p>Box Vacío</p>
+                <p>Box VacÃ­o</p>
             </div>`;
     } else {
         lavadoVehicles.forEach(car => {
@@ -598,11 +598,11 @@ function calculateETA() {
     const esperaCount = activeVehicles.filter(v => v.zone === 'espera').length;
     const lavadoCount = activeVehicles.filter(v => v.zone === 'lavado').length;
     
-    // 15 min por auto en espera + 8 min si hay alguno lavándose
+    // 15 min por auto en espera + 8 min si hay alguno lavÃ¡ndose
     const etaMinutos = (esperaCount * 15) + (lavadoCount > 0 ? 8 : 0);
 
     if (etaMinutos === 0) {
-        elEtaDisplay.innerText = "Sin Demoras 🎉";
+        elEtaDisplay.innerText = "Sin Demoras ðŸŽ‰";
         elEtaDisplay.className = "eta-value text-cyan";
     } else {
         elEtaDisplay.innerText = `~ ${etaMinutos} MINUTOS`;
@@ -632,7 +632,7 @@ function renderOperatorTable() {
         elOperatorTableBody.innerHTML = `
             <tr class="empty-table-row">
                 <td colspan="5" style="text-align: center; color: var(--color-text-dim); font-style: italic; padding: 2rem 0;">
-                    Sin vehículos en circulación. Registra uno arriba para comenzar.
+                    Sin vehÃ­culos en circulaciÃ³n. Registra uno arriba para comenzar.
                 </td>
             </tr>`;
         return;
@@ -668,7 +668,7 @@ function renderOperatorTable() {
             <td>
                 <div class="table-actions" style="flex-wrap: wrap;">
                     <button class="btn btn-secondary btn-sm btn-qr-link" data-car-id="${car.id}" title="Copiar Link Cliente">
-                        🔗 Link
+                        ðŸ”— Link
                     </button>
                     ${car.zone === 'terminado' ? `
                         <button class="btn btn-primary btn-sm btn-finish-car" data-car-id="${car.id}">
@@ -710,7 +710,7 @@ function renderOperatorTable() {
         }
 
         tr.querySelector('.btn-delete-car').addEventListener('click', () => {
-            if (confirm(`¿Estás seguro de que deseas eliminar a ${car.nickname} de la cola?`)) {
+            if (confirm(`Â¿EstÃ¡s seguro de que deseas eliminar a ${car.nickname} de la cola?`)) {
                 deleteVehicle(car.id);
             }
         });
@@ -725,7 +725,7 @@ function renderOperatorTable() {
         const wpBtn = tr.querySelector('.btn-whatsapp');
         if (wpBtn) {
             wpBtn.addEventListener('click', () => {
-                const text = encodeURIComponent(`¡Hola! Tu vehículo ${car.nickname} ya está listo y brillante. Te esperamos en Lavadero Tech System.`);
+                const text = encodeURIComponent(`Â¡Hola! Tu vehÃ­culo ${car.nickname} ya estÃ¡ listo y brillante. Te esperamos en Lavadero Tech System.`);
                 window.open(`https://wa.me/?text=${text}`, '_blank');
             });
         }
@@ -738,23 +738,43 @@ function renderOperatorTable() {
 function renderHistory() {
     elHistoryTableBody.innerHTML = '';
     
-    // Calcular estadísticas
-    elHistoryTotalCount.innerText = washHistory.length;
+    const filterDate = document.getElementById('filter-history-date')?.value;
+    const filterName = document.getElementById('filter-history-name')?.value.toLowerCase();
     
-    const revenue = washHistory.reduce((acc, curr) => acc + (curr.budget || 0), 0);
+    let filtered = washHistory;
+    
+    if (filterDate) {
+        // filterDate is YYYY-MM-DD. We compare against item.completed_at ISO string start.
+        filtered = filtered.filter(item => {
+            const itemDate = new Date(item.completed_at).toISOString().split('T')[0];
+            return itemDate === filterDate;
+        });
+    }
+    
+    if (filterName) {
+        filtered = filtered.filter(item => 
+            (item.nickname && item.nickname.toLowerCase().includes(filterName)) ||
+            (item.plate && item.plate.toLowerCase().includes(filterName))
+        );
+    }
+    
+    // Calcular estadísticas sobre los resultados FILTRADOS
+    elHistoryTotalCount.innerText = filtered.length;
+    
+    const revenue = filtered.reduce((acc, curr) => acc + (curr.budget || 0), 0);
     elHistoryTotalRevenue.innerText = `$${revenue.toLocaleString()}`;
 
-    if (washHistory.length === 0) {
+    if (filtered.length === 0) {
         elHistoryTableBody.innerHTML = `
             <tr class="empty-table-row">
                 <td colspan="4" style="text-align: center; color: var(--color-text-dim); padding: 1.5rem 0;">
-                    No hay historial de lavados registrados.
+                    No hay resultados para esta búsqueda.
                 </td>
             </tr>`;
         return;
     }
 
-    washHistory.forEach(item => {
+    filtered.forEach(item => {
         const tr = document.createElement('tr');
         const dateStr = new Date(item.completed_at).toLocaleDateString('es-AR', {
             hour: '2-digit',
@@ -770,6 +790,9 @@ function renderHistory() {
         elHistoryTableBody.appendChild(tr);
     });
 }
+
+document.getElementById('filter-history-date')?.addEventListener('change', renderHistory);
+document.getElementById('filter-history-name')?.addEventListener('input', renderHistory);
 
 // --- TICKERS EN TIEMPO REAL (RELOJES Y PROGRESO) ---
 function startRealtimeTicker() {
@@ -819,21 +842,21 @@ function startRealtimeTicker() {
     }, 1000);
 }
 
-// --- MODULO SIMULADOR DE TRÁFICO AUTOMÁTICO ---
+// --- MODULO SIMULADOR DE TRÃFICO AUTOMÃTICO ---
 function toggleSimulation() {
     isSimulationActive = !isSimulationActive;
     
     if (isSimulationActive) {
         elBtnSimulation.classList.add('active');
         elBtnSimulation.querySelector('.pulse-indicator').style.backgroundColor = 'var(--color-lime)';
-        showFloatingToast("Simulador de tráfico activado. Eventos cada 12 segundos.");
+        showFloatingToast("Simulador de trÃ¡fico activado. Eventos cada 12 segundos.");
 
         simulationIntervalId = setInterval(runSimulationStep, 12000);
         runSimulationStep(); // Ejecutar primer paso de inmediato
     } else {
         elBtnSimulation.classList.remove('active');
         elBtnSimulation.querySelector('.pulse-indicator').style.backgroundColor = '';
-        showFloatingToast("Simulador de tráfico desactivado.");
+        showFloatingToast("Simulador de trÃ¡fico desactivado.");
 
         if (simulationIntervalId) {
             clearInterval(simulationIntervalId);
@@ -846,9 +869,9 @@ function runSimulationStep() {
     const rand = Math.random();
     const numCars = activeVehicles.length;
 
-    // Decisión de acción
+    // DecisiÃ³n de acciÃ³n
     if (rand < 0.35 && numCars < 6) {
-        // Acción: Agregar
+        // AcciÃ³n: Agregar
         const nick = `${NOMBRES[Math.floor(Math.random() * NOMBRES.length)]} ${ADJETIVOS[Math.floor(Math.random() * ADJETIVOS.length)]}`;
         const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         const plate = `${letters[Math.floor(Math.random()*26)]}${letters[Math.floor(Math.random()*26)]}${Math.floor(Math.random()*900+100)}${letters[Math.floor(Math.random()*26)]}${letters[Math.floor(Math.random()*26)]}`;
@@ -856,10 +879,10 @@ function runSimulationStep() {
         const budget = Math.floor(Math.random() * 15000) + 10000;
 
         addVehicle(nick, plate, color, budget);
-        console.log(`🤖 [SIMULADOR] Nuevo auto registrado: ${nick} (${plate})`);
+        console.log(`ðŸ¤– [SIMULADOR] Nuevo auto registrado: ${nick} (${plate})`);
 
     } else if (rand < 0.70 && numCars > 0) {
-        // Acción: Mover
+        // AcciÃ³n: Mover
         const esperaCars = activeVehicles.filter(v => v.zone === 'espera');
         const lavadoCars = activeVehicles.filter(v => v.zone === 'lavado');
 
@@ -867,31 +890,31 @@ function runSimulationStep() {
             // Mover de lavado a terminado
             const target = lavadoCars[Math.floor(Math.random() * lavadoCars.length)];
             updateVehicleZone(target.id, 'terminado');
-            console.log(`🤖 [SIMULADOR] Auto finalizó lavado: ${target.nickname}`);
+            console.log(`ðŸ¤– [SIMULADOR] Auto finalizÃ³ lavado: ${target.nickname}`);
         } else if (esperaCars.length > 0) {
             // Mover de espera a lavado
             const target = esperaCars[Math.floor(Math.random() * esperaCars.length)];
             updateVehicleZone(target.id, 'lavado');
-            console.log(`🤖 [SIMULADOR] Auto entró a lavado: ${target.nickname}`);
+            console.log(`ðŸ¤– [SIMULADOR] Auto entrÃ³ a lavado: ${target.nickname}`);
         }
 
     } else if (rand < 0.90 && numCars > 0) {
-        // Acción: Entregar/Retirar
+        // AcciÃ³n: Entregar/Retirar
         const terminadoCars = activeVehicles.filter(v => v.zone === 'terminado');
         if (terminadoCars.length > 0) {
             const target = terminadoCars[Math.floor(Math.random() * terminadoCars.length)];
             finishVehicle(target.id);
-            console.log(`🤖 [SIMULADOR] Cliente retiró auto: ${target.nickname}`);
+            console.log(`ðŸ¤– [SIMULADOR] Cliente retirÃ³ auto: ${target.nickname}`);
         }
     }
 }
 
-// --- CONFIGURACIÓN & MODAL ---
+// --- CONFIGURACIÃ“N & MODAL ---
 
 // Modal Toggle
 elBtnConfig.addEventListener('click', () => {
     elModalConfig.classList.add('active');
-    renderHistory(); // Re-render por si cambió algo
+    renderHistory(); // Re-render por si cambiÃ³ algo
 });
 
 elBtnCloseModal.addEventListener('click', () => {
@@ -927,7 +950,7 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
     });
 });
 
-// Guardar Configuración
+// Guardar ConfiguraciÃ³n
 elBtnSaveConfig.addEventListener('click', async () => {
     config.useSupabase = elCheckUseSupabase.checked;
     config.supabaseUrl = elSupabaseUrl.value.trim();
@@ -939,7 +962,7 @@ elBtnSaveConfig.addEventListener('click', async () => {
     
     // Cerrar modal
     elModalConfig.classList.remove('active');
-    showFloatingToast("Configuración guardada.");
+    showFloatingToast("ConfiguraciÃ³n guardada.");
 
     // Aplicar
     if (config.useSupabase) {
@@ -968,7 +991,7 @@ elBtnSaveConfig.addEventListener('click', async () => {
 
 // Limpiar historial
 elBtnClearHistory.addEventListener('click', () => {
-    if (confirm("¿Estás completamente seguro de borrar todo el historial y estadísticas de recaudación local?")) {
+    if (confirm("Â¿EstÃ¡s completamente seguro de borrar todo el historial y estadÃ­sticas de recaudaciÃ³n local?")) {
         washHistory = [];
         saveStateLocally(false);
         renderAll();
@@ -976,14 +999,14 @@ elBtnClearHistory.addEventListener('click', () => {
     }
 });
 
-// --- INICIALIZACIÓN ---
+// --- INICIALIZACIÃ“N ---
 
 // Cambiar color label
 elInputColor.addEventListener('input', (e) => {
     elColorHexLabel.innerText = e.target.value.toUpperCase();
 });
 
-// Función para renderizar el menú interactivo
+// FunciÃ³n para renderizar el menÃº interactivo
 function renderWashMenu() {
     const grid = document.getElementById('wash-menu-grid');
     if (!grid) return;
@@ -996,7 +1019,7 @@ function renderWashMenu() {
         card.setAttribute('data-price', pkg.price);
 
         card.innerHTML = `
-            <div class="check-badge">✓</div>
+            <div class="check-badge">âœ“</div>
             <div class="wash-card-icon">${pkg.icon}</div>
             <div class="wash-card-title">${pkg.title}</div>
             <div class="wash-card-price">$${pkg.price.toLocaleString('es-AR')}</div>
@@ -1033,37 +1056,37 @@ elFormRegister.addEventListener('submit', (e) => {
     // Enfocar apodo para el siguiente
     elInputNickname.focus();
     
-    showFloatingToast(`Vehículo ${nickname} registrado.`);
+    showFloatingToast(`VehÃ­culo ${nickname} registrado.`);
 });
 
-// Toggle Botón Simulación
+// Toggle BotÃ³n SimulaciÃ³n
 elBtnSimulation.addEventListener('click', () => {
     toggleSimulation();
 });
 
-// Arrancar Aplicación
+// Arrancar AplicaciÃ³n
 window.addEventListener('DOMContentLoaded', async () => {
-    // Intentar cargar primero la configuración de Vercel/Supabase remota
+    // Intentar cargar primero la configuraciÃ³n de Vercel/Supabase remota
     await loadRemoteConfig();
     loadLocalData();
     renderWashMenu();
     renderAll();
     startRealtimeTicker();
 
-    // Sincronizar de inmediato si Supabase está activo
+    // Sincronizar de inmediato si Supabase estÃ¡ activo
     if (config.useSupabase) {
         syncFromSupabase();
-        // Polling de sincronización cada 10 segundos
+        // Polling de sincronizaciÃ³n cada 10 segundos
         setInterval(syncFromSupabase, 10000);
     }
 });
 
-// --- L�GICA DE NAVEGACI�N (SIDEBAR) ---
+// --- Lï¿½GICA DE NAVEGACIï¿½N (SIDEBAR) ---
 document.querySelectorAll('.nav-btn').forEach(btn => {
     btn.addEventListener('click', (e) => {
         // Remover active de todos los botones
         document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-        // Agregar active al bot�n clickeado
+        // Agregar active al botï¿½n clickeado
         const targetBtn = e.currentTarget;
         targetBtn.classList.add('active');
 
@@ -1088,7 +1111,7 @@ document.querySelectorAll('.nav-btn').forEach(btn => {
     });
 });
 
-// --- L�GICA DE EMPLEADOS ---
+// --- Lï¿½GICA DE EMPLEADOS ---
 const formEmpleado = document.getElementById('form-empleado');
 const tbodyEmpleados = document.getElementById('empleados-tbody');
 
@@ -1096,12 +1119,22 @@ if (formEmpleado) {
     formEmpleado.addEventListener('submit', (e) => {
         e.preventDefault();
         const name = document.getElementById('emp-name').value;
+        const hours = document.getElementById('emp-hours').value;
         const role = document.getElementById('emp-role').value;
-        empleados.push({ id: Date.now(), name, role });
+        
+        empleados.push({ 
+            id: Date.now(), 
+            date: new Date().toISOString().split('T')[0],
+            name, 
+            hours: parseInt(hours),
+            role 
+        });
+        
         localStorage.setItem('lavadero_empleados', JSON.stringify(empleados));
         document.getElementById('emp-name').value = '';
+        document.getElementById('emp-hours').value = '8';
         renderEmpleados();
-        showFloatingToast('Empleado agregado exitosamente');
+        showFloatingToast('Jornada registrada exitosamente');
     });
 }
 
@@ -1112,21 +1145,40 @@ function renderEmpleados() {
     if (!tbodyEmpleados) return;
     tbodyEmpleados.innerHTML = '';
     
-    if (empleados.length === 0) {
-        tbodyEmpleados.innerHTML = '<tr><td colspan="3" style="text-align:center;color:var(--color-text-dim);">No hay empleados registrados</td></tr>';
+    const filterDate = document.getElementById('filter-emp-date')?.value;
+    const filterName = document.getElementById('filter-emp-name')?.value.toLowerCase();
+    
+    let filtered = empleados;
+    if (filterDate) {
+        filtered = filtered.filter(e => e.date === filterDate);
+    }
+    if (filterName) {
+        filtered = filtered.filter(e => e.name.toLowerCase().includes(filterName));
+    }
+    
+    if (filtered.length === 0) {
+        tbodyEmpleados.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--color-text-dim);">No hay registros</td></tr>';
         return;
     }
 
-    empleados.forEach(emp => {
+    // Sort by newest first
+    filtered.sort((a, b) => b.id - a.id).forEach(emp => {
         const tr = document.createElement('tr');
+        const displayDate = emp.date ? new Date(emp.date + 'T00:00:00').toLocaleDateString() : '-';
         tr.innerHTML = `
+            <td>${displayDate}</td>
             <td>${emp.name}</td>
             <td><span class="plate-badge">${emp.role}</span></td>
-            <td><button class="btn btn-danger btn-sm" onclick="eliminarEmpleado(${emp.id})">Eliminar</button></td>
+            <td>${emp.hours || 0} hs</td>
+            <td class="print-visible"><button class="btn btn-danger btn-sm print-visible" onclick="eliminarEmpleado(${emp.id})">Eliminar</button></td>
         `;
         tbodyEmpleados.appendChild(tr);
     });
 }
+
+// Escuchar cambios en los filtros
+document.getElementById('filter-emp-date')?.addEventListener('change', renderEmpleados);
+document.getElementById('filter-emp-name')?.addEventListener('input', renderEmpleados);
 
 window.eliminarEmpleado = function(id) {
     empleados = empleados.filter(e => e.id !== id);
@@ -1134,7 +1186,7 @@ window.eliminarEmpleado = function(id) {
     renderEmpleados();
 };
 
-// --- L�GICA DE INSUMOS ---
+// --- Lï¿½GICA DE INSUMOS ---
 const formInsumo = document.getElementById('form-insumo');
 const tbodyInsumos = document.getElementById('insumos-tbody');
 
@@ -1159,21 +1211,30 @@ function renderInsumos() {
     if (!tbodyInsumos) return;
     tbodyInsumos.innerHTML = '';
     
-    if (insumos.length === 0) {
+    const filterName = document.getElementById('filter-ins-name')?.value.toLowerCase();
+    
+    let filtered = insumos;
+    if (filterName) {
+        filtered = filtered.filter(i => i.name.toLowerCase().includes(filterName));
+    }
+    
+    if (filtered.length === 0) {
         tbodyInsumos.innerHTML = '<tr><td colspan="3" style="text-align:center;color:var(--color-text-dim);">No hay insumos registrados</td></tr>';
         return;
     }
 
-    insumos.forEach(ins => {
+    filtered.forEach(ins => {
         const tr = document.createElement('tr');
         tr.innerHTML = `
             <td>${ins.name}</td>
-            <td>${ins.quantity} unid.</td>
-            <td><button class="btn btn-danger btn-sm" onclick="eliminarInsumo(${ins.id})">Eliminar</button></td>
+            <td><span class="badge ${ins.stock < 5 ? 'bg-danger' : 'bg-success'}">${ins.stock} unid.</span></td>
+            <td class="print-visible"><button class="btn btn-danger btn-sm print-visible" onclick="eliminarInsumo(${ins.id})">Eliminar</button></td>
         `;
         tbodyInsumos.appendChild(tr);
     });
 }
+
+document.getElementById('filter-ins-name')?.addEventListener('input', renderInsumos);
 
 window.eliminarInsumo = function(id) {
     insumos = insumos.filter(i => i.id !== id);
@@ -1181,13 +1242,13 @@ window.eliminarInsumo = function(id) {
     renderInsumos();
 };
 
-// --- L�GICA DE PRECIOS ---
+// --- Lï¿½GICA DE PRECIOS ---
 const tbodyPrecios = document.getElementById('precios-tbody');
 const btnResetPrecios = document.getElementById('btn-reset-precios');
 
 if (btnResetPrecios) {
     btnResetPrecios.addEventListener('click', () => {
-        if(confirm('�Restaurar precios y paquetes a sus valores por defecto?')) {
+        if(confirm('ï¿½Restaurar precios y paquetes a sus valores por defecto?')) {
             WASH_PACKAGES = JSON.parse(JSON.stringify(DEFAULT_WASH_PACKAGES));
             localStorage.setItem('lavadero_wash_settings', JSON.stringify(WASH_PACKAGES));
             initWashPackages();
@@ -1233,7 +1294,7 @@ function renderPrecios() {
             
             localStorage.setItem('lavadero_wash_settings', JSON.stringify(WASH_PACKAGES));
             initWashPackages(); // Actualizar mapeos
-            renderWashMenu(); // Refrescar men� del form
+            renderWashMenu(); // Refrescar menï¿½ del form
             showFloatingToast('Precio actualizado correctamente');
             
             e.target.innerText = '?';
@@ -1246,7 +1307,7 @@ function renderPrecios() {
     });
 }
 
-// Override de la renderizaci�n del grid de lavados inicial
+// Override de la renderizaciï¿½n del grid de lavados inicial
 function renderWashMenu() {
     const grid = document.getElementById('wash-menu-grid');
     if (!grid) return;
@@ -1283,7 +1344,7 @@ function renderWashMenu() {
 // Llamar a renderWashMenu en el boot inicial para asegurar que cargue lo de localStorage
 setTimeout(renderWashMenu, 500);
 
-// --- LÃ“GICA DE POSTULANTES ---
+// --- LÃƒâ€œGICA DE POSTULANTES ---
 const tbodyPostulantes = document.getElementById('postulantes-tbody');
 
 async function renderPostulantes() {
@@ -1323,7 +1384,7 @@ async function renderPostulantes() {
             </td>
             <td>
                 <div style="font-weight:bold; color:var(--color-cyan)">${app.full_name}</div>
-                <div style="font-size:0.85em; color:var(--color-text-dim)">DNI: ${app.dni} • ${app.age || '--'} años</div>
+                <div style="font-size:0.85em; color:var(--color-text-dim)">DNI: ${app.dni} â€¢ ${app.age || '--'} aÃ±os</div>
             </td>
             <td>
                 <div><a href="https://wa.me/${app.phone}" target="_blank" style="color:var(--color-lime); text-decoration:none;">${app.phone}</a></div>
@@ -1349,7 +1410,7 @@ async function renderPostulantes() {
 }
 
 window.contratarPostulante = async function(id, name) {
-    const role = prompt(`¿Qué rol le asignarás a ${name}? (Ej: Lavador, Detallador, Encargado)`, 'Lavador');
+    const role = prompt(`Â¿QuÃ© rol le asignarÃ¡s a ${name}? (Ej: Lavador, Detallador, Encargado)`, 'Lavador');
     if (role === null) return; // Cancelado
 
     // Mover a empleados
@@ -1384,7 +1445,7 @@ window.contratarPostulante = async function(id, name) {
 }
 
 window.rechazarPostulante = async function(id) {
-    if(!confirm('¿Seguro que quieres rechazar y eliminar a este postulante?')) return;
+    if(!confirm('Â¿Seguro que quieres rechazar y eliminar a este postulante?')) return;
     
     if (config.useSupabase) {
         await fetchSupabase(`applicants?id=eq.${id}`, {
@@ -1401,7 +1462,7 @@ window.rechazarPostulante = async function(id) {
     renderPostulantes();
 }
 
-// Escuchar cambios de pestaÃ±a para renderizar postulantes
+// Escuchar cambios de pestaÃƒÂ±a para renderizar postulantes
 document.addEventListener('DOMContentLoaded', () => {
     const navBtns = document.querySelectorAll('.nav-btn');
     navBtns.forEach(btn => {
@@ -1420,7 +1481,7 @@ function showQrModal(car) {
     baseUrl = baseUrl.replace('index.html', '');
     if(!baseUrl.endsWith('/')) baseUrl += '/';
     
-    // Calcular pos (Posición en la fila)
+    // Calcular pos (PosiciÃ³n en la fila)
     const esperaCars = activeVehicles.filter(v => v.zone === 'espera');
     let pos = esperaCars.findIndex(v => v.id === car.id) + 1;
     if (pos <= 0) pos = 1;
@@ -1434,7 +1495,7 @@ function showQrModal(car) {
     const qrLinkText = document.getElementById('qr-link-text');
     const btnCopy = document.getElementById('btn-copy-ticket');
 
-    // Usar API de QR pública para generar la imagen
+    // Usar API de QR pÃºblica para generar la imagen
     qrImage.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(url)}&color=00f0ff&bgcolor=18181b`;
     qrLinkText.innerText = url;
     
@@ -1454,6 +1515,6 @@ function copyPostularLink() {
     const url = baseUrl + 'postular.html';
     
     navigator.clipboard.writeText(url).then(() => {
-        showFloatingToast("Enlace de postulación copiado para WhatsApp.");
+        showFloatingToast("Enlace de postulaciÃ³n copiado para WhatsApp.");
     });
 }

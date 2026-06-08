@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Visualizador & Panel de Control - Lavadero de Autos</title>
-    <meta name="description" content="Visualizador de estado en tiempo real y panel de gestión para el Lavadero de Autos. Diseño estético premium, optimizado para visualización y administración ágil.">
+    <meta name="description" content="Visualizador de estado en tiempo real y panel de gestiÃ³n para el Lavadero de Autos. DiseÃ±o estÃ©tico premium, optimizado para visualizaciÃ³n y administraciÃ³n Ã¡gil.">
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -56,24 +56,24 @@
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.6 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.6 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.6 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/></svg>
                 </div>
                 <div class="brand-text">
-                    <h1 class="brand-title">LAVADERO <span>ESTÉTICA VEHICULAR</span></h1>
+                    <h1 class="brand-title">LAVADERO <span>ESTÃ‰TICA VEHICULAR</span></h1>
                     <p class="brand-subtitle">Visualizador y Control en Vivo</p>
                 </div>
             </div>
 
-            <!-- Panel de Demora y Controles Rápidos -->
+            <!-- Panel de Demora y Controles RÃ¡pidos -->
             <div class="header-actions">
                 <div class="eta-card">
                     <svg class="icon-money text-lime" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
                     <div class="eta-info">
-                        <span class="eta-label">Recaudación Real</span>
+                        <span class="eta-label">RecaudaciÃ³n Real</span>
                         <span id="revenue-real-display" class="eta-value" style="color: var(--color-lime)">$0</span>
                     </div>
                 </div>
                 <div class="eta-card">
                     <svg class="icon-money text-yellow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
                     <div class="eta-info">
-                        <span class="eta-label">Facturación Pendiente</span>
+                        <span class="eta-label">FacturaciÃ³n Pendiente</span>
                         <span id="revenue-proj-display" class="eta-value" style="color: var(--color-yellow)">$0</span>
                     </div>
                 </div>
@@ -81,18 +81,18 @@
                     <svg class="icon-clock text-cyan animate-slow-spin" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                     <div class="eta-info">
                         <span class="eta-label">Demora de Ingreso</span>
-                        <span id="eta-display" class="eta-value" style="color: var(--color-cyan)">Sin Demoras ⚡</span>
+                        <span id="eta-display" class="eta-value" style="color: var(--color-cyan)">Sin Demoras âš¡</span>
                     </div>
                 </div>
                 <button class="btn btn-primary" onclick="document.querySelector('[data-target=\'view-postulantes\']').click()" style="margin-left:1rem; padding: 0.5rem 1rem; border-radius: 8px; font-weight:bold; font-size:1.1rem; background-color: var(--color-cyan); color: #fff; border:none; cursor:pointer;">
-                    📋 VER POSTULANTES
+                    ðŸ“‹ VER POSTULANTES
                 </button>
                 <div class="action-buttons">
-                    <button id="btn-config" class="btn btn-secondary btn-icon" title="Configuración de Servidor/Base de Datos">
+                    <button id="btn-config" class="btn btn-secondary btn-icon" title="ConfiguraciÃ³n de Servidor/Base de Datos">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l-.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
                     </button>
-                    <button id="btn-simulation" class="btn btn-secondary font-bold" title="Toggle Simulador Automático">
-                        <span class="pulse-indicator"></span> Simular Tráfico
+                    <button id="btn-simulation" class="btn btn-secondary font-bold" title="Toggle Simulador AutomÃ¡tico">
+                        <span class="pulse-indicator"></span> Simular TrÃ¡fico
                     </button>
                 </div>
             </div>
@@ -111,10 +111,10 @@
                     <span id="counter-espera" class="lane-counter bg-yellow-dim text-yellow">0</span>
                 </div>
                 <div class="lane-track" id="track-espera">
-                    <!-- Los vehículos en espera se insertarán dinámicamente aquí -->
+                    <!-- Los vehÃ­culos en espera se insertarÃ¡n dinÃ¡micamente aquÃ­ -->
                     <div class="empty-lane-placeholder">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-                        <p>Línea Libre</p>
+                        <p>LÃ­nea Libre</p>
                     </div>
                 </div>
             </section>
@@ -128,13 +128,13 @@
                     </h2>
                     <span id="counter-lavado" class="lane-counter bg-cyan-dim text-cyan">0</span>
                 </div>
-                <!-- Animación de burbujas en el fondo -->
+                <!-- AnimaciÃ³n de burbujas en el fondo -->
                 <div class="washing-bubble-bg"></div>
                 <div class="lane-track" id="track-lavado">
-                    <!-- Los vehículos en lavado se insertarán aquí -->
+                    <!-- Los vehÃ­culos en lavado se insertarÃ¡n aquÃ­ -->
                     <div class="empty-lane-placeholder">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-                        <p>Box Vacío</p>
+                        <p>Box VacÃ­o</p>
                     </div>
                 </div>
             </section>
@@ -149,7 +149,7 @@
                     <span id="counter-terminado" class="lane-counter bg-lime-dim text-lime">0</span>
                 </div>
                 <div class="lane-track" id="track-terminado">
-                    <!-- Los vehículos terminados se insertarán aquí -->
+                    <!-- Los vehÃ­culos terminados se insertarÃ¡n aquÃ­ -->
                     <div class="empty-lane-placeholder">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
                         <p>Esperando Salidas</p>
@@ -158,7 +158,7 @@
             </section>
         </main>
 
-        <!-- PANEL DE OPERACIÓN Y GESTIÓN -->
+        <!-- PANEL DE OPERACIÃ“N Y GESTIÃ“N -->
         <section class="app-operator-panel">
             <div class="panel-header">
                 <div class="panel-title-group">
@@ -174,7 +174,7 @@
             <div class="operator-layout">
                 <!-- FORMULARIO REGISTRO -->
                 <form id="form-register-car" class="operator-form">
-                    <h4 class="form-title">Registrar Ingreso de Vehículo</h4>
+                    <h4 class="form-title">Registrar Ingreso de VehÃ­culo</h4>
                     <div class="form-grid">
                         <div class="form-group">
                             <label for="input-nickname">Apodo o Marca</label>
@@ -185,7 +185,7 @@
                             <input type="text" id="input-plate" placeholder="Ej: AE554FG">
                         </div>
                         <div class="form-group">
-                            <label for="input-color">Color del Vehículo</label>
+                            <label for="input-color">Color del VehÃ­culo</label>
                             <div class="color-picker-wrapper">
                                 <input type="color" id="input-color" value="#06b6d4">
                                 <span class="color-value-label" id="color-hex-label">#06b6d4</span>
@@ -208,23 +208,23 @@
 
                 <!-- LISTA DE SEGUIMIENTO OPERATIVO -->
                 <div class="operator-queue-list">
-                    <h4 class="form-title">Vehículos en Gestión Activa</h4>
+                    <h4 class="form-title">VehÃ­culos en GestiÃ³n Activa</h4>
                     <div class="table-container">
                         <table class="operator-table">
                             <thead>
                                 <tr>
-                                    <th>Vehículo</th>
+                                    <th>VehÃ­culo</th>
                                     <th>Patente</th>
                                     <th>Presupuesto</th>
                                     <th>Zona Actual</th>
-                                    <th>Acción</th>
+                                    <th>AcciÃ³n</th>
                                 </tr>
                             </thead>
                             <tbody id="operator-table-body">
-                                <!-- Las filas de gestión se insertarán aquí dinámicamente -->
+                                <!-- Las filas de gestiÃ³n se insertarÃ¡n aquÃ­ dinÃ¡micamente -->
                                 <tr class="empty-table-row">
                                     <td colspan="5" style="text-align: center; color: var(--color-text-dim); font-style: italic; padding: 2rem 0;">
-                                        Sin vehículos en circulación. Registra uno arriba para comenzar.
+                                        Sin vehÃ­culos en circulaciÃ³n. Registra uno arriba para comenzar.
                                     </td>
                                 </tr>
                             </tbody>
@@ -239,7 +239,7 @@
             <div class="panel-header" style="margin-bottom: 2rem;">
                 <div class="panel-title-group">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-                    <h3>Gestión de Postulantes</h3>
+                    <h3>GestiÃ³n de Postulantes</h3>
                 </div>
                 <button id="btn-share-postular" class="btn btn-secondary btn-sm" onclick="copyPostularLink()" title="Copiar link para WhatsApp">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 0.5rem;"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
@@ -261,7 +261,7 @@
                                 </tr>
                             </thead>
                             <tbody id="postulantes-tbody">
-                                <!-- Filas de postulantes dinámicas -->
+                                <!-- Filas de postulantes dinÃ¡micas -->
                             </tbody>
                         </table>
                     </div>
@@ -274,16 +274,27 @@
             <div class="panel-header" style="margin-bottom: 2rem;">
                 <div class="panel-title-group">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
-                    <h3>Gestión de Empleados</h3>
+                    <h3>Gestión de Empleados y Horas</h3>
                 </div>
             </div>
+            
+            <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap;">
+                <input type="date" id="filter-emp-date" class="search-input" style="flex: 1; min-width: 150px;">
+                <input type="text" id="filter-emp-name" class="search-input" placeholder="Buscar empleado..." style="flex: 2; min-width: 200px;">
+                <button onclick="window.print()" class="btn btn-secondary" style="white-space: nowrap;">🖨️ Imprimir Reporte</button>
+            </div>
+
             <div class="operator-layout">
                 <form id="form-empleado" class="operator-form">
-                    <h4 class="form-title">Nuevo Empleado</h4>
+                    <h4 class="form-title">Registrar Jornada / Empleado</h4>
                     <div class="form-grid">
                         <div class="form-group">
                             <label>Nombre</label>
                             <input type="text" id="emp-name" placeholder="Ej: Juan Perez" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Horas Trabajadas hoy</label>
+                            <input type="number" id="emp-hours" value="8" min="1" max="24" required>
                         </div>
                         <div class="form-group">
                             <label>Rol</label>
@@ -297,10 +308,10 @@
                     <button type="submit" class="btn btn-primary w-full">Agregar Empleado</button>
                 </form>
                 <div class="operator-queue-list">
-                    <h4 class="form-title">Nómina</h4>
+                    <h4 class="form-title">Registro de Horas</h4>
                     <div class="table-container">
-                        <table class="operator-table">
-                            <thead><tr><th>Nombre</th><th>Rol</th><th>Acciones</th></tr></thead>
+                        <table class="operator-table" id="table-empleados">
+                            <thead><tr><th>Fecha</th><th>Nombre</th><th>Rol</th><th>Horas</th><th>Acciones</th></tr></thead>
                             <tbody id="empleados-tbody"></tbody>
                         </table>
                     </div>
@@ -316,9 +327,15 @@
                     <h3>Control de Insumos</h3>
                 </div>
             </div>
+
+            <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap;">
+                <input type="text" id="filter-ins-name" class="search-input" placeholder="Buscar insumo..." style="flex: 2; min-width: 200px;">
+                <button onclick="window.print()" class="btn btn-secondary" style="white-space: nowrap;">🖨️ Imprimir Inventario</button>
+            </div>
+
             <div class="operator-layout">
                 <form id="form-insumo" class="operator-form">
-                    <h4 class="form-title">Nuevo Insumo</h4>
+                    <h4 class="form-title">Ingresar/Ajustar Insumo</h4>
                     <div class="form-grid">
                         <div class="form-group">
                             <label>Producto</label>
@@ -348,7 +365,7 @@
             <div class="panel-header" style="margin-bottom: 2rem;">
                 <div class="panel-title-group">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-                    <h3>Configuración de Precios y Tipos de Lavado</h3>
+                    <h3>ConfiguraciÃ³n de Precios y Tipos de Lavado</h3>
                 </div>
                 <button id="btn-reset-precios" class="btn btn-secondary btn-sm">Restaurar Valores por Defecto</button>
             </div>
@@ -362,7 +379,7 @@
                                     <th>ID</th>
                                     <th>Nombre (Icono)</th>
                                     <th>Precio ($)</th>
-                                    <th>Categoría</th>
+                                    <th>CategorÃ­a</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
@@ -373,35 +390,35 @@
             </div>
         </div>
 
-        <!-- PIE DE PÁGINA -->
+        <!-- PIE DE PÃGINA -->
         <footer class="app-footer">
-            <p>© Omar Adamo. Todos los derechos reservados. Lavadero Estética Vehicular • Software Independiente</p>
+            <p>Â© Omar Adamo. Todos los derechos reservados. Lavadero EstÃ©tica Vehicular â€¢ Software Independiente</p>
             <div class="footer-links">
                 <a href="mailto:adamoomar110@gmail.com">Soporte</a>
-                <span>•</span>
+                <span>â€¢</span>
                 <a href="https://wa.me/5491178295317" target="_blank" rel="noopener noreferrer">WhatsApp</a>
-                <span>•</span>
+                <span>â€¢</span>
                 <span class="version-label">v2.1 (Premium)</span>
             </div>
         </footer>
         </div> <!-- Fin app-container -->
     </div> <!-- Fin layout-wrapper -->
 
-    <!-- MODAL DE CONFIGURACIÓN DE BASE DE DATOS (SUPABASE) -->
+    <!-- MODAL DE CONFIGURACIÃ“N DE BASE DE DATOS (SUPABASE) -->
     <div id="modal-config" class="modal-overlay">
         <div class="modal-card">
             <div class="modal-header">
-                <h3>Configuración de Servidor & Datos</h3>
+                <h3>ConfiguraciÃ³n de Servidor & Datos</h3>
                 <button id="btn-close-modal" class="modal-close-btn">&times;</button>
             </div>
             <div class="modal-body">
                 <div class="tabs">
-                    <button class="tab-btn active" data-tab="tab-source">Conexión de Datos</button>
+                    <button class="tab-btn active" data-tab="tab-source">ConexiÃ³n de Datos</button>
                     <button class="tab-btn" data-tab="tab-history">Historial de Lavados</button>
                 </div>
 
                 <div class="tab-content" id="tab-source">
-                    <p class="tab-description">Elige de dónde se leen y guardan los datos del lavadero. Puedes usar almacenamiento local persistente o vincularlo a tu Supabase de Lavadero De Luxe.</p>
+                    <p class="tab-description">Elige de dÃ³nde se leen y guardan los datos del lavadero. Puedes usar almacenamiento local persistente o vincularlo a tu Supabase de Lavadero De Luxe.</p>
                     
                     <div class="form-group checkbox-group">
                         <label class="toggle-switch">
@@ -409,7 +426,7 @@
                             <span class="slider"></span>
                         </label>
                         <div class="toggle-label-group">
-                            <span class="toggle-title">Habilitar Conexión con Supabase</span>
+                            <span class="toggle-title">Habilitar ConexiÃ³n con Supabase</span>
                             <span class="toggle-desc">Sincroniza con la base de datos externa en tiempo real.</span>
                         </div>
                     </div>
@@ -424,11 +441,11 @@
                             <input type="password" id="supabase-key" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...">
                         </div>
                         <div class="form-group">
-                            <label for="supabase-table">Tabla de Cola de Cámara</label>
+                            <label for="supabase-table">Tabla de Cola de CÃ¡mara</label>
                             <input type="text" id="supabase-table" value="lavadero_camera_queue">
                         </div>
                         <div class="form-group">
-                            <label for="supabase-service-table">Tabla de Órdenes de Servicio</label>
+                            <label for="supabase-service-table">Tabla de Ã“rdenes de Servicio</label>
                             <input type="text" id="supabase-service-table" value="service_orders">
                         </div>
                     </div>
@@ -444,7 +461,7 @@
                         </div>
                         <div class="stat-box">
                             <span class="stat-number text-lime" id="history-total-revenue">$0</span>
-                            <span class="stat-label">Recaudación Total</span>
+                            <span class="stat-label">RecaudaciÃ³n Total</span>
                         </div>
                     </div>
 
@@ -454,7 +471,7 @@
                                 <thead>
                                     <tr>
                                         <th>Fecha</th>
-                                        <th>Vehículo</th>
+                                        <th>VehÃ­culo</th>
                                         <th>Patente</th>
                                         <th>Recaudado</th>
                                     </tr>
@@ -467,7 +484,12 @@
                             </table>
                         </div>
                     </div>
-                    <div class="history-actions">
+                    <div class="history-actions" style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <input type="date" id="filter-history-date" class="search-input" style="display: inline-block; width: auto; margin-right: 1rem;">
+                            <input type="text" id="filter-history-name" class="search-input" placeholder="Buscar patente..." style="display: inline-block; width: auto; margin-right: 1rem;">
+                            <button onclick="window.print()" class="btn btn-secondary">🖨️ Imprimir</button>
+                        </div>
                         <button id="btn-clear-history" class="btn btn-danger btn-sm">Limpiar Todo Historial</button>
                     </div>
                 </div>
@@ -483,7 +505,7 @@
                 <button onclick="document.getElementById('modal-ticket-qr').style.display='none'" class="modal-close-btn">&times;</button>
             </div>
             <div class="modal-body">
-                <p style="color: var(--color-text-dim); font-size: 0.9rem; margin-bottom: 1.5rem;">El vehículo ha sido registrado. Pídele al cliente que escanee este QR para ver el estado de su lavado en vivo.</p>
+                <p style="color: var(--color-text-dim); font-size: 0.9rem; margin-bottom: 1.5rem;">El vehÃ­culo ha sido registrado. PÃ­dele al cliente que escanee este QR para ver el estado de su lavado en vivo.</p>
                 <div id="qr-container" style="background: white; padding: 15px; border-radius: 12px; display: inline-block; margin-bottom: 1.5rem; box-shadow: 0 0 20px rgba(0, 240, 255, 0.2);">
                     <img id="qr-image" src="" alt="QR Code" style="width: 200px; height: 200px; display: block;" />
                 </div>
@@ -493,7 +515,7 @@
         </div>
     </div>
 
-    <!-- Lógica de la aplicación -->
+    <!-- LÃ³gica de la aplicaciÃ³n -->
     <script src="app.js"></script>
 <footer style="text-align: center; padding: 20px; font-family: sans-serif; font-size: 14px; color: #888; margin-top: 40px;">
     &copy; 2026 Omar. Todos los derechos reservados.

@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Mi Auto - Lavadero Estética Vehicular</title>
+    <title>Mi Auto - Lavadero EstÃ©tica Vehicular</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,7 +11,7 @@
     
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Ajustes específicos para Mobile First (Cliente) */
+        /* Ajustes especÃ­ficos para Mobile First (Cliente) */
         body {
             background-color: var(--color-bg);
             display: flex;
@@ -103,7 +103,7 @@
             100% { transform: scale(1.5) translateY(-10px); }
         }
 
-        /* Configuración UI */
+        /* ConfiguraciÃ³n UI */
         .wash-menu-grid { display: grid; }
         .wash-menu-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 1rem; padding: 1rem; cursor: pointer; transition: 0.3s; position: relative; }
         .wash-menu-card.selected { border-color: var(--color-cyan); background: rgba(0,240,255,0.1); }
@@ -235,7 +235,7 @@
             <div class="client-plate" id="car-plate">--</div>
         </div>
 
-        <!-- CONTENEDOR DE ESTADO (Oculto en modo configuración) -->
+        <!-- CONTENEDOR DE ESTADO (Oculto en modo configuraciÃ³n) -->
         <div id="tracking-view">
             <div id="status-container" class="status-badge" style="display: none;"></div>
 
@@ -287,7 +287,7 @@
                     <span id="service-price" style="font-size: 1.1rem; font-weight: 900; color: var(--color-lime); font-family: var(--font-mono);">-</span>
                 </div>
                 <div id="service-items" style="display: flex; flex-direction: column; gap: 0.5rem;">
-                    <!-- items se inyectan dinámicamente -->
+                    <!-- items se inyectan dinÃ¡micamente -->
                 </div>
                 <div id="payment-status" style="margin-top: 1rem; padding: 0.5rem; background: rgba(255,255,255,0.05); border-radius: 0.5rem; font-size: 0.8rem; display: flex; justify-content: space-between; align-items: center; border: 1px solid rgba(255,255,255,0.1);">
                     <span style="color: var(--color-text-dim);">Forma de Pago:</span>
@@ -296,28 +296,28 @@
             </div>
         </div>
 
-        <!-- CONTENEDOR DE CONFIGURACIÓN (Visible si no hay tipo seleccionado) -->
+        <!-- CONTENEDOR DE CONFIGURACIÃ“N (Visible si no hay tipo seleccionado) -->
         <div id="config-view" style="display: none; text-align: left; margin-top: 1.5rem;">
             <p style="font-size: 0.85rem; color: var(--color-cyan); font-weight: 700; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.05em;">1. Elige tu Servicio</p>
             <div id="config-wash-grid" class="wash-menu-grid" style="grid-template-columns: 1fr 1fr; gap: 0.5rem;">
-                <!-- Dinámico -->
+                <!-- DinÃ¡mico -->
             </div>
 
             <p style="font-size: 0.85rem; color: var(--color-cyan); font-weight: 700; margin-top: 2rem; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.05em;">2. Forma de Pago</p>
             <div id="config-pay-grid" class="wash-menu-grid" style="grid-template-columns: repeat(3, 1fr); gap: 0.5rem;">
                 <div class="wash-menu-card" data-pay="efectivo" onclick="selectPayment(this, 'efectivo')">
-                    <div class="check-badge">✓</div>
-                    <div class="wash-card-icon" style="font-size: 1.2rem;">💵</div>
+                    <div class="check-badge">âœ“</div>
+                    <div class="wash-card-icon" style="font-size: 1.2rem;">ðŸ’µ</div>
                     <div class="wash-card-title" style="font-size: 0.65rem;">Efectivo</div>
                 </div>
                 <div class="wash-menu-card" data-pay="tarjeta" onclick="selectPayment(this, 'tarjeta')">
-                    <div class="check-badge">✓</div>
-                    <div class="wash-card-icon" style="font-size: 1.2rem;">💳</div>
+                    <div class="check-badge">âœ“</div>
+                    <div class="wash-card-icon" style="font-size: 1.2rem;">ðŸ’³</div>
                     <div class="wash-card-title" style="font-size: 0.65rem;">Tarjeta</div>
                 </div>
                 <div class="wash-menu-card" data-pay="transferencia" onclick="selectPayment(this, 'transferencia')">
-                    <div class="check-badge">✓</div>
-                    <div class="wash-card-icon" style="font-size: 1.2rem;">📱</div>
+                    <div class="check-badge">âœ“</div>
+                    <div class="wash-card-icon" style="font-size: 1.2rem;">ðŸ“±</div>
                     <div class="wash-card-title" style="font-size: 0.65rem;">MercadoPago</div>
                 </div>
             </div>
@@ -327,11 +327,11 @@
     </div>
 
     <div class="client-footer">
-        © 2026 Omar Adamo. Todos los derechos reservados. <br> Lavadero Estética Vehicular • Software Independiente
+        Â© 2026 Omar Adamo. Todos los derechos reservados. <br> Lavadero EstÃ©tica Vehicular â€¢ Software Independiente
     </div>
 
     <script>
-        // Cargar configuración de localStorage si existe (modo compartido en el mismo dispositivo)
+        // Cargar configuraciÃ³n de localStorage si existe (modo compartido en el mismo dispositivo)
         let WASH_DETAILS = {};
         const savedSettings = localStorage.getItem('lavadero_wash_settings');
         
@@ -347,11 +347,11 @@
         } else {
             // Fallback por defecto si no hay localStorage
             WASH_DETAILS = {
-                'combo-limpieza-total': { name: 'Combo Limpieza Total 🌀', price: 18000, items: ['Lavado exterior espuma activa', 'Aspirado alfombras/butacas', 'Limpieza cristales/pantallas', 'Silicona y perfumado clásico'] },
-                'combo-vip-gold': { name: 'Combo VIP Gold 🏆', price: 25000, items: ['Lavado pH neutro artesanal', 'Descontaminado de pintura', 'Encerado Carnauba brasileña', 'Aspirado con vapor'] },
-                'lavado-carroceria': { name: 'Lavado Exterior Simple 🚗', price: 12000, items: ['Lavado shampoo pH balanceado', 'Secado manual microfibra', 'Acondicionado de neumáticos'] },
-                'aspirado-interior': { name: 'Aspirado e Interior Pro 💨', price: 10000, items: ['Aspirado butacas y paneles', 'Desinfección de contacto', 'Acondicionado de plásticos'] },
-                'lavado-express': { name: 'Lavado Express ⚡', price: 8000, items: ['Lavado exterior a presión', 'Secado rápido', 'Brillo básico de cubiertas'] }
+                'combo-limpieza-total': { name: 'Combo Limpieza Total ðŸŒ€', price: 18000, items: ['Lavado exterior espuma activa', 'Aspirado alfombras/butacas', 'Limpieza cristales/pantallas', 'Silicona y perfumado clÃ¡sico'] },
+                'combo-vip-gold': { name: 'Combo VIP Gold ðŸ†', price: 25000, items: ['Lavado pH neutro artesanal', 'Descontaminado de pintura', 'Encerado Carnauba brasileÃ±a', 'Aspirado con vapor'] },
+                'lavado-carroceria': { name: 'Lavado Exterior Simple ðŸš—', price: 12000, items: ['Lavado shampoo pH balanceado', 'Secado manual microfibra', 'Acondicionado de neumÃ¡ticos'] },
+                'aspirado-interior': { name: 'Aspirado e Interior Pro ðŸ’¨', price: 10000, items: ['Aspirado butacas y paneles', 'DesinfecciÃ³n de contacto', 'Acondicionado de plÃ¡sticos'] },
+                'lavado-express': { name: 'Lavado Express âš¡', price: 8000, items: ['Lavado exterior a presiÃ³n', 'Secado rÃ¡pido', 'Brillo bÃ¡sico de cubiertas'] }
             };
         }
 
@@ -383,11 +383,11 @@
 
         // Parsear URL parameters
         const urlParams = new URLSearchParams(window.location.search);
-        const nick = urlParams.get('n') || 'Tu Vehículo';
+        const nick = urlParams.get('n') || 'Tu VehÃ­culo';
         const color = urlParams.get('c') ? '#' + urlParams.get('c') : '#06b6d4';
         const plate = urlParams.get('p') || 'SIN PATENTE';
         const zone = urlParams.get('z') || 'espera';
-        const pos = parseInt(urlParams.get('pos') || '1'); // Posición en cola
+        const pos = parseInt(urlParams.get('pos') || '1'); // PosiciÃ³n en cola
         let type = urlParams.get('t') || '';
         let payment = urlParams.get('pay') || '';
 
@@ -404,14 +404,14 @@
         let pendingType = '';
         let pendingPay = '';
 
-        // Lógica de Selección de Configuración
+        // LÃ³gica de SelecciÃ³n de ConfiguraciÃ³n
         function renderConfigMenu() {
             const grid = document.getElementById('config-wash-grid');
             let html = '';
             for (const [id, details] of Object.entries(WASH_DETAILS)) {
                 html += `
                 <div class="wash-menu-card" data-type="${id}" onclick="selectWash(this, '${id}')">
-                    <div class="check-badge">✓</div>
+                    <div class="check-badge">âœ“</div>
                     <div class="wash-card-title" style="font-size: 0.75rem; min-height: 2.5em; display:flex; align-items:center; justify-content:center;">${details.name}</div>
                     <div class="wash-card-price" style="font-size: 0.9rem;">$${details.price.toLocaleString('es-AR')}</div>
                 </div>
@@ -445,7 +445,7 @@
             type = pendingType;
             payment = pendingPay;
             
-            // Transición a vista de seguimiento
+            // TransiciÃ³n a vista de seguimiento
             configView.style.display = 'none';
             trackingView.style.display = 'block';
             
@@ -475,11 +475,11 @@
             // Configurar estado visual
             if (zone === 'espera') {
                 step1.classList.add('active');
-                etaText.innerText = 'Relájate, ya casi es tu turno.';
+                etaText.innerText = 'RelÃ¡jate, ya casi es tu turno.';
                 
                 queueCard.style.display = 'block';
                 document.getElementById('queue-number').innerText = '#' + pos;
-                document.getElementById('queue-subtitle').innerText = pos === 1 ? '¡Eres el próximo!' : 'Autos delante tuyo';
+                document.getElementById('queue-subtitle').innerText = pos === 1 ? 'Â¡Eres el prÃ³ximo!' : 'Autos delante tuyo';
 
             } else if (zone === 'lavado') {
                 step1.classList.add('completed');
@@ -490,7 +490,7 @@
                 displayContainer.classList.add('in-wash');
                 
                 progressCard.style.display = 'block';
-                // Animación simulada de progreso
+                // AnimaciÃ³n simulada de progreso
                 setTimeout(() => {
                     document.getElementById('wash-progress').style.width = '65%';
                     document.getElementById('progress-text').innerText = 'Aprox. 8 min restantes';
@@ -503,7 +503,7 @@
                 line2.classList.add('active');
                 step3.classList.add('active', 'completed');
                 
-                etaText.innerText = 'Tu vehículo ha quedado impecable. Te esperamos en la salida.';
+                etaText.innerText = 'Tu vehÃ­culo ha quedado impecable. Te esperamos en la salida.';
             }
 
             // Cargar detalles del servicio contratado
@@ -517,7 +517,7 @@
                 const itemsContainer = document.getElementById('service-items');
                 itemsContainer.innerHTML = details.items.map(item => `
                     <div style="display: flex; align-items: center; gap: 0.5rem; text-transform: uppercase; font-size: 0.7rem; font-weight: 700; color: rgba(255,255,255,0.85)">
-                        <span style="color: var(--color-lime);">✓</span>
+                        <span style="color: var(--color-lime);">âœ“</span>
                         <span>${item}</span>
                     </div>
                 `).join('');
@@ -535,7 +535,7 @@
 
         // INIT LOGIC
         if (!type || !payment) {
-            // Entra en modo Configuración si falta algún dato
+            // Entra en modo ConfiguraciÃ³n si falta algÃºn dato
             trackingView.style.display = 'none';
             configView.style.display = 'block';
             
@@ -544,7 +544,7 @@
 
             renderConfigMenu();
         } else {
-            // Ya está configurado, entra en modo Tracking Directamente
+            // Ya estÃ¡ configurado, entra en modo Tracking Directamente
             initTrackingView();
         }
     </script>

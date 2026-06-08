@@ -1,4 +1,4 @@
-/* Variables de Diseño Premium (Glassmorphism) */
+/* Variables de DiseÃ±o Premium (Glassmorphism) */
 :root {
     --color-bg: #0a0a0f;
     --color-card-bg: rgba(25, 25, 35, 0.35);
@@ -281,7 +281,7 @@ body {
     border-radius: 0.75rem;
 }
 
-/* Indicador de simulación activo */
+/* Indicador de simulaciÃ³n activo */
 .pulse-indicator {
     display: inline-block;
     width: 8px;
@@ -401,7 +401,7 @@ body {
 .bg-cyan-dim { background-color: var(--color-cyan-dim); color: var(--color-cyan); border-color: rgba(0,240,255,0.15); }
 .bg-lime-dim { background-color: var(--color-lime-dim); color: var(--color-lime); border-color: rgba(57,255,20,0.15); }
 
-/* PISTA DE VEHÍCULOS */
+/* PISTA DE VEHÃCULOS */
 .lane-track {
     flex-grow: 1;
     display: flex;
@@ -427,7 +427,7 @@ body {
     pointer-events: none;
 }
 
-/* Placeholder cuando está vacía la pista */
+/* Placeholder cuando estÃ¡ vacÃ­a la pista */
 .empty-lane-placeholder {
     display: flex;
     flex-direction: column;
@@ -517,6 +517,79 @@ body {
     0% { transform: scale(1); opacity: 1; }
     50% { transform: scale(1.05); opacity: 0.8; }
     100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes slideInRight {
+    from { transform: translateX(20px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+/* =========================================================================
+   12. ESTILOS DE IMPRESIÓN (PRINT)
+   ========================================================================= */
+@media print {
+    /* Ocultar elementos no deseados */
+    .sidebar,
+    .topbar,
+    .modal-overlay,
+    .scanlines,
+    .neon-grid,
+    .bg-orb,
+    button:not(.print-visible),
+    .history-actions,
+    .tab-content:not(.active),
+    .tabs,
+    .form-grid,
+    .operator-form {
+        display: none !important;
+    }
+
+    /* Ajustar layout para impresión */
+    body, html {
+        background: #fff !important;
+        color: #000 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        height: auto !important;
+        overflow: visible !important;
+    }
+
+    .main-content {
+        margin-left: 0 !important;
+        padding: 1rem !important;
+        background: #fff !important;
+    }
+
+    .view-section {
+        display: block !important;
+    }
+
+    .view-section.hidden {
+        display: none !important;
+    }
+
+    /* Convertir tablas oscuras en tablas de papel */
+    table {
+        width: 100% !important;
+        border-collapse: collapse !important;
+        border: 1px solid #000 !important;
+    }
+    table th, table td {
+        border: 1px solid #ccc !important;
+        color: #000 !important;
+        padding: 8px !important;
+        background: transparent !important;
+    }
+    table th {
+        background: #eee !important;
+        font-weight: bold !important;
+        -webkit-print-color-adjust: exact;
+    }
+    .badge {
+        border: 1px solid #000 !important;
+        color: #000 !important;
+        background: transparent !important;
+    }
 }
 
 /* Barra de progreso de lavado */
@@ -636,7 +709,7 @@ body {
     color: var(--color-text);
 }
 
-/* Diseño interno del panel */
+/* DiseÃ±o interno del panel */
 .operator-layout {
     display: grid;
     grid-template-columns: 380px 1fr;
@@ -825,7 +898,7 @@ body {
     color: var(--color-lime);
 }
 
-/* Selector/Acciones rápidos en la tabla */
+/* Selector/Acciones rÃ¡pidos en la tabla */
 .table-actions {
     display: flex;
     align-items: center;
@@ -1210,7 +1283,7 @@ input:checked + .slider:before {
    MODO CIRCUITO EN U (VISTA DE PISTA ARCADE 35 X 30)
    ========================================================================== */
 
-/* Rediseño de la Grilla para formar la U en pantallas de escritorio */
+/* RediseÃ±o de la Grilla para formar la U en pantallas de escritorio */
 @media (min-width: 769px) {
     .app-main.circuit-mode {
         display: grid !important;
@@ -1343,7 +1416,7 @@ input:checked + .slider:before {
         line-height: 1.6;
     }
 
-    /* Rotación de autos según el carril para indicar flujo físico de la U */
+    /* RotaciÃ³n de autos segÃºn el carril para indicar flujo fÃ­sico de la U */
     .circuit-mode .lane-espera .vehicle-sprite-container {
         transform: rotate(180deg) scale(0.95);
     }
@@ -1402,7 +1475,7 @@ input:checked + .slider:before {
         justify-content: flex-end; /* Los terminados se encolumnan hacia la salida superior */
     }
 
-    /* Pista y animación del retorno a salida */
+    /* Pista y animaciÃ³n del retorno a salida */
     .circuit-mode .retorno-track {
         display: flex;
         flex-direction: row;
@@ -1445,9 +1518,10 @@ input:checked + .slider:before {
         }
     }
 }
- 
+
+ 
  /* ==========================================================================
-   MEN� INTERACTIVO TIPO MCDONALDS (FORMULARIO DE REGISTRO)
+   MENÚ INTERACTIVO TIPO MCDONALDS (FORMULARIO DE REGISTRO)
    ========================================================================== */
 
 .wash-menu-grid {
@@ -1489,7 +1563,7 @@ input:checked + .slider:before {
     z-index: 10;
 }
 
-/* Badge del checkmark para la opci�n elegida */
+/* Badge del checkmark para la opción elegida */
 .wash-menu-card .check-badge {
     position: absolute;
     top: -5px;
@@ -1539,7 +1613,7 @@ input:checked + .slider:before {
     color: var(--color-lime);
 }
 
-/* Separadores de Categor�a para el men� */
+/* Separadores de Categoría para el menú */
 .wash-menu-category-title {
     grid-column: 1 / -1;
     font-size: 0.65rem;
