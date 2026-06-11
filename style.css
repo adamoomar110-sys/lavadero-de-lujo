@@ -1832,3 +1832,118 @@ input:checked + .slider:before {
 .text-lime { color: var(--color-lime) !important; }
 .text-yellow { color: var(--color-yellow) !important; }
 .text-red { color: #ff3b30 !important; }
+
+
+/* ================= CCTV MODULE ================= */
+.cctv-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 1rem;
+    width: 100%;
+    height: 100%;
+}
+
+.cctv-camera {
+    background-color: #000;
+    border: 2px solid #27272a;
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 16/9;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.cctv-camera:hover {
+    border-color: var(--color-cyan);
+    box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
+}
+
+.cctv-camera.fullscreen {
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    z-index: 9999;
+    border-radius: 0;
+    border: none;
+}
+
+.cctv-feed {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-size: cover;
+    background-position: center;
+    filter: sepia(0.2) contrast(1.1) brightness(0.8);
+}
+
+/* Backgrounds of feeds - Using simple CSS gradients to simulate spaces for now */
+.entrada-feed { background: radial-gradient(circle at center, #1a202c, #000); }
+.taller-feed { background: radial-gradient(circle at center, #111827, #000); }
+.secado-feed { background: radial-gradient(circle at center, #18181b, #000); }
+.cafe-feed { background: radial-gradient(circle at center, #27272a, #000); }
+
+.cctv-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 10;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.cctv-label {
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    font-family: monospace;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+.rec-dot {
+    width: 12px;
+    height: 12px;
+    background-color: #ef4444;
+    border-radius: 50%;
+    animation: blink-rec 1s infinite;
+}
+
+@keyframes blink-rec {
+    0% { opacity: 1; box-shadow: 0 0 10px #ef4444; }
+    50% { opacity: 0.2; box-shadow: none; }
+    100% { opacity: 1; box-shadow: 0 0 10px #ef4444; }
+}
+
+/* IA Box Animation */
+.cctv-ai-box {
+    position: absolute;
+    top: 40%; left: 30%; width: 25%; height: 25%;
+    border: 2px solid var(--color-cyan);
+    box-shadow: inset 0 0 10px rgba(0, 240, 255, 0.3);
+    pointer-events: none;
+    z-index: 15;
+    animation: ai-scan-move 8s infinite alternate ease-in-out;
+}
+
+.cctv-ai-label {
+    position: absolute;
+    top: -25px; left: -2px;
+    background: var(--color-cyan);
+    color: #000;
+    font-weight: bold;
+    font-size: 0.7rem;
+    padding: 2px 6px;
+    font-family: var(--font-display);
+    white-space: nowrap;
+}
+
+@keyframes ai-scan-move {
+    0% { top: 40%; left: 30%; transform: scale(1); }
+    25% { top: 35%; left: 45%; transform: scale(1.1); border-color: var(--color-lime); }
+    50% { top: 50%; left: 40%; transform: scale(0.9); border-color: var(--color-yellow); }
+    75% { top: 45%; left: 55%; transform: scale(1.05); border-color: var(--color-cyan); }
+    100% { top: 40%; left: 30%; transform: scale(1); }
+}

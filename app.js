@@ -2228,3 +2228,18 @@ window.addEventListener('storage', (e) => {
         }
     }
 });
+
+
+// --- CCTV LOGIC ---
+function updateCCTVClock() {
+    const clockEl = document.getElementById('cctv-clock');
+    if (clockEl) {
+        const now = new Date();
+        clockEl.innerText = now.toLocaleTimeString('es-AR', { hour12: false }) + ' - ' + now.toLocaleDateString('es-AR');
+    }
+}
+setInterval(updateCCTVClock, 1000);
+
+function toggleFullscreen(cameraElement) {
+    cameraElement.classList.toggle('fullscreen');
+}
