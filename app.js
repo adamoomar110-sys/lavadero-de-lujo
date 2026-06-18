@@ -1,7 +1,7 @@
-// Paletas de apodos y colores para el generador
-const NOMBRES = ["Rayo", "Toro", "Halcón", "Puma", "Tigre", "Furia", "Centella", "Cometa", "Flecha", "Viento", "Cobra", "Trueno", "Ciclón", "Pantera", "Lobo", "Apolo", "Fénix"];
-const ADJETIVOS = ["Azul", "Rojo", "Gris", "Plata", "Verde", "Negro", "Dorado", "Feroz", "Veloz", "Oscuro", "Blanco", "Brillante", "Neon", "Rápido", "Relámpago"];
-const COLORES = ["#00f0ff", "#84cc16", "#ffb800", "#3b82f6", "#ef4444", "#a855f7", "#f97316", "#ec4899", "#14b8a6"];
+// Paletas de apodos y colores F1
+const NOMBRES = ["Max", "Lewis", "Charles", "Lando", "Fernando", "Checo", "Carlos", "George", "Oscar", "Alex", "Pierre", "Yuki", "Valtteri", "Nico", "Esteban"];
+const ADJETIVOS = ["Red Bull", "Mercedes", "Ferrari", "McLaren", "Aston Martin", "Williams", "Alpine", "Sauber", "Haas", "Racing Bulls"];
+const COLORES = ["#00f0ff", "#84cc16", "#ffb800", "#3b82f6", "#ef4444", "#a855f7", "#f97316", "#ec4899", "#14b8a6", "#ff2800", "#00a19c", "#0600ef"];
 
 const DEFAULT_WASH_PACKAGES = [
     { id: 'combo-limpieza-total', title: 'Limpieza Total', icon: '🌀', price: 18000, category: 'combos', items: ['Lavado exterior espuma activa', 'Aspirado alfombras/butacas', 'Limpieza cristales/pantallas', 'Silicona y perfumado clásico'] },
@@ -58,47 +58,49 @@ let isSimulationActive = false;
 let simulationIntervalId = null;
 let realtimeTickerId = null;
 
-// --- DIBUJO DE AUTO SVG (ESTILO ARCADE VISTA SUPERIOR) ---
+// --- DIBUJO DE AUTO SVG (ESTILO F1 VISTA SUPERIOR) ---
 function getCarSvg(color) {
     return `
-    <svg class="car-sprite" width="60" height="110" viewBox="0 0 60 110" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 10px ${color}33);">
-        <!-- Spoiler -->
-        <rect x="5" y="92" width="50" height="8" rx="2" fill="#18181b" />
-        <rect x="10" y="90" width="8" height="6" fill="#27272a" />
-        <rect x="42" y="90" width="8" height="6" fill="#27272a" />
-        
-        <!-- Ruedas -->
-        <rect x="0" y="16" width="6" height="16" rx="2" fill="#09090b" />
-        <rect x="54" y="16" width="6" height="16" rx="2" fill="#09090b" />
-        <rect x="0" y="74" width="6" height="16" rx="2" fill="#09090b" />
-        <rect x="54" y="74" width="6" height="16" rx="2" fill="#09090b" />
+    <svg class="car-sprite" width="60" height="110" viewBox="0 0 60 110" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 8px ${color}66);">
+        <!-- Ruedas Delanteras -->
+        <rect x="0" y="20" width="8" height="18" rx="2" fill="#09090b" />
+        <rect x="52" y="20" width="8" height="18" rx="2" fill="#09090b" />
+        <!-- Eje Delantero -->
+        <rect x="8" y="26" width="44" height="3" fill="#18181b" />
 
-        <!-- Cuerpo Principal del Auto -->
-        <rect x="6" y="8" width="48" height="88" rx="14" fill="${color}" />
-        
-        <!-- Franja de Carreras -->
-        <rect x="26" y="8" width="8" height="88" fill="white" fill-opacity="0.15" />
-        
-        <!-- Parabrisas Delantero -->
-        <path d="M12 36 C 12 36, 16 26, 30 26 C 44 26, 48 36, 48 36 L 42 42 L 18 42 Z" fill="#09090b" />
-        
-        <!-- Ventanillas Laterales -->
-        <path d="M10 44 L 14 46 L 14 66 L 10 70 Z" fill="#09090b" />
-        <path d="M50 44 L 46 46 L 46 66 L 50 70 Z" fill="#09090b" />
-        
-        <!-- Luneta Trasera -->
-        <path d="M16 74 L 44 74 L 41 82 L 19 82 Z" fill="#09090b" />
-        
-        <!-- Capó / Detalles Delanteros -->
-        <rect x="14" y="16" width="32" height="6" rx="1" fill="#18181b" fill-opacity="0.4" />
-        
-        <!-- Faros Delanteros -->
-        <rect x="12" y="6" width="8" height="4" rx="1" fill="#fef08a" />
-        <rect x="40" y="6" width="8" height="4" rx="1" fill="#fef08a" />
-        
-        <!-- Faros Traseros (Freno) -->
-        <rect x="10" y="94" width="6" height="2" fill="#f87171" />
-        <rect x="44" y="94" width="6" height="2" fill="#f87171" />
+        <!-- Ruedas Traseras -->
+        <rect x="0" y="70" width="10" height="20" rx="2" fill="#09090b" />
+        <rect x="50" y="70" width="10" height="20" rx="2" fill="#09090b" />
+        <!-- Eje Trasero -->
+        <rect x="10" y="78" width="40" height="4" fill="#18181b" />
+
+        <!-- Alerón Delantero -->
+        <path d="M5 8 L55 8 L55 16 L5 16 Z" fill="#18181b" />
+        <path d="M5 6 L12 16 L48 16 L55 6 Z" fill="${color}" />
+
+        <!-- Nariz (Nose cone) -->
+        <path d="M26 16 L34 16 L38 40 L22 40 Z" fill="${color}" />
+        <path d="M28 16 L32 16 L34 40 L26 40 Z" fill="#ffffff33" />
+
+        <!-- Pontones Laterales (Sidepods) -->
+        <path d="M12 45 L48 45 L46 75 L14 75 Z" fill="${color}" />
+        <path d="M14 47 L22 47 L22 70 L16 70 Z" fill="#18181b" />
+        <path d="M38 47 L46 47 L44 70 L38 70 Z" fill="#18181b" />
+
+        <!-- Cubierta del Motor (Engine Cover) -->
+        <path d="M24 70 L36 70 L32 90 L28 90 Z" fill="${color}" />
+
+        <!-- Habitáculo (Cockpit & Halo) -->
+        <rect x="24" y="40" width="12" height="16" rx="6" fill="#09090b" />
+        <path d="M24 48 C 24 40, 36 40, 36 48" fill="none" stroke="#27272a" stroke-width="2" />
+        <line x1="30" y1="40" x2="30" y2="44" stroke="#27272a" stroke-width="2" />
+
+        <!-- Alerón Trasero -->
+        <rect x="10" y="90" width="40" height="10" rx="1" fill="#18181b" />
+        <rect x="12" y="92" width="36" height="6" fill="${color}" />
+
+        <!-- Luces de lluvia / Freno -->
+        <rect x="28" y="96" width="4" height="4" rx="1" fill="#ef4444" />
     </svg>
     `;
 }
@@ -458,6 +460,17 @@ async function updateVehicleZone(id, targetZone) {
     const car = activeVehicles.find(v => v.id === id);
     if (!car) return;
 
+    // Validación estricta: Solo 1 auto en la máquina de lavado a la vez
+    if (targetZone === 'lavado') {
+        const enLavado = activeVehicles.filter(v => v.zone === 'lavado').length;
+        if (enLavado >= 1 && car.zone !== 'lavado') {
+            if (typeof showFloatingToast === 'function') {
+                showFloatingToast("¡Túnel ocupado! Sólo entra 1 auto a la vez.", "error");
+            }
+            return;
+        }
+    }
+
     car.zone = targetZone;
     car.entered_at = new Date().toISOString(); // Resetear temporizador de zona
 
@@ -552,11 +565,11 @@ function createVehicleElement(car) {
     // Detalles del timer
     let timerHtml = '';
     if (car.zone === 'espera') {
-        timerHtml = `<span class="timer-badge waiting" data-timer-type="waiting" data-start="${car.entered_at}">00:00</span>`;
+        timerHtml = `<span class="timer-badge waiting" data-timer-type="waiting" data-start="${car.entered_at}">+0 min</span>`;
     } else if (car.zone === 'lavado') {
         timerHtml = `
             <div class="timer-badge washing">
-                <span data-timer-type="washing" data-start="${car.entered_at}">15:00</span>
+                <span data-timer-type="washing" data-start="${car.entered_at}">07:00</span>
             </div>
             <div class="wash-progress-bar">
                 <div class="wash-progress-fill" data-progress-fill="${car.entered_at}" style="width: 0%"></div>
@@ -569,7 +582,7 @@ function createVehicleElement(car) {
     container.innerHTML = `
         ${carSvg}
         <div class="vehicle-label">
-            <div>${car.nickname}</div>
+            <div>${car.nickname.split(' ')[0]}</div>
             ${timerHtml}
         </div>
     `;
@@ -611,42 +624,61 @@ function renderAll() {
     elCounterLavado.innerText = lavadoVehicles.length;
     elCounterTerminado.innerText = terminadoVehicles.length;
 
-    // Renderizar autos
-    if (esperaVehicles.length === 0) {
-        elTrackEspera.innerHTML = `
-            <div class="empty-lane-placeholder">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-                <p>Línea Libre</p>
-            </div>`;
-    } else {
-        esperaVehicles.forEach(car => {
-            elTrackEspera.appendChild(createVehicleElement(car));
-        });
+    // Coordenadas absolutas basadas en el circuito F1 Vectorial (350x300)
+    // Espera (Derecha): X=82.1% y 89.3%, Y=93.3% hasta 43.3%
+    const POS_ESPERA = [
+        { left: '82.1%', top: '43.3%' }, { left: '89.3%', top: '43.3%' }, // Fila 1 (Arriba, cerca del túnel)
+        { left: '82.1%', top: '60.0%' }, { left: '89.3%', top: '60.0%' }, // Fila 2
+        { left: '82.1%', top: '76.6%' }, { left: '89.3%', top: '76.6%' }, // Fila 3
+        { left: '82.1%', top: '93.3%' }, { left: '89.3%', top: '93.3%' }  // Fila 4 (Abajo, entrada calle)
+    ];
+    // Lavado (Centro-Arriba): X=50%, Y=11.6%
+    const POS_LAVADO = [
+        { left: '50%', top: '11.6%' } 
+    ];
+    // Salida (Izquierda): X=10.7% y 17.8%, Y=43.3% hasta 60.0%
+    const POS_TERMINADO = [
+        { left: '10.7%', top: '43.3%' }, { left: '17.8%', top: '43.3%' }, // Fila 1
+        { left: '10.7%', top: '60.0%' }, { left: '17.8%', top: '60.0%' }  // Fila 2
+    ];
+
+    function renderZone(vehicles, elTrack, positions, showEmptySlots = false) {
+        for (let index = 0; index < positions.length; index++) {
+            if (index < vehicles.length) {
+                const car = vehicles[index];
+                const el = createVehicleElement(car);
+                el.style.position = 'absolute';
+                el.style.left = positions[index].left;
+                el.style.top = positions[index].top;
+                el.style.transform = 'translate(-50%, -50%)'; // centra el auto en la coordenada
+                el.style.zIndex = '10';
+                
+                // Asignar clase pos-left o pos-right para acomodar las etiquetas a los costados sin tapar
+                if (index % 2 === 0) {
+                    el.classList.add('pos-left');
+                } else {
+                    el.classList.add('pos-right');
+                }
+                
+                elTrack.appendChild(el);
+            } else if (showEmptySlots) {
+                // Dibujar cajón de pit-box vacío solo donde se pida
+                const emptySlot = document.createElement('div');
+                emptySlot.className = 'empty-pit-box';
+                emptySlot.style.position = 'absolute';
+                emptySlot.style.left = positions[index].left;
+                emptySlot.style.top = positions[index].top;
+                emptySlot.style.transform = 'translate(-50%, -50%)';
+                emptySlot.innerHTML = `<span class="pit-box-text">PIT ${index + 1}</span>`;
+                elTrack.appendChild(emptySlot);
+            }
+        }
     }
 
-    if (lavadoVehicles.length === 0) {
-        elTrackLavado.innerHTML = `
-            <div class="empty-lane-placeholder">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-                <p>Box Vacío</p>
-            </div>`;
-    } else {
-        lavadoVehicles.forEach(car => {
-            elTrackLavado.appendChild(createVehicleElement(car));
-        });
-    }
-
-    if (terminadoVehicles.length === 0) {
-        elTrackTerminado.innerHTML = `
-            <div class="empty-lane-placeholder">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-                <p>Esperando Salidas</p>
-            </div>`;
-    } else {
-        terminadoVehicles.forEach(car => {
-            elTrackTerminado.appendChild(createVehicleElement(car));
-        });
-    }
+    // Renderizar autos directamente sobre el mapa, mostrando cajones solo en Espera
+    renderZone(esperaVehicles, elTrackEspera, POS_ESPERA, true);
+    renderZone(lavadoVehicles, elTrackLavado, POS_LAVADO, false);
+    renderZone(terminadoVehicles, elTrackTerminado, POS_TERMINADO, false);
 
     // 2. Renderizar tabla de operaciones
     renderOperatorTable();
@@ -666,8 +698,8 @@ function calculateETA() {
     const esperaCount = activeVehicles.filter(v => v.zone === 'espera').length;
     const lavadoCount = activeVehicles.filter(v => v.zone === 'lavado').length;
     
-    // 15 min por auto en espera + 8 min si hay alguno lavándose
-    const etaMinutos = (esperaCount * 15) + (lavadoCount > 0 ? 8 : 0);
+    // 7 min por auto en espera + 7 min si hay alguno lavándose
+    const etaMinutos = (esperaCount * 7) + (lavadoCount > 0 ? 7 : 0);
 
     if (etaMinutos === 0) {
         elEtaDisplay.innerText = "Sin Demoras ðŸŽ‰";
@@ -868,27 +900,39 @@ function startRealtimeTicker() {
 
     realtimeTickerId = setInterval(() => {
         const now = new Date().getTime();
+        const SPEED_MULTIPLIER = 10; // Relación 10:1
 
-        // 1. Relojes en espera (cuenta hacia arriba)
-        document.querySelectorAll('[data-timer-type="waiting"]').forEach(el => {
-            const startStr = el.getAttribute('data-start');
+        let remainingWashingSecs = 0;
+        const washingEl = document.querySelector('[data-timer-type="washing"]');
+        if (washingEl) {
+            const startStr = washingEl.getAttribute('data-start');
             if (startStr) {
                 const start = new Date(startStr).getTime();
-                const totalSecs = Math.max(0, Math.floor((now - start) / 1000));
-                
-                const mins = Math.floor(totalSecs / 60);
-                const secs = totalSecs % 60;
-                el.innerText = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+                const elapsedSecs = Math.max(0, Math.floor(((now - start) * SPEED_MULTIPLIER) / 1000));
+                const totalWashingSecs = 7 * 60; // 7 minutos
+                remainingWashingSecs = Math.max(0, totalWashingSecs - elapsedSecs);
             }
+        }
+
+        // 1. Relojes en espera (Calculando ETA en base a posición)
+        document.querySelectorAll('[data-timer-type="waiting"]').forEach((el, index) => {
+            // El delay es el tiempo restante del vehiculo en lavado + (7 min por cada auto delante suyo + sus propios 7 min)
+            const waitTotalSecs = remainingWashingSecs + ((index + 1) * 7 * 60);
+            
+            const mins = Math.floor(waitTotalSecs / 60);
+            const secs = waitTotalSecs % 60;
+            
+            // Mostrar formato de reloj en retroceso
+            el.innerText = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
         });
 
-        // 2. Relojes y barra en lavado (cuenta regresiva de 15 minutos)
+        // 2. Relojes y barra en lavado (cuenta regresiva de 7 minutos)
         document.querySelectorAll('[data-timer-type="washing"]').forEach(el => {
             const startStr = el.getAttribute('data-start');
             if (startStr) {
                 const start = new Date(startStr).getTime();
-                const elapsedSecs = Math.max(0, Math.floor((now - start) / 1000));
-                const totalWashingSecs = 15 * 60; // 15 minutos
+                const elapsedSecs = Math.max(0, Math.floor(((now - start) * SPEED_MULTIPLIER) / 1000));
+                const totalWashingSecs = 7 * 60; // 7 minutos
                 const remainingSecs = Math.max(0, totalWashingSecs - elapsedSecs);
 
                 const mins = Math.floor(remainingSecs / 60);
@@ -901,8 +945,8 @@ function startRealtimeTicker() {
             const startStr = el.getAttribute('data-progress-fill');
             if (startStr) {
                 const start = new Date(startStr).getTime();
-                const elapsedSecs = Math.max(0, Math.floor((now - start) / 1000));
-                const totalWashingSecs = 15 * 60;
+                const elapsedSecs = Math.max(0, Math.floor(((now - start) * SPEED_MULTIPLIER) / 1000));
+                const totalWashingSecs = 7 * 60;
                 const percent = Math.min(100, Math.floor((elapsedSecs / totalWashingSecs) * 100));
                 el.style.width = `${percent}%`;
             }
@@ -947,23 +991,24 @@ function runSimulationStep() {
         const budget = Math.floor(Math.random() * 15000) + 10000;
 
         addVehicle(nick, plate, color, budget);
-        // console.log(`ðŸ¤– [SIMULADOR] Nuevo auto registrado: ${nick} (${plate})`);
 
     } else if (rand < 0.70 && numCars > 0) {
         // Acción: Mover
         const esperaCars = activeVehicles.filter(v => v.zone === 'espera');
         const lavadoCars = activeVehicles.filter(v => v.zone === 'lavado');
 
-        if (lavadoCars.length > 0 && (esperaCars.length === 0 || Math.random() > 0.5)) {
-            // Mover de lavado a terminado
-            const target = lavadoCars[Math.floor(Math.random() * lavadoCars.length)];
-            updateVehicleZone(target.id, 'terminado');
-            // console.log(`ðŸ¤– [SIMULADOR] Auto finalizó lavado: ${target.nickname}`);
+        if (lavadoCars.length > 0) {
+            // Si hay autos en lavado, la máquina está ocupada. Solo podemos sacarlo a terminado.
+            if (esperaCars.length === 0 || Math.random() > 0.5) {
+                const target = lavadoCars[Math.floor(Math.random() * lavadoCars.length)];
+                updateVehicleZone(target.id, 'terminado');
+                // console.log(`[SIMULADOR] Auto finalizó lavado: ${target.nickname}`);
+            }
         } else if (esperaCars.length > 0) {
-            // Mover de espera a lavado
+            // Si la máquina está libre (0 autos), entonces podemos meter uno de espera
             const target = esperaCars[Math.floor(Math.random() * esperaCars.length)];
             updateVehicleZone(target.id, 'lavado');
-            // console.log(`ðŸ¤– [SIMULADOR] Auto entró a lavado: ${target.nickname}`);
+            // console.log(`[SIMULADOR] Auto entró a lavado: ${target.nickname}`);
         }
 
     } else if (rand < 0.90 && numCars > 0) {
@@ -1840,9 +1885,9 @@ window.openScannerModal = function() {
 
 // --- GESTIÓN DE CATEGORÍAS DE VEHÍCULOS ---
 const DEFAULT_VEHICLE_CATEGORIES = [
-        { id: 'Auto', surcharge: 0, icon: '🚗' },
-        { id: 'SUV', surcharge: 2000, icon: '🚙' },
-        { id: 'Camioneta', surcharge: 5000, icon: '🛻' }
+        { id: 'Auto', percentage: 0, icon: '🚗' },
+        { id: 'SUV', percentage: 10, icon: '🚙' },
+        { id: 'Camioneta', percentage: 20, icon: '🛻' }
     ];
 
 let VEHICLE_CATEGORIES = [];
@@ -1851,6 +1896,17 @@ function initVehicleCategories() {
     const saved = localStorage.getItem('lavadero_vehicle_categories');
     if (saved) {
         VEHICLE_CATEGORIES = JSON.parse(saved);
+        // Migrate old data that used surcharge
+        VEHICLE_CATEGORIES = VEHICLE_CATEGORIES.map(cat => {
+            if (cat.percentage === undefined && cat.surcharge !== undefined) {
+                // Convert old fixed surcharge to an approximate percentage or just 10/20
+                if (cat.id === 'SUV') cat.percentage = 10;
+                else if (cat.id === 'Camioneta') cat.percentage = 20;
+                else cat.percentage = 0;
+            }
+            return cat;
+        });
+        localStorage.setItem('lavadero_vehicle_categories', JSON.stringify(VEHICLE_CATEGORIES));
     } else {
         VEHICLE_CATEGORIES = [...DEFAULT_VEHICLE_CATEGORIES];
         localStorage.setItem('lavadero_vehicle_categories', JSON.stringify(VEHICLE_CATEGORIES));

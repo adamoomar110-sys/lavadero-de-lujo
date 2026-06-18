@@ -65,11 +65,11 @@
         <!-- CABECERA -->
         <header class="app-header">
             <div class="header-brand">
-                <div class="brand-logo animate-pulse">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.6 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.6 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.6 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/></svg>
+                <div class="brand-logo animate-pulse" style="width: 45px; height: 45px; display: flex; align-items: center; justify-content: center;">
+                    <img src="logo.png?v=2" alt="L1deres Logo" style="max-width: 100%; max-height: 100%; object-fit: contain; filter: drop-shadow(0 0 8px rgba(212,175,55,0.6));">
                 </div>
                 <div class="brand-text">
-                    <h1 class="brand-title">LAVADERO <span>ESTÉTICA VEHICULAR</span></h1>
+                    <h1 class="brand-title">L1DERES <span>LAVADERO DE LUJO</span></h1>
                     <p class="brand-subtitle">Visualizador y Control en Vivo</p>
                 </div>
             </div>
@@ -104,9 +104,6 @@
                         <span id="densidad-display" class="eta-value" style="color: var(--color-lime)">Baja</span>
                     </div>
                 </div>
-                <button class="btn btn-primary" onclick="document.querySelector('[data-target=\'view-postulantes\']').click()" style="margin-left:1rem; padding: 0.5rem 1rem; border-radius: 8px; font-weight:bold; font-size:1.1rem; background-color: var(--color-cyan); color: #fff; border:none; cursor:pointer;">
-                    📋 VER POSTULANTES
-                </button>
                 <div class="action-buttons">
                     <button id="btn-config" class="btn btn-secondary btn-icon" title="Configuración de Servidor/Base de Datos">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l-.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
@@ -118,63 +115,34 @@
             </div>
         </header>
 
-        <!-- CUERPO PRINCIPAL: VISUALIZADOR RETRO ARCADE -->
+        <!-- CUERPO PRINCIPAL: MAPA 2D SOBRE PLANO -->
         <div id="view-lavadero" class="view-section active">
-            <main class="app-main">
-            <!-- COLUMNA 1: ESPERA -->
-            <section class="lane-card lane-espera" id="lane-espera">
-                <div class="lane-header">
-                    <h2 class="lane-title">
-                        <span class="lane-dot dot-yellow"></span>
-                        1. ESPERA
-                    </h2>
-                    <span id="counter-espera" class="lane-counter bg-yellow-dim text-yellow">0</span>
+            <main class="app-main app-map-view">
+            
+            <!-- ZONA 1: ESPERA (ENTRADA DERECHA) -->
+            <section class="map-zone zone-espera" id="lane-espera">
+                <div class="lane-header" style="display:none;">
+                    <span id="counter-espera">0</span>
                 </div>
-                <div class="lane-track" id="track-espera">
-                    <!-- Los vehículos en espera se insertarán dinámicamente aquí -->
-                    <div class="empty-lane-placeholder">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-                        <p>Línea Libre</p>
-                    </div>
-                </div>
+                <div class="lane-track" id="track-espera"></div>
             </section>
 
-            <!-- COLUMNA 2: EN LAVADO -->
-            <section class="lane-card lane-lavado" id="lane-lavado">
-                <div class="lane-header">
-                    <h2 class="lane-title">
-                        <span class="lane-dot dot-cyan"></span>
-                        2. EN LAVADO
-                    </h2>
-                    <span id="counter-lavado" class="lane-counter bg-cyan-dim text-cyan">0</span>
+            <!-- ZONA 2: EN LAVADO (CENTRO DETAILING) -->
+            <section class="map-zone zone-lavado" id="lane-lavado">
+                <div class="lane-header" style="display:none;">
+                    <span id="counter-lavado">0</span>
                 </div>
                 <!-- Animación de burbujas en el fondo -->
                 <div class="washing-bubble-bg"></div>
-                <div class="lane-track" id="track-lavado">
-                    <!-- Los vehículos en lavado se insertarán aquí -->
-                    <div class="empty-lane-placeholder">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-                        <p>Box Vacío</p>
-                    </div>
-                </div>
+                <div class="lane-track" id="track-lavado"></div>
             </section>
 
-            <!-- COLUMNA 3: TERMINADO -->
-            <section class="lane-card lane-terminado" id="lane-terminado">
-                <div class="lane-header">
-                    <h2 class="lane-title">
-                        <span class="lane-dot dot-lime"></span>
-                        3. TERMINADO
-                    </h2>
-                    <span id="counter-terminado" class="lane-counter bg-lime-dim text-lime">0</span>
+            <!-- ZONA 3: TERMINADO (SALIDA IZQUIERDA) -->
+            <section class="map-zone zone-terminado" id="lane-terminado">
+                <div class="lane-header" style="display:none;">
+                    <span id="counter-terminado">0</span>
                 </div>
-                <div class="lane-track" id="track-terminado">
-                    <!-- Los vehículos terminados se insertarán aquí -->
-                    <div class="empty-lane-placeholder">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-                        <p>Esperando Salidas</p>
-                    </div>
-                </div>
+                <div class="lane-track" id="track-terminado"></div>
             </section>
         </main>
 
@@ -749,11 +717,10 @@
     <!-- Lógica de la aplicación -->
     <script src="app.js"></script>
 
-    <footer class="app-footer">
-        &copy; 2026 <strong>Omar Adamo</strong>. Todos los derechos reservados. <br>
-        Lavadero Estética Vehicular • Software Independiente
+    <footer class="app-footer" style="text-align: center; padding: 1rem; color: var(--color-text-dim);">
+        &copy; 2026 <strong>Omar | Aura</strong>. Todos los derechos reservados. <br>
+        Lavadero L1deres — Software Independiente
     </footer>
 
 </body>
 </html>
-
