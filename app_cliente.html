@@ -16,22 +16,41 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Orbitron:wght@700;900&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     
+    <!-- OneSignal SDK -->
+    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+    <script>
+      window.OneSignalDeferred = window.OneSignalDeferred || [];
+      OneSignalDeferred.push(function(OneSignal) {
+        OneSignal.init({
+          appId: "TU_APP_ID_DE_ONESIGNAL_AQUI",
+        });
+      });
+    </script>
+    
     <style>
-        /* Mobile Specific Overrides */
+        /* Mobile Specific Overrides - Premium Glassmorphism */
+        :root {
+            --glass-bg: rgba(20, 20, 25, 0.6);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
         body {
-            background-color: #0a0a0f;
+            background: radial-gradient(circle at top right, #111827, #0a0a0f);
             color: #fff;
-            padding-bottom: 80px; /* Space for bottom nav */
+            padding-bottom: 90px;
             overflow-x: hidden;
+            font-family: 'Inter', sans-serif;
+            margin: 0;
         }
         .mobile-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 1rem;
-            background: rgba(10, 10, 15, 0.8);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(6, 182, 212, 0.3);
+            padding: 1rem 1.5rem;
+            background: rgba(10, 10, 15, 0.6);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--glass-border);
             position: sticky;
             top: 0;
             z-index: 100;
@@ -39,25 +58,41 @@
         .mobile-header .brand {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
         .mobile-header img {
-            width: 40px;
-            height: 40px;
+            width: 44px;
+            height: 44px;
             object-fit: contain;
+            filter: drop-shadow(0 0 8px rgba(6, 182, 212, 0.5));
         }
         .mobile-header h1 {
-            font-family: var(--font-display);
-            font-size: 1.2rem;
-            color: var(--color-cyan);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+            color: #fff;
             margin: 0;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        .mobile-header h1 span {
+            color: var(--color-cyan, #06b6d4);
         }
         
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 2rem 1.5rem 1rem;
+        }
         .section-title {
-            font-family: var(--font-display);
-            font-size: 1.5rem;
-            margin: 1.5rem 1rem 1rem;
-            color: var(--color-yellow);
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.4rem;
+            margin: 0;
+            color: #fff;
+            font-weight: 600;
+        }
+        .section-title span {
+            color: var(--color-yellow, #eab308);
         }
 
         /* Novedades / Promociones */
@@ -66,7 +101,7 @@
             overflow-x: auto;
             scroll-snap-type: x mandatory;
             gap: 1rem;
-            padding: 0 1rem 1rem;
+            padding: 0 1.5rem 1.5rem;
         }
         .promo-slider::-webkit-scrollbar {
             display: none;
@@ -74,33 +109,41 @@
         .promo-card {
             min-width: 280px;
             scroll-snap-align: center;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--glass-shadow);
+            border-radius: 20px;
             padding: 1.5rem;
             position: relative;
             overflow: hidden;
+            transition: transform 0.3s ease;
         }
         .promo-card::before {
             content: '';
             position: absolute;
-            top: 0; left: 0; width: 4px; height: 100%;
-            background: var(--color-lime);
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, rgba(6,182,212,0.1) 0%, transparent 100%);
+            pointer-events: none;
         }
         .promo-card h3 {
             margin-top: 0;
-            color: var(--color-lime);
-            font-family: var(--font-display);
+            color: var(--color-lime, #84cc16);
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
         }
         .promo-card p {
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 0.9rem;
-            line-height: 1.4;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin: 0;
         }
 
         /* Lista de Precios */
         .price-list {
-            padding: 0 1rem;
+            padding: 0 1.5rem;
             display: flex;
             flex-direction: column;
             gap: 1rem;
@@ -109,10 +152,13 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(6, 182, 212, 0.05);
-            border: 1px solid rgba(6, 182, 212, 0.2);
-            border-radius: 12px;
-            padding: 1rem;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 1.2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
         .price-item .info {
             display: flex;
@@ -120,51 +166,127 @@
         }
         .price-item .name {
             font-weight: 600;
+            font-family: 'Outfit', sans-serif;
             font-size: 1.1rem;
+            color: #fff;
         }
         .price-item .category {
-            font-size: 0.8rem;
-            color: var(--color-cyan);
+            font-size: 0.75rem;
+            color: var(--color-cyan, #06b6d4);
             text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-top: 4px;
+            letter-spacing: 1.5px;
+            margin-top: 6px;
+            font-weight: 500;
         }
         .price-item .price {
-            font-family: var(--font-display);
-            font-size: 1.3rem;
-            color: var(--color-yellow);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2rem;
+            color: var(--color-yellow, #eab308);
+            background: rgba(234, 179, 8, 0.1);
+            padding: 6px 12px;
+            border-radius: 8px;
         }
 
-        /* Install Banner */
-        #install-banner {
-            display: none;
-            background: linear-gradient(135deg, rgba(6,182,212,0.2), rgba(0,0,0,0.8));
-            border: 1px solid var(--color-cyan);
-            margin: 1rem;
-            padding: 1rem;
+        /* Bottom Sheet Install */
+        .bottom-sheet {
+            position: fixed;
+            bottom: -100%;
+            left: 0;
+            width: 100%;
+            background: rgba(15, 15, 20, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-top: 1px solid var(--glass-border);
+            border-radius: 24px 24px 0 0;
+            padding: 2rem 1.5rem;
+            box-sizing: border-box;
+            transition: bottom 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 1000;
+            box-shadow: 0 -10px 40px rgba(0,0,0,0.5);
+            text-align: center;
+        }
+        .bottom-sheet.show {
+            bottom: 0;
+        }
+        .bottom-sheet .handle {
+            width: 40px;
+            height: 4px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 2px;
+            margin: -1rem auto 1.5rem;
+        }
+        .bottom-sheet h3 {
+            font-family: 'Outfit', sans-serif;
+            margin: 0 0 10px;
+            font-size: 1.3rem;
+        }
+        .bottom-sheet p {
+            color: rgba(255,255,255,0.6);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+        .btn-install {
+            background: linear-gradient(90deg, #06b6d4, #3b82f6);
+            color: #fff;
+            border: none;
+            padding: 12px 24px;
             border-radius: 12px;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            width: 100%;
+            box-shadow: 0 4px 15px rgba(6, 182, 212, 0.4);
+            cursor: pointer;
+        }
+        .btn-dismiss {
+            background: transparent;
+            color: rgba(255,255,255,0.5);
+            border: none;
+            padding: 12px;
+            margin-top: 8px;
+            width: 100%;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+        }
+
+        /* Notificaciones Button */
+        .btn-notify {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            display: flex;
             align-items: center;
-            justify-content: space-between;
+            gap: 6px;
+            cursor: pointer;
+        }
+        .btn-notify i {
+            color: var(--color-yellow, #eab308);
         }
 
         /* Footer Aura */
         .aura-footer {
             text-align: center;
-            padding: 2rem 1rem;
-            margin-top: 2rem;
-            border-top: 1px solid rgba(255,255,255,0.1);
+            padding: 3rem 1.5rem 2rem;
         }
         .aura-footer p {
-            color: rgba(255,255,255,0.5);
-            font-size: 0.8rem;
+            color: rgba(255,255,255,0.4);
+            font-size: 0.85rem;
             margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
         }
         .aura-footer span {
-            color: var(--color-cyan);
-            font-family: var(--font-display);
-            font-weight: bold;
+            color: var(--color-cyan, #06b6d4);
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            letter-spacing: 1px;
+            font-size: 1rem;
         }
-
     </style>
 </head>
 <body>
@@ -172,51 +294,60 @@
     <header class="mobile-header">
         <div class="brand">
             <img src="logo.png" alt="Logo">
-            <h1>LAVADERO DE LUJO</h1>
+            <h1>LAVADERO <span>LUJO</span></h1>
         </div>
+        <button class="btn-notify" id="btn-notify" style="display: none;">
+            🔔 Avisos
+        </button>
     </header>
 
-    <div id="install-banner">
-        <div>
-            <strong style="display:block; margin-bottom:4px;">Instala nuestra App</strong>
-            <span style="font-size:0.8rem; color:#aaa;">Accede más rápido a precios y promos.</span>
-        </div>
-        <button id="btn-install" class="btn btn-primary btn-sm">Instalar</button>
+    <div class="bottom-sheet" id="install-sheet">
+        <div class="handle"></div>
+        <h3>Instala nuestra App 🚀</h3>
+        <p>Tené los precios a mano y enterate primero de nuestras promos exclusivas.</p>
+        <button id="btn-install" class="btn-install">Instalar App</button>
+        <button id="btn-dismiss" class="btn-dismiss">Quizás más tarde</button>
     </div>
 
-    <h2 class="section-title">Novedades & Promos 🔥</h2>
+    <div class="section-header">
+        <h2 class="section-title">Novedades & Promos <span>🔥</span></h2>
+    </div>
     <div class="promo-slider" id="promo-container">
-        <!-- Cargando promociones por defecto -->
         <div class="promo-card">
             <h3>Cargando novedades...</h3>
             <p>Conectando al servidor...</p>
         </div>
     </div>
 
-    <h2 class="section-title">Lista de Precios 📋</h2>
+    <div class="section-header">
+        <h2 class="section-title">Lista de Precios <span>📋</span></h2>
+    </div>
     <div class="price-list" id="price-container">
-        <!-- Cargando precios por defecto -->
-        <div class="price-item" style="justify-content: center; color: var(--color-text-dim);">
+        <div class="price-item" style="justify-content: center; color: rgba(255,255,255,0.4);">
             Cargando precios...
         </div>
     </div>
 
     <footer class="aura-footer">
-        <p>&copy; 2026 - Powered by <span>AURA</span> Startup</p>
+        <p>&copy; 2026 • Powered by <span>AURA</span> Startup</p>
     </footer>
 
     <!-- Scripts de PWA y Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        // PWA Installation Logic
+        // PWA Installation Logic - Bottom Sheet
         let deferredPrompt;
-        const installBanner = document.getElementById('install-banner');
+        const installSheet = document.getElementById('install-sheet');
         const installBtn = document.getElementById('btn-install');
+        const dismissBtn = document.getElementById('btn-dismiss');
 
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredPrompt = e;
-            installBanner.style.display = 'flex';
+            // Show bottom sheet after a short delay for better UX
+            setTimeout(() => {
+                installSheet.classList.add('show');
+            }, 1500);
         });
 
         installBtn.addEventListener('click', async () => {
@@ -224,10 +355,31 @@
                 deferredPrompt.prompt();
                 const { outcome } = await deferredPrompt.userChoice;
                 if (outcome === 'accepted') {
-                    installBanner.style.display = 'none';
+                    installSheet.classList.remove('show');
                 }
                 deferredPrompt = null;
             }
+        });
+
+        dismissBtn.addEventListener('click', () => {
+            installSheet.classList.remove('show');
+        });
+
+        // Notifications Logic (OneSignal)
+        const notifyBtn = document.getElementById('btn-notify');
+        notifyBtn.style.display = 'flex';
+        notifyBtn.addEventListener('click', () => {
+            window.OneSignalDeferred = window.OneSignalDeferred || [];
+            window.OneSignalDeferred.push(function(OneSignal) {
+                OneSignal.Notifications.requestPermission().then(function(permission) {
+                    if (permission) {
+                        notifyBtn.style.display = 'none';
+                        alert('¡Notificaciones activadas exitosamente!');
+                    } else {
+                        alert('No se pudo activar las notificaciones.');
+                    }
+                });
+            });
         });
 
         // Register Service Worker

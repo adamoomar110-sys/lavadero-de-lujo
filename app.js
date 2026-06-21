@@ -4,16 +4,16 @@ const ADJETIVOS = ["Red Bull", "Mercedes", "Ferrari", "McLaren", "Aston Martin",
 const COLORES = ["#00f0ff", "#84cc16", "#ffb800", "#3b82f6", "#ef4444", "#a855f7", "#f97316", "#ec4899", "#14b8a6", "#ff2800", "#00a19c", "#0600ef"];
 
 const DEFAULT_WASH_PACKAGES = [
-    { id: 'combo-limpieza-total', title: 'Limpieza Total', icon: '🌀', price: 18000, category: 'combos', items: ['Lavado exterior espuma activa', 'Aspirado alfombras/butacas', 'Limpieza cristales/pantallas', 'Silicona y perfumado clásico'] },
-    { id: 'combo-vip-gold', title: 'VIP Gold', icon: '🏆', price: 25000, category: 'combos', items: ['Lavado pH neutro artesanal', 'Descontaminado de pintura', 'Encerado Carnauba brasileña', 'Aspirado con vapor'] },
-    { id: 'lavado-carroceria', title: 'Exterior Simple', icon: '🚗', price: 12000, category: 'lavados', items: ['Lavado shampoo pH balanceado', 'Secado manual microfibra', 'Acondicionado de neumáticos'] },
-    { id: 'aspirado-interior', title: 'Interior Pro', icon: '💨', price: 10000, category: 'lavados', items: ['Aspirado butacas y paneles', 'Desinfección de contacto', 'Acondicionado de plásticos'] },
-    { id: 'lavado-express', title: 'Express', icon: '⚡', price: 8000, category: 'lavados', items: ['Lavado exterior a presión', 'Secado rápido', 'Brillo básico de cubiertas'] },
-    { id: 'lavado-motor', title: 'Motor Vapor', icon: '🔥', price: 15000, category: 'especiales', items: ['Limpieza técnica a vapor', 'Desengrasantes biodegradables', 'Protector dieléctrico plásticos'] },
-    { id: 'encerado-acrilico', title: 'Encerado', icon: '🛡️', price: 22000, category: 'estetica', items: ['Lavado artesanal descontaminante', 'Cera selladora acrílica manual', 'Efecto hidrofóbico extremo'] },
-    { id: 'lavado-chasis', title: 'Chasis', icon: '🔩', price: 28000, category: 'especiales', items: ['Limpieza chasis inferior', 'Desengrasado pesado a vapor', 'Protector antioxidante metal'] },
-    { id: 'pulido-opticas', title: 'Ópticas', icon: '💡', price: 16000, category: 'estetica', items: ['Lijado al agua multietapa', 'Pulido de policarbonato', 'Sellado UV de ópticas'] },
-    { id: 'tratamiento-ceramico', title: 'Cerámico 9H', icon: '💎', price: 65000, category: 'estetica', items: ['Corrección de pintura 2 etapas', 'Sellador cerámico 9H importado', 'Protección contra rayones UV'], active: true }
+    { id: 'combo-limpieza-total', title: 'Limpieza Total', icon: 'ðŸŒ€', price: 18000, category: 'combos', items: ['Lavado exterior espuma activa', 'Aspirado alfombras/butacas', 'Limpieza cristales/pantallas', 'Silicona y perfumado clÃ¡sico'] },
+    { id: 'combo-vip-gold', title: 'VIP Gold', icon: 'ðŸ†', price: 25000, category: 'combos', items: ['Lavado pH neutro artesanal', 'Descontaminado de pintura', 'Encerado Carnauba brasileÃ±a', 'Aspirado con vapor'] },
+    { id: 'lavado-carroceria', title: 'Exterior Simple', icon: 'ðŸš—', price: 12000, category: 'lavados', items: ['Lavado shampoo pH balanceado', 'Secado manual microfibra', 'Acondicionado de neumÃ¡ticos'] },
+    { id: 'aspirado-interior', title: 'Interior Pro', icon: 'ðŸ’¨', price: 10000, category: 'lavados', items: ['Aspirado butacas y paneles', 'DesinfecciÃ³n de contacto', 'Acondicionado de plÃ¡sticos'] },
+    { id: 'lavado-express', title: 'Express', icon: 'âš¡', price: 8000, category: 'lavados', items: ['Lavado exterior a presiÃ³n', 'Secado rÃ¡pido', 'Brillo bÃ¡sico de cubiertas'] },
+    { id: 'lavado-motor', title: 'Motor Vapor', icon: 'ðŸ”¥', price: 15000, category: 'especiales', items: ['Limpieza tÃ©cnica a vapor', 'Desengrasantes biodegradables', 'Protector dielÃ©ctrico plÃ¡sticos'] },
+    { id: 'encerado-acrilico', title: 'Encerado', icon: 'ðŸ›¡ï¸', price: 22000, category: 'estetica', items: ['Lavado artesanal descontaminante', 'Cera selladora acrÃ­lica manual', 'Efecto hidrofÃ³bico extremo'] },
+    { id: 'lavado-chasis', title: 'Chasis', icon: 'ðŸ”©', price: 28000, category: 'especiales', items: ['Limpieza chasis inferior', 'Desengrasado pesado a vapor', 'Protector antioxidante metal'] },
+    { id: 'pulido-opticas', title: 'Ã“pticas', icon: 'ðŸ’¡', price: 16000, category: 'estetica', items: ['Lijado al agua multietapa', 'Pulido de policarbonato', 'Sellado UV de Ã³pticas'] },
+    { id: 'tratamiento-ceramico', title: 'CerÃ¡mico 9H', icon: 'ðŸ’Ž', price: 65000, category: 'estetica', items: ['CorrecciÃ³n de pintura 2 etapas', 'Sellador cerÃ¡mico 9H importado', 'ProtecciÃ³n contra rayones UV'], active: true }
 ];
 
 let WASH_PACKAGES = [];
@@ -22,7 +22,7 @@ let WASH_NAMES = {};
 function initWashPackages() {
     let saved = localStorage.getItem('lavadero_wash_settings');
     // Auto-fix for corrupted emojis
-    if (saved && (saved.includes('ðŸ') || saved.includes('âš'))) {
+    if (saved && (saved.includes('Ã°Å¸') || saved.includes('Ã¢Å¡'))) {
         localStorage.removeItem('lavadero_wash_settings');
         saved = null;
     }
@@ -48,9 +48,9 @@ let washHistory = [];
 let empleados = [];
 let insumos = [];
 let config = {
-    useSupabase: false,
-    supabaseUrl: '',
-    supabaseKey: '',
+    useSupabase: true,
+    supabaseUrl: 'https://actxvqczpnbstlatrvto.supabase.co',
+    supabaseKey: '', // Configurá tu clave secreta desde el panel de ajustes en la app
     queueTable: 'lavadero_camera_queue',
     serviceTable: 'service_orders'
 };
@@ -61,58 +61,57 @@ let realtimeTickerId = null;
 // --- DIBUJO DE AUTO SVG (ESTILO F1 VISTA SUPERIOR) ---
 function getCarSvg(color) {
     return `
-    <svg class="car-sprite" width="60" height="110" viewBox="0 0 60 110" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 8px ${color}66);">
-        <!-- Ruedas Delanteras -->
-        <rect x="0" y="20" width="8" height="18" rx="2" fill="#09090b" />
-        <rect x="52" y="20" width="8" height="18" rx="2" fill="#09090b" />
-        <!-- Eje Delantero -->
-        <rect x="8" y="26" width="44" height="3" fill="#18181b" />
+    <svg class="car-sprite f1-car-svg" width="60" height="120" viewBox="0 0 60 120" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 4px 6px rgba(0,0,0,0.5)) drop-shadow(0 0 10px ${color}88);">
+        <!-- Llantas y Ejes -->
+        <rect x="2" y="20" width="8" height="22" rx="3" fill="#111" />
+        <rect x="50" y="20" width="8" height="22" rx="3" fill="#111" />
+        <rect x="10" y="28" width="40" height="4" fill="#222" />
 
-        <!-- Ruedas Traseras -->
-        <rect x="0" y="70" width="10" height="20" rx="2" fill="#09090b" />
-        <rect x="50" y="70" width="10" height="20" rx="2" fill="#09090b" />
-        <!-- Eje Trasero -->
-        <rect x="10" y="78" width="40" height="4" fill="#18181b" />
+        <rect x="2" y="75" width="10" height="25" rx="3" fill="#111" />
+        <rect x="48" y="75" width="10" height="25" rx="3" fill="#111" />
+        <rect x="12" y="85" width="36" height="5" fill="#222" />
 
-        <!-- Alerón Delantero -->
-        <path d="M5 8 L55 8 L55 16 L5 16 Z" fill="#18181b" />
-        <path d="M5 6 L12 16 L48 16 L55 6 Z" fill="${color}" />
+        <!-- AlerÃ³n Delantero (Front Wing) -->
+        <path d="M4 12 L56 12 L54 18 L6 18 Z" fill="#111" />
+        <path d="M4 8 L56 8 L56 12 L4 12 Z" fill="${color}" />
+        
+        <!-- Trompa (Nose) -->
+        <path d="M26 18 L34 18 L38 45 L22 45 Z" fill="${color}" />
+        <path d="M28 18 L32 18 L34 45 L26 45 Z" fill="rgba(255,255,255,0.15)" />
 
-        <!-- Nariz (Nose cone) -->
-        <path d="M26 16 L34 16 L38 40 L22 40 Z" fill="${color}" />
-        <path d="M28 16 L32 16 L34 40 L26 40 Z" fill="#ffffff33" />
+        <!-- SuspensiÃ³n Frontal -->
+        <line x1="10" y1="30" x2="24" y2="38" stroke="#333" stroke-width="2" />
+        <line x1="50" y1="30" x2="36" y2="38" stroke="#333" stroke-width="2" />
 
-        <!-- Pontones Laterales (Sidepods) -->
-        <path d="M12 45 L48 45 L46 75 L14 75 Z" fill="${color}" />
-        <path d="M14 47 L22 47 L22 70 L16 70 Z" fill="#18181b" />
-        <path d="M38 47 L46 47 L44 70 L38 70 Z" fill="#18181b" />
+        <!-- Chasis y Sidepods -->
+        <path d="M14 45 L46 45 L46 75 L38 85 L22 85 L14 75 Z" fill="${color}" />
+        <!-- Entradas de aire -->
+        <path d="M14 45 L22 45 L22 55 L12 55 Z" fill="#000" />
+        <path d="M38 45 L46 45 L48 55 L38 55 Z" fill="#000" />
 
-        <!-- Cubierta del Motor (Engine Cover) -->
-        <path d="M24 70 L36 70 L32 90 L28 90 Z" fill="${color}" />
+        <!-- Halo y Cockpit -->
+        <rect x="24" y="45" width="12" height="15" rx="5" fill="#000" />
+        <path d="M22 55 C 22 45, 38 45, 38 55" fill="none" stroke="#222" stroke-width="2" />
+        <line x1="30" y1="42" x2="30" y2="46" stroke="#222" stroke-width="2" />
 
-        <!-- Habitáculo (Cockpit & Halo) -->
-        <rect x="24" y="40" width="12" height="16" rx="6" fill="#09090b" />
-        <path d="M24 48 C 24 40, 36 40, 36 48" fill="none" stroke="#27272a" stroke-width="2" />
-        <line x1="30" y1="40" x2="30" y2="44" stroke="#27272a" stroke-width="2" />
+        <!-- Cubierta del motor (Engine Cover) -->
+        <path d="M24 75 L36 75 L32 100 L28 100 Z" fill="${color}" />
 
-        <!-- Alerón Trasero -->
-        <rect x="10" y="90" width="40" height="10" rx="1" fill="#18181b" />
-        <rect x="12" y="92" width="36" height="6" fill="${color}" />
+        <!-- SuspensiÃ³n Trasera -->
+        <line x1="12" y1="85" x2="26" y2="80" stroke="#333" stroke-width="2" />
+        <line x1="48" y1="85" x2="34" y2="80" stroke="#333" stroke-width="2" />
 
-        <!-- Luces de lluvia / Freno -->
-        <rect x="28" y="96" width="4" height="4" rx="1" fill="#ef4444" />
+        <!-- AlerÃ³n Trasero (Rear Wing) -->
+        <rect x="12" y="100" width="36" height="12" rx="2" fill="#111" />
+        <rect x="14" y="102" width="32" height="6" fill="${color}" />
+
+        <!-- Luz de lluvia (ERS) -->
+        <rect x="28" y="108" width="4" height="4" rx="2" fill="#ff0000" style="filter: drop-shadow(0 0 4px #ff0000);" />
     </svg>
     `;
 }
 
 // --- SELECTORES DOM ---
-const elTrackEspera = document.getElementById('track-espera');
-const elTrackLavado = document.getElementById('track-lavado');
-const elTrackTerminado = document.getElementById('track-terminado');
-
-const elCounterEspera = document.getElementById('counter-espera');
-const elCounterLavado = document.getElementById('counter-lavado');
-const elCounterTerminado = document.getElementById('counter-terminado');
 
 const elEtaDisplay = document.getElementById('eta-display');
 const elRevenueReal = document.getElementById('revenue-real-display');
@@ -135,7 +134,8 @@ const elHistoryTotalRevenue = document.getElementById('history-total-revenue');
 
 // Modales & Tabs
 const elBtnConfig = document.getElementById('btn-config');
-const elBtnSimulation = document.getElementById('btn-simulation');
+const elBtnAddLavado = document.getElementById('btn-add-lavado');
+const elBtnAddLavadoAspirado = document.getElementById('btn-add-lavado-aspirado');
 const elModalConfig = document.getElementById('modal-config');
 const elBtnCloseModal = document.getElementById('btn-close-modal');
 const elCheckUseSupabase = document.getElementById('check-use-supabase');
@@ -147,7 +147,7 @@ const elSupabaseServiceTable = document.getElementById('supabase-service-table')
 const elBtnSaveConfig = document.getElementById('btn-save-config');
 const elBtnClearHistory = document.getElementById('btn-clear-history');
 
-// --- CARGAR CONFIGURACIÓN REMOTA DESDE VERCEL ENV ---
+// --- CARGAR CONFIGURACIÃ“N REMOTA DESDE VERCEL ENV ---
 async function loadRemoteConfig() {
     try {
         const res = await fetch('/api/config');
@@ -159,9 +159,9 @@ async function loadRemoteConfig() {
                 config.supabaseKey = data.supabaseKey;
                 config.queueTable = data.queueTable || 'lavadero_camera_queue';
                 config.serviceTable = data.serviceTable || 'service_orders';
-                // console.log("ðŸ”Œ Configuración de Supabase cargada desde Vercel Environment Variables.");
+                // console.log("Ã°Å¸â€Å’ ConfiguraciÃ³n de Supabase cargada desde Vercel Environment Variables.");
                 
-                // Actualizar la interfaz para reflejar que está conectado externamente
+                // Actualizar la interfaz para reflejar que estÃ¡ conectado externamente
                 if (elConnectionStatus) {
                     elConnectionStatus.className = "connection-status supabase-active";
                     elConnectionStatus.querySelector('.status-label').innerText = "Supabase Sincronizado";
@@ -169,7 +169,7 @@ async function loadRemoteConfig() {
             }
         }
     } catch (err) {
-        console.warn("âš ï¸ No se pudo obtener la configuración remota (usando fallback local):", err);
+        console.warn("Ã¢Å¡Â Ã¯Â¸Â No se pudo obtener la configuraciÃ³n remota (usando fallback local):", err);
     }
 }
 
@@ -178,7 +178,7 @@ function loadLocalData() {
     // Config
     const savedConfig = localStorage.getItem('lavadero_config');
     if (savedConfig) {
-        // Solo sobreescribir si no se cargó remotamente de Vercel
+        // Solo sobreescribir si no se cargÃ³ remotamente de Vercel
         const loadedConfig = JSON.parse(savedConfig);
         if (!config.useSupabase) {
             config = loadedConfig;
@@ -188,7 +188,7 @@ function loadLocalData() {
         }
     }
     
-    // Vehículos Activos
+    // VehÃ­culos Activos
     const savedVehicles = localStorage.getItem('lavadero_active_vehicles');
     if (savedVehicles) {
         activeVehicles = JSON.parse(savedVehicles);
@@ -212,7 +212,7 @@ function loadLocalData() {
     }
 }
 
-// --- CONEXIÓN DE DATOS & SYNC SUPABASE ---
+// --- CONEXIÃ“N DE DATOS & SYNC SUPABASE ---
 async function syncFromSupabase() {
     if (!config.useSupabase || !config.supabaseUrl || !config.supabaseKey) return;
     
@@ -236,7 +236,7 @@ async function syncFromSupabase() {
                 return {
                     id: dbCar.id,
                     tracking_id: dbCar.tracking_id || Math.floor(Math.random() * 100),
-                    nickname: dbCar.nickname || 'Vehículo Especial',
+                    nickname: dbCar.nickname || 'VehÃ­culo Especial',
                     plate: dbCar.plate || '',
                     color: dbCar.color || '#06b6d4',
                     zone: dbCar.zone || 'espera',
@@ -345,7 +345,7 @@ async function fetchSupabase(endpoint, options = {}) {
         if (response.status === 204) return true;
         return await response.json();
     } catch (err) {
-        console.error("❌ Fallo en API Supabase:", err);
+        console.error("âŒ Fallo en API Supabase:", err);
         showFloatingToast(`Error de base de datos externa. Operando en modo local.`);
         return null;
     }
@@ -390,16 +390,16 @@ async function saveStateLocally(syncRemote = true) {
     localStorage.setItem('lavadero_active_vehicles', JSON.stringify(activeVehicles));
     localStorage.setItem('lavadero_completed_history', JSON.stringify(washHistory));
 
-    // Si la sincronización remota está habilitada y se solicita sync
+    // Si la sincronizaciÃ³n remota estÃ¡ habilitada y se solicita sync
     if (config.useSupabase && syncRemote) {
-        // En una app robusta, haríamos sincronizaciones granulares. Aquí reflejamos los cambios individuales
+        // En una app robusta, harÃ­amos sincronizaciones granulares. AquÃ­ reflejamos los cambios individuales
         // pero como plan de contingencia guardamos en local por si falla el API.
     }
 }
 
-// --- OPERACIONES DE VEHÍCULOS ---
+// --- OPERACIONES DE VEHÃCULOS ---
 
-// Agregar Vehículo
+// Agregar VehÃ­culo
 async function addVehicle(nickname, plate, color, budgetStr, washType) {
     const budget = budgetStr ? parseFloat(budgetStr) : 0;
     const wType = washType || 'combo-limpieza-total';
@@ -413,7 +413,7 @@ async function addVehicle(nickname, plate, color, budgetStr, washType) {
         zone: 'espera',
         budget,
         wash_type: wType,
-        description: `Servicio: ${washName}. Lavado estándar y detallado de carrocería.`,
+        description: `Servicio: ${washName}. Lavado estÃ¡ndar y detallado de carrocerÃ­a.`,
         entered_at: new Date().toISOString(),
         created_at: new Date().toISOString()
     };
@@ -435,7 +435,7 @@ async function addVehicle(nickname, plate, color, budgetStr, washType) {
             })
         });
 
-        // Crear una orden de servicio si la tabla está configurada
+        // Crear una orden de servicio si la tabla estÃ¡ configurada
         await fetchSupabase(config.serviceTable, {
             method: 'POST',
             body: JSON.stringify({
@@ -455,17 +455,17 @@ async function addVehicle(nickname, plate, color, budgetStr, washType) {
     showQrModal(newCar);
 }
 
-// Cambiar Zona de un Vehículo
+// Cambiar Zona de un VehÃ­culo
 async function updateVehicleZone(id, targetZone) {
     const car = activeVehicles.find(v => v.id === id);
     if (!car) return;
 
-    // Validación estricta: Solo 1 auto en la máquina de lavado a la vez
+    // ValidaciÃ³n estricta: Solo 1 auto en la mÃ¡quina de lavado a la vez
     if (targetZone === 'lavado') {
         const enLavado = activeVehicles.filter(v => v.zone === 'lavado').length;
         if (enLavado >= 1 && car.zone !== 'lavado') {
             if (typeof showFloatingToast === 'function') {
-                showFloatingToast("¡Túnel ocupado! Sólo entra 1 auto a la vez.", "error");
+                showFloatingToast("Â¡TÃºnel ocupado! SÃ³lo entra 1 auto a la vez.", "error");
             }
             return;
         }
@@ -477,7 +477,7 @@ async function updateVehicleZone(id, targetZone) {
     saveStateLocally(true);
 
     if (config.useSupabase) {
-        // Actualizar zona en cola de cámara
+        // Actualizar zona en cola de cÃ¡mara
         await fetchSupabase(`${config.queueTable}?id=eq.${id}`, {
             method: 'PATCH',
             body: JSON.stringify({
@@ -512,7 +512,7 @@ async function finishVehicle(id) {
     saveStateLocally(true);
 
     if (config.useSupabase) {
-        // Eliminar de la cola de cámara
+        // Eliminar de la cola de cÃ¡mara
         await fetchSupabase(`${config.queueTable}?id=eq.${id}`, {
             method: 'DELETE'
         });
@@ -531,7 +531,7 @@ async function finishVehicle(id) {
     renderAll();
 }
 
-// Eliminar vehículo (Cancelar lavado)
+// Eliminar vehÃ­culo (Cancelar lavado)
 async function deleteVehicle(id) {
     const index = activeVehicles.findIndex(v => v.id === id);
     if (index === -1) return;
@@ -551,43 +551,56 @@ async function deleteVehicle(id) {
 // --- RENDERIZADO VISUAL ---
 
 // Generar HTML del auto en su contenedor
-function createVehicleElement(car) {
+function createVehicleElement(car, index = -1) {
     const container = document.createElement('div');
-    container.className = 'vehicle-sprite-container';
-    if (car.zone === 'lavado') {
-        container.classList.add('in-wash-glow');
-    }
-    container.setAttribute('data-id', car.id);
-
-    // Sprite SVG
-    const carSvg = getCarSvg(car.color);
     
-    // Detalles del timer
-    let timerHtml = '';
+    // Layout F1 Pit Lane para Espera
     if (car.zone === 'espera') {
-        timerHtml = `<span class="timer-badge waiting" data-timer-type="waiting" data-start="${car.entered_at}">+0 min</span>`;
-    } else if (car.zone === 'lavado') {
-        timerHtml = `
-            <div class="timer-badge washing">
-                <span data-timer-type="washing" data-start="${car.entered_at}">07:00</span>
-            </div>
-            <div class="wash-progress-bar">
-                <div class="wash-progress-fill" data-progress-fill="${car.entered_at}" style="width: 0%"></div>
+        container.className = 'f1-vehicle-slot';
+        container.setAttribute('data-id', car.id);
+        
+        // Inyectamos clase al SVG
+        const carSvg = getCarSvg(car.color).replace('<svg ', '<svg class="f1-car-svg" ');
+        
+        container.innerHTML = `
+            ${carSvg}
+            <div class="f1-driver-name">${car.nickname.split(' ')[0]}</div>
+            <div class="f1-timer-badge" data-timer-type="waiting" data-start="${car.entered_at}">+0 MIN</div>
+            <div class="f1-pit-number">PIT ${index !== -1 ? index + 1 : '?'}</div>
+        `;
+    } else {
+        container.className = 'vehicle-sprite-container';
+        if (car.zone === 'lavado') {
+            container.classList.add('in-wash-glow');
+        }
+        container.setAttribute('data-id', car.id);
+
+        const carSvg = getCarSvg(car.color);
+        
+        let timerHtml = '';
+        if (car.zone === 'lavado') {
+            timerHtml = `
+                <div class="timer-badge washing">
+                    <span data-timer-type="washing" data-start="${car.entered_at}">07:00</span>
+                </div>
+                <div class="wash-progress-bar">
+                    <div class="wash-progress-fill" data-progress-fill="${car.entered_at}" style="width: 0%"></div>
+                </div>
+            `;
+        } else if (car.zone === 'terminado') {
+            timerHtml = `<span class="timer-badge finished">âœ” LISTO</span>`;
+        }
+
+        container.innerHTML = `
+            ${carSvg}
+            <div class="vehicle-label">
+                <div>${car.nickname.split(' ')[0]}</div>
+                ${timerHtml}
             </div>
         `;
-    } else if (car.zone === 'terminado') {
-        timerHtml = `<span class="timer-badge finished">âœ” LISTO</span>`;
     }
 
-    container.innerHTML = `
-        ${carSvg}
-        <div class="vehicle-label">
-            <div>${car.nickname.split(' ')[0]}</div>
-            ${timerHtml}
-        </div>
-    `;
-
-    // Interacción al hacer clic para abrir gestión rápida
+    // InteracciÃ³n al hacer clic para abrir gestiÃ³n rÃ¡pida
     container.addEventListener('click', () => {
         highlightTableRow(car.id);
     });
@@ -595,7 +608,7 @@ function createVehicleElement(car) {
     return container;
 }
 
-// Resaltar fila de la tabla de operaciones para llamar atención
+// Resaltar fila de la tabla de operaciones para llamar atenciÃ³n
 function highlightTableRow(id) {
     const row = document.getElementById(`row-op-${id}`);
     if (row) {
@@ -610,75 +623,8 @@ function highlightTableRow(id) {
 
 // Render General
 function renderAll() {
-    // 1. Limpiar carriles
-    elTrackEspera.innerHTML = '';
-    elTrackLavado.innerHTML = '';
-    elTrackTerminado.innerHTML = '';
-
-    const esperaVehicles = activeVehicles.filter(v => v.zone === 'espera');
-    const lavadoVehicles = activeVehicles.filter(v => v.zone === 'lavado');
-    const terminadoVehicles = activeVehicles.filter(v => v.zone === 'terminado');
-
-    // Actualizar contadores
-    elCounterEspera.innerText = esperaVehicles.length;
-    elCounterLavado.innerText = lavadoVehicles.length;
-    elCounterTerminado.innerText = terminadoVehicles.length;
-
-    // Coordenadas absolutas basadas en el circuito F1 Vectorial (350x300)
-    // Espera (Derecha): X=82.1% y 89.3%, Y=93.3% hasta 43.3%
-    const POS_ESPERA = [
-        { left: '82.1%', top: '43.3%' }, { left: '89.3%', top: '43.3%' }, // Fila 1 (Arriba, cerca del túnel)
-        { left: '82.1%', top: '60.0%' }, { left: '89.3%', top: '60.0%' }, // Fila 2
-        { left: '82.1%', top: '76.6%' }, { left: '89.3%', top: '76.6%' }, // Fila 3
-        { left: '82.1%', top: '93.3%' }, { left: '89.3%', top: '93.3%' }  // Fila 4 (Abajo, entrada calle)
-    ];
-    // Lavado (Centro-Arriba): X=50%, Y=11.6%
-    const POS_LAVADO = [
-        { left: '50%', top: '11.6%' } 
-    ];
-    // Salida (Izquierda): X=10.7% y 17.8%, Y=43.3% hasta 60.0%
-    const POS_TERMINADO = [
-        { left: '10.7%', top: '43.3%' }, { left: '17.8%', top: '43.3%' }, // Fila 1
-        { left: '10.7%', top: '60.0%' }, { left: '17.8%', top: '60.0%' }  // Fila 2
-    ];
-
-    function renderZone(vehicles, elTrack, positions, showEmptySlots = false) {
-        for (let index = 0; index < positions.length; index++) {
-            if (index < vehicles.length) {
-                const car = vehicles[index];
-                const el = createVehicleElement(car);
-                el.style.position = 'absolute';
-                el.style.left = positions[index].left;
-                el.style.top = positions[index].top;
-                el.style.transform = 'translate(-50%, -50%)'; // centra el auto en la coordenada
-                el.style.zIndex = '10';
-                
-                // Asignar clase pos-left o pos-right para acomodar las etiquetas a los costados sin tapar
-                if (index % 2 === 0) {
-                    el.classList.add('pos-left');
-                } else {
-                    el.classList.add('pos-right');
-                }
-                
-                elTrack.appendChild(el);
-            } else if (showEmptySlots) {
-                // Dibujar cajón de pit-box vacío solo donde se pida
-                const emptySlot = document.createElement('div');
-                emptySlot.className = 'empty-pit-box';
-                emptySlot.style.position = 'absolute';
-                emptySlot.style.left = positions[index].left;
-                emptySlot.style.top = positions[index].top;
-                emptySlot.style.transform = 'translate(-50%, -50%)';
-                emptySlot.innerHTML = `<span class="pit-box-text">PIT ${index + 1}</span>`;
-                elTrack.appendChild(emptySlot);
-            }
-        }
-    }
-
-    // Renderizar autos directamente sobre el mapa, mostrando cajones solo en Espera
-    renderZone(esperaVehicles, elTrackEspera, POS_ESPERA, true);
-    renderZone(lavadoVehicles, elTrackLavado, POS_LAVADO, false);
-    renderZone(terminadoVehicles, elTrackTerminado, POS_TERMINADO, false);
+    // 1. El mapa visual interactivo estÃ¡ ahora encapsulado en un iframe.
+    // La aplicaciÃ³n de React (/pantalla_lavado) lee directamente de Supabase o localStorage.
 
     // 2. Renderizar tabla de operaciones
     renderOperatorTable();
@@ -698,11 +644,11 @@ function calculateETA() {
     const esperaCount = activeVehicles.filter(v => v.zone === 'espera').length;
     const lavadoCount = activeVehicles.filter(v => v.zone === 'lavado').length;
     
-    // 7 min por auto en espera + 7 min si hay alguno lavándose
+    // 7 min por auto en espera + 7 min si hay alguno lavÃ¡ndose
     const etaMinutos = (esperaCount * 7) + (lavadoCount > 0 ? 7 : 0);
 
     if (etaMinutos === 0) {
-        elEtaDisplay.innerText = "Sin Demoras ðŸŽ‰";
+        elEtaDisplay.innerText = "Sin Demoras Ã°Å¸Å½â€°";
         elEtaDisplay.className = "eta-value text-cyan";
     } else {
         elEtaDisplay.innerText = `~ ${etaMinutos} MINUTOS`;
@@ -732,7 +678,7 @@ function renderOperatorTable() {
         elOperatorTableBody.innerHTML = `
             <tr class="empty-table-row">
                 <td colspan="5" style="text-align: center; color: var(--color-text-dim); font-style: italic; padding: 2rem 0;">
-                    Sin vehículos en circulación. Registra uno arriba para comenzar.
+                    Sin vehÃ­culos en circulaciÃ³n. Registra uno arriba para comenzar.
                 </td>
             </tr>`;
         return;
@@ -768,7 +714,7 @@ function renderOperatorTable() {
             <td>
                 <div class="table-actions" style="flex-wrap: wrap;">
                     <button class="btn btn-secondary btn-sm btn-qr-link" data-car-id="${car.id}" title="Copiar Link Cliente">
-                        🔗 LINK
+                        ðŸ”— LINK
                     </button>
                     ${car.zone === 'terminado' ? `
                         <button class="btn btn-primary btn-sm btn-finish-car" data-car-id="${car.id}">
@@ -810,7 +756,7 @@ function renderOperatorTable() {
         }
 
         tr.querySelector('.btn-delete-car').addEventListener('click', () => {
-            if (confirm(`¿Estás seguro de que deseas eliminar a ${car.nickname} de la cola?`)) {
+            if (confirm(`Â¿EstÃ¡s seguro de que deseas eliminar a ${car.nickname} de la cola?`)) {
                 deleteVehicle(car.id);
             }
         });
@@ -825,7 +771,7 @@ function renderOperatorTable() {
         const wpBtn = tr.querySelector('.btn-whatsapp');
         if (wpBtn) {
             wpBtn.addEventListener('click', () => {
-                const text = encodeURIComponent(`¡Hola! Tu vehículo ${car.nickname} ya está listo y brillante. Te esperamos en Lavadero Tech System.`);
+                const text = encodeURIComponent(`Â¡Hola! Tu vehÃ­culo ${car.nickname} ya estÃ¡ listo y brillante. Te esperamos en Lavadero Tech System.`);
                 window.open(`https://wa.me/?text=${text}`, '_blank');
             });
         }
@@ -858,7 +804,7 @@ function renderHistory() {
         );
     }
     
-    // Calcular estadísticas sobre los resultados FILTRADOS
+    // Calcular estadÃ­sticas sobre los resultados FILTRADOS
     elHistoryTotalCount.innerText = filtered.length;
     
     const revenue = filtered.reduce((acc, curr) => acc + (curr.budget || 0), 0);
@@ -868,7 +814,7 @@ function renderHistory() {
         elHistoryTableBody.innerHTML = `
             <tr class="empty-table-row">
                 <td colspan="4" style="text-align: center; color: var(--color-text-dim); padding: 1.5rem 0;">
-                    No hay resultados para esta búsqueda.
+                    No hay resultados para esta bÃºsqueda.
                 </td>
             </tr>`;
         return;
@@ -900,7 +846,7 @@ function startRealtimeTicker() {
 
     realtimeTickerId = setInterval(() => {
         const now = new Date().getTime();
-        const SPEED_MULTIPLIER = 10; // Relación 10:1
+        const SPEED_MULTIPLIER = 10; // RelaciÃ³n 10:1
 
         let remainingWashingSecs = 0;
         const washingEl = document.querySelector('[data-timer-type="washing"]');
@@ -914,10 +860,10 @@ function startRealtimeTicker() {
             }
         }
 
-        // 1. Relojes en espera (Calculando ETA en base a posición)
+        // 1. Relojes en espera (Calculando ETA en base a posiciÃ³n)
         document.querySelectorAll('[data-timer-type="waiting"]').forEach((el, index) => {
-            // El delay es el tiempo restante del vehiculo en lavado + (7 min por cada auto delante suyo + sus propios 7 min)
-            const waitTotalSecs = remainingWashingSecs + ((index + 1) * 7 * 60);
+            // El delay es el tiempo restante del vehiculo en lavado + (7 min por cada auto delante suyo)
+            const waitTotalSecs = remainingWashingSecs + (index * 7 * 60);
             
             const mins = Math.floor(waitTotalSecs / 60);
             const secs = waitTotalSecs % 60;
@@ -954,80 +900,36 @@ function startRealtimeTicker() {
     }, 1000);
 }
 
-// --- MODULO SIMULADOR DE TRÁFICO AUTOMÁTICO ---
-function toggleSimulation() {
-    isSimulationActive = !isSimulationActive;
-    
-    if (isSimulationActive) {
-        elBtnSimulation.classList.add('active');
-        elBtnSimulation.querySelector('.pulse-indicator').style.backgroundColor = 'var(--color-lime)';
-        showFloatingToast("Simulador de tráfico activado. Eventos cada 12 segundos.");
-
-        simulationIntervalId = setInterval(runSimulationStep, 12000);
-        runSimulationStep(); // Ejecutar primer paso de inmediato
-    } else {
-        elBtnSimulation.classList.remove('active');
-        elBtnSimulation.querySelector('.pulse-indicator').style.backgroundColor = '';
-        showFloatingToast("Simulador de tráfico desactivado.");
-
-        if (simulationIntervalId) {
-            clearInterval(simulationIntervalId);
-            simulationIntervalId = null;
-        }
-    }
-}
-
-function runSimulationStep() {
-    const rand = Math.random();
-    const numCars = activeVehicles.length;
-
-    // Decisión de acción
-    if (rand < 0.35 && numCars < 6) {
-        // Acción: Agregar
+// --- BOTONES MANUALES DE TRÁFICO ---
+if (elBtnAddLavado) {
+    elBtnAddLavado.addEventListener('click', () => {
         const nick = `${NOMBRES[Math.floor(Math.random() * NOMBRES.length)]} ${ADJETIVOS[Math.floor(Math.random() * ADJETIVOS.length)]}`;
         const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         const plate = `${letters[Math.floor(Math.random()*26)]}${letters[Math.floor(Math.random()*26)]}${Math.floor(Math.random()*900+100)}${letters[Math.floor(Math.random()*26)]}${letters[Math.floor(Math.random()*26)]}`;
         const color = COLORES[Math.floor(Math.random() * COLORES.length)];
-        const budget = Math.floor(Math.random() * 15000) + 10000;
-
-        addVehicle(nick, plate, color, budget);
-
-    } else if (rand < 0.70 && numCars > 0) {
-        // Acción: Mover
-        const esperaCars = activeVehicles.filter(v => v.zone === 'espera');
-        const lavadoCars = activeVehicles.filter(v => v.zone === 'lavado');
-
-        if (lavadoCars.length > 0) {
-            // Si hay autos en lavado, la máquina está ocupada. Solo podemos sacarlo a terminado.
-            if (esperaCars.length === 0 || Math.random() > 0.5) {
-                const target = lavadoCars[Math.floor(Math.random() * lavadoCars.length)];
-                updateVehicleZone(target.id, 'terminado');
-                // console.log(`[SIMULADOR] Auto finalizó lavado: ${target.nickname}`);
-            }
-        } else if (esperaCars.length > 0) {
-            // Si la máquina está libre (0 autos), entonces podemos meter uno de espera
-            const target = esperaCars[Math.floor(Math.random() * esperaCars.length)];
-            updateVehicleZone(target.id, 'lavado');
-            // console.log(`[SIMULADOR] Auto entró a lavado: ${target.nickname}`);
-        }
-
-    } else if (rand < 0.90 && numCars > 0) {
-        // Acción: Entregar/Retirar
-        const terminadoCars = activeVehicles.filter(v => v.zone === 'terminado');
-        if (terminadoCars.length > 0) {
-            const target = terminadoCars[Math.floor(Math.random() * terminadoCars.length)];
-            finishVehicle(target.id);
-            // console.log(`ðŸ¤– [SIMULADOR] Cliente retiró auto: ${target.nickname}`);
-        }
-    }
+        addVehicle(nick, plate, color, "12000", "lavado-carroceria");
+        showFloatingToast("Lavado agregado a la cola");
+    });
 }
 
-// --- CONFIGURACIÓN & MODAL ---
+if (elBtnAddLavadoAspirado) {
+    elBtnAddLavadoAspirado.addEventListener('click', () => {
+        const nick = `${NOMBRES[Math.floor(Math.random() * NOMBRES.length)]} ${ADJETIVOS[Math.floor(Math.random() * ADJETIVOS.length)]}`;
+        const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        const plate = `${letters[Math.floor(Math.random()*26)]}${letters[Math.floor(Math.random()*26)]}${Math.floor(Math.random()*900+100)}${letters[Math.floor(Math.random()*26)]}${letters[Math.floor(Math.random()*26)]}`;
+        const color = COLORES[Math.floor(Math.random() * COLORES.length)];
+        addVehicle(nick, plate, color, "18000", "combo-limpieza-total");
+        showFloatingToast("Lavado y Aspirado agregado a la cola");
+    });
+}
+
+
+// --- CONFIGURACIÃ“N & MODAL ---
 
 // Modal Toggle
 elBtnConfig.addEventListener('click', () => {
     elModalConfig.classList.add('active');
-    renderHistory(); // Re-render por si cambió algo
+    renderHistory(); // Re-render por si cambiÃ³ algo
 });
 
 elBtnCloseModal.addEventListener('click', () => {
@@ -1063,7 +965,7 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
     });
 });
 
-// Guardar Configuración
+// Guardar ConfiguraciÃ³n
 elBtnSaveConfig.addEventListener('click', async () => {
     config.useSupabase = elCheckUseSupabase.checked;
     config.supabaseUrl = elSupabaseUrl.value.trim();
@@ -1075,7 +977,7 @@ elBtnSaveConfig.addEventListener('click', async () => {
     
     // Cerrar modal
     elModalConfig.classList.remove('active');
-    showFloatingToast("Configuración guardada.");
+    showFloatingToast("ConfiguraciÃ³n guardada.");
 
     // Aplicar
     if (config.useSupabase) {
@@ -1104,7 +1006,7 @@ elBtnSaveConfig.addEventListener('click', async () => {
 
 // Limpiar historial
 elBtnClearHistory.addEventListener('click', () => {
-    if (confirm("¿Estás completamente seguro de borrar todo el historial y estadísticas de recaudación local?")) {
+    if (confirm("Â¿EstÃ¡s completamente seguro de borrar todo el historial y estadÃ­sticas de recaudaciÃ³n local?")) {
         washHistory = [];
         saveStateLocally(false);
         renderAll();
@@ -1112,14 +1014,14 @@ elBtnClearHistory.addEventListener('click', () => {
     }
 });
 
-// --- INICIALIZACIÓN ---
+// --- INICIALIZACIÃ“N ---
 
 // Cambiar color label
 elInputColor.addEventListener('input', (e) => {
     elColorHexLabel.innerText = e.target.value.toUpperCase();
 });
 
-// Función para renderizar el menú interactivo
+// FunciÃ³n para renderizar el menÃº interactivo
 function renderWashMenu() {
     const grid = document.getElementById('wash-menu-grid');
     if (!grid) return;
@@ -1132,7 +1034,7 @@ function renderWashMenu() {
         card.setAttribute('data-price', pkg.price);
 
         card.innerHTML = `
-            <div class="check-badge">âœ“</div>
+            <div class="check-badge">Ã¢Å“â€œ</div>
             <div class="wash-card-icon">${pkg.icon}</div>
             <div class="wash-card-title">${pkg.title}</div>
             <div class="wash-card-price">$${pkg.price.toLocaleString('es-AR')}</div>
@@ -1169,37 +1071,37 @@ elFormRegister.addEventListener('submit', (e) => {
     // Enfocar apodo para el siguiente
     elInputNickname.focus();
     
-    showFloatingToast(`Vehículo ${nickname} registrado.`);
+    showFloatingToast(`VehÃ­culo ${nickname} registrado.`);
 });
 
-// Toggle Botón Simulación
+// Toggle BotÃ³n SimulaciÃ³n
 elBtnSimulation.addEventListener('click', () => {
     toggleSimulation();
 });
 
-// Arrancar Aplicación
+// Arrancar AplicaciÃ³n
 window.addEventListener('DOMContentLoaded', async () => {
-    // Intentar cargar primero la configuración de Vercel/Supabase remota
+    // Intentar cargar primero la configuraciÃ³n de Vercel/Supabase remota
     await loadRemoteConfig();
     loadLocalData();
     renderWashMenu();
     renderAll();
     startRealtimeTicker();
 
-    // Sincronizar de inmediato si Supabase está activo
+    // Sincronizar de inmediato si Supabase estÃ¡ activo
     if (config.useSupabase) {
         syncFromSupabase();
-        // Polling de sincronización cada 10 segundos
+        // Polling de sincronizaciÃ³n cada 10 segundos
         setInterval(syncFromSupabase, 10000);
     }
 });
 
-// --- Lï¿½GICA DE NAVEGACIï¿½N (SIDEBAR) ---
+// --- LÃ¯Â¿Â½GICA DE NAVEGACIÃ¯Â¿Â½N (SIDEBAR) ---
 document.querySelectorAll('.nav-btn').forEach(btn => {
     btn.addEventListener('click', (e) => {
         // Remover active de todos los botones
         document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-        // Agregar active al botï¿½n clickeado
+        // Agregar active al botÃ¯Â¿Â½n clickeado
         const targetBtn = e.currentTarget;
         targetBtn.classList.add('active');
 
@@ -1234,7 +1136,7 @@ document.querySelectorAll('.nav-btn').forEach(btn => {
     });
 });
 
-// --- Lï¿½GICA DE EMPLEADOS ---
+// --- LÃ¯Â¿Â½GICA DE EMPLEADOS ---
 const formEmpleado = document.getElementById('form-empleado');
 const tbodyEmpleados = document.getElementById('empleados-tbody');
 
@@ -1346,7 +1248,7 @@ window.editarEmpleado = async function(id) {
     }
 };
 
-// --- Lï¿½GICA DE INSUMOS ---
+// --- LÃ¯Â¿Â½GICA DE INSUMOS ---
 const formInsumo = document.getElementById('form-insumo');
 const tbodyInsumos = document.getElementById('insumos-tbody');
 
@@ -1399,10 +1301,10 @@ function renderInsumos() {
     if (insumos.length === 0) {
         const predefinidos = [
             "Shampoo pH Neutro", "Cera de Carnauba", "Silicona Interior", 
-            "Limpia Motores", "Acondicionador de Plásticos", "Desengrasante Multiuso", 
-            "Limpia Vidrios", "Cepillos de Limpieza", "Paños de Microfibra", 
-            "Revividor de Neumáticos", "Ambientador Líquido", "APC (All Purpose Cleaner)",
-            "Limpia Llantas", "Esponjas de Lavado", "Sellador Acrílico"
+            "Limpia Motores", "Acondicionador de PlÃ¡sticos", "Desengrasante Multiuso", 
+            "Limpia Vidrios", "Cepillos de Limpieza", "PaÃ±os de Microfibra", 
+            "Revividor de NeumÃ¡ticos", "Ambientador LÃ­quido", "APC (All Purpose Cleaner)",
+            "Limpia Llantas", "Esponjas de Lavado", "Sellador AcrÃ­lico"
         ];
         
         predefinidos.forEach((nombre, idx) => {
@@ -1493,13 +1395,13 @@ window.editarInsumo = async function(id) {
     }
 };
 
-// --- Lï¿½GICA DE PRECIOS ---
+// --- LÃ¯Â¿Â½GICA DE PRECIOS ---
 const tbodyPrecios = document.getElementById('precios-tbody');
 const btnResetPrecios = document.getElementById('btn-reset-precios');
 
 if (btnResetPrecios) {
     btnResetPrecios.addEventListener('click', () => {
-        if(confirm('ï¿½Restaurar precios y paquetes a sus valores por defecto?')) {
+        if(confirm('Ã¯Â¿Â½Restaurar precios y paquetes a sus valores por defecto?')) {
             WASH_PACKAGES = JSON.parse(JSON.stringify(DEFAULT_WASH_PACKAGES));
             localStorage.setItem('lavadero_wash_settings', JSON.stringify(WASH_PACKAGES));
             initWashPackages();
@@ -1572,7 +1474,7 @@ function renderPrecios() {
     });
 }
 
-// Override de la renderizaciï¿½n del grid de lavados inicial
+// Override de la renderizaciÃ¯Â¿Â½n del grid de lavados inicial
 function renderWashMenu() {
     const grid = document.getElementById('wash-menu-grid');
     if (!grid) return;
@@ -1609,7 +1511,7 @@ function renderWashMenu() {
 // Llamar a renderWashMenu en el boot inicial para asegurar que cargue lo de localStorage
 setTimeout(renderWashMenu, 500);
 
-// --- LÃƒ“GICA DE POSTULANTES ---
+// --- LÃƒÆ’â€œGICA DE POSTULANTES ---
 const tbodyPostulantes = document.getElementById('postulantes-tbody');
 
 async function renderPostulantes() {
@@ -1649,7 +1551,7 @@ async function renderPostulantes() {
             </td>
             <td>
                 <div style="font-weight:bold; color:var(--color-cyan)">${app.full_name}</div>
-                <div style="font-size:0.85em; color:var(--color-text-dim)">DNI: ${app.dni} â€¢ ${app.age || '--'} años</div>
+                <div style="font-size:0.85em; color:var(--color-text-dim)">DNI: ${app.dni} Ã¢â‚¬Â¢ ${app.age || '--'} aÃ±os</div>
             </td>
             <td>
                 <div><a href="https://wa.me/${app.phone}" target="_blank" style="color:var(--color-lime); text-decoration:none;">${app.phone}</a></div>
@@ -1675,7 +1577,7 @@ async function renderPostulantes() {
 }
 
 window.contratarPostulante = async function(id, name) {
-    const role = prompt(`¿Qué rol le asignarás a ${name}? (Ej: Lavador, Detallador, Encargado)`, 'Lavador');
+    const role = prompt(`Â¿QuÃ© rol le asignarÃ¡s a ${name}? (Ej: Lavador, Detallador, Encargado)`, 'Lavador');
     if (role === null) return; // Cancelado
 
     // Mover a empleados
@@ -1710,7 +1612,7 @@ window.contratarPostulante = async function(id, name) {
 }
 
 window.rechazarPostulante = async function(id) {
-    if(!confirm('¿Seguro que quieres rechazar y eliminar a este postulante?')) return;
+    if(!confirm('Â¿Seguro que quieres rechazar y eliminar a este postulante?')) return;
     
     if (config.useSupabase) {
         await fetchSupabase(`applicants?id=eq.${id}`, {
@@ -1727,7 +1629,7 @@ window.rechazarPostulante = async function(id) {
     renderPostulantes();
 }
 
-// Escuchar cambios de pestaÃƒ±a para renderizar postulantes
+// Escuchar cambios de pestaÃƒÆ’Â±a para renderizar postulantes
 document.addEventListener('DOMContentLoaded', () => {
     const navBtns = document.querySelectorAll('.nav-btn');
     navBtns.forEach(btn => {
@@ -1746,12 +1648,12 @@ function showQrModal(car) {
     baseUrl = baseUrl.replace('index.html', '');
     if(!baseUrl.endsWith('/')) baseUrl += '/';
     
-    // Calcular pos (Posición en la fila)
+    // Calcular pos (PosiciÃ³n en la fila)
     const esperaCars = activeVehicles.filter(v => v.zone === 'espera');
     let pos = esperaCars.findIndex(v => v.id === car.id) + 1;
     if (pos <= 0) pos = 1;
 
-    const url = `${baseUrl}cliente.html?n=${encodeURIComponent(car.nickname)}&c=${colorHex}&p=${encodeURIComponent(car.plate || 'SIN PATENTE')}&z=${car.zone}&t=${encodeURIComponent(car.wash_type || 'combo-limpieza-total')}&pos=${pos}`;
+    const url = `${baseUrl}cliente.html?n=${encodeURIComponent(car.nickname)}&c=${colorHex}&p=${encodeURIComponent(car.plate || 'SIN PATENTE')}&z=${car.zone}&t=${encodeURIComponent(car.wash_type || 'combo-limpieza-total')}&pos=${pos}&id=${car.id}`;
     
     const qrModal = document.getElementById('modal-ticket-qr');
     if(!qrModal) return;
@@ -1760,7 +1662,7 @@ function showQrModal(car) {
     const qrLinkText = document.getElementById('qr-link-text');
     const btnCopy = document.getElementById('btn-copy-ticket');
 
-    // Usar API de QR pública para generar la imagen
+    // Usar API de QR pÃºblica para generar la imagen
     qrImage.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(url)}&color=00f0ff&bgcolor=18181b`;
     qrLinkText.innerText = url;
     
@@ -1780,7 +1682,7 @@ function copyPostularLink() {
     const url = baseUrl + 'postular.html';
     
     navigator.clipboard.writeText(url).then(() => {
-        showFloatingToast("Enlace de postulación copiado para WhatsApp.");
+        showFloatingToast("Enlace de postulaciÃ³n copiado para WhatsApp.");
     });
 }
 
@@ -1798,7 +1700,7 @@ window.renderWashMenuOverride = function() {
         card.setAttribute('data-id', pkg.id);
         
         card.innerHTML = `
-            <div class="check-badge">✓</div>
+            <div class="check-badge">âœ“</div>
             <div class="wash-icon">${pkg.icon}</div>
             <div class="wash-details">
                 <div class="wash-title">${pkg.title}</div>
@@ -1846,10 +1748,10 @@ window.openScannerModal = function() {
     
     setTimeout(() => {
         feed.classList.add('scanning-active');
-        text.innerText = "ANALIZANDO VEHÍCULO...";
+        text.innerText = "ANALIZANDO VEHÃCULO...";
         
         setTimeout(() => {
-            text.innerText = "¡VEHÍCULO DETECTADO!";
+            text.innerText = "Â¡VEHÃCULO DETECTADO!";
             feed.classList.remove('scanning-active');
             feed.style.background = 'radial-gradient(circle at center, rgba(0,240,255,0.2) 0%, #000 100%)';
             
@@ -1885,7 +1787,7 @@ window.openScannerModal = function() {
             setTimeout(() => {
                 if(window.closeScannerModal) window.closeScannerModal();
                 else modal.style.display = 'none';
-                if(typeof showFloatingToast === 'function') showFloatingToast("Datos del vehículo cargados por IA.");
+                if(typeof showFloatingToast === 'function') showFloatingToast("Datos del vehÃ­culo cargados por IA.");
                 if (realImg) {
                     realImg.style.opacity = '0';
                     setTimeout(() => { realImg.style.display = 'none'; }, 500);
@@ -1897,11 +1799,11 @@ window.openScannerModal = function() {
 }
 
 
-// --- GESTIÓN DE CATEGORÍAS DE VEHÍCULOS ---
+// --- GESTIÃ“N DE CATEGORÃAS DE VEHÃCULOS ---
 const DEFAULT_VEHICLE_CATEGORIES = [
-        { id: 'Auto', percentage: 0, icon: '🚗' },
-        { id: 'SUV', percentage: 10, icon: '🚙' },
-        { id: 'Camioneta', percentage: 20, icon: '🛻' }
+        { id: 'Auto', percentage: 0, icon: 'ðŸš—' },
+        { id: 'SUV', percentage: 10, icon: 'ðŸš™' },
+        { id: 'Camioneta', percentage: 20, icon: 'ðŸ›»' }
     ];
 
 let VEHICLE_CATEGORIES = [];
@@ -1964,15 +1866,15 @@ function renderVehicleCategoriesTable() {
 window.addVehicleCategory = function() {
     const id = document.getElementById('new-cat-id').value.trim();
     const perc = parseInt(document.getElementById('new-cat-perc').value) || 0;
-    const icon = document.getElementById('new-cat-icon').value.trim() || '🚗';
+    const icon = document.getElementById('new-cat-icon').value.trim() || 'ðŸš—';
     
     if (!id) {
-        alert('Debe ingresar un nombre para la categoría.');
+        alert('Debe ingresar un nombre para la categorÃ­a.');
         return;
     }
     
     if (VEHICLE_CATEGORIES.some(c => c.id.toLowerCase() === id.toLowerCase())) {
-        alert('La categoría ya existe.');
+        alert('La categorÃ­a ya existe.');
         return;
     }
     
@@ -1989,7 +1891,7 @@ window.addVehicleCategory = function() {
 
 window.deleteVehicleCategory = function(index) {
     if(VEHICLE_CATEGORIES.length <= 1) {
-        alert('Debe quedar al menos una categoría.');
+        alert('Debe quedar al menos una categorÃ­a.');
         return;
     }
     VEHICLE_CATEGORIES.splice(index, 1);
@@ -2252,7 +2154,7 @@ const oldRev = window.updateRevenueDisplay ? window.updateRevenueDisplay.toStrin
 
 // --- CROSS-TAB SYNC (ECOSISTEMA MULTI-PANTALLAS) ---
 
-// --- GESTIÓN DE PROMOS (APP CLIENTE) ---
+// --- GESTIÃ“N DE PROMOS (APP CLIENTE) ---
 let APP_PROMOS = [];
 
 function loadPromos() {

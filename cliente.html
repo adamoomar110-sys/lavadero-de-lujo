@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=Orbitron:wght@700;900&family=Outfit:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <link rel="stylesheet" href="style.css">
     <style>
@@ -392,10 +393,11 @@
         const nick = urlParams.get('n') || 'Tu Vehículo';
         const color = urlParams.get('c') ? '#' + urlParams.get('c') : '#06b6d4';
         const plate = urlParams.get('p') || 'SIN PATENTE';
-        const zone = urlParams.get('z') || 'espera';
-        const pos = parseInt(urlParams.get('pos') || '1'); // Posición en cola
+        let zone = urlParams.get('z') || 'espera';
+        let pos = parseInt(urlParams.get('pos') || '1'); // Posición en cola
         let type = urlParams.get('t') || '';
         let payment = urlParams.get('pay') || '';
+        const carId = urlParams.get('id') || null;
 
         document.getElementById('car-nickname').innerText = nick;
         document.getElementById('car-plate').innerText = plate;
@@ -436,7 +438,7 @@
                 <div class="wash-menu-card" data-cat="${cat.id}" onclick="selectCat(this, '${cat.id}', ${cat.surcharge})">
                     <div class="check-badge">✓</div>
                     <div class="wash-card-icon" style="font-size: 1.5rem;">${cat.icon}</div>
-                    <div class="wash-card-title" style="font-size: 0.65rem;">${cat.id} ${cat.surcharge >= 0 ? '+</div>
+                    <div class="wash-card-title" style="font-size: 0.65rem;">${cat.id} ${cat.surcharge > 0 ? '(+'+cat.surcharge+'%)' : ''}</div>
                 </div>
                 `;
             });
@@ -520,47 +522,93 @@
         }
 
 
-        function initTrackingView() {
-            statusContainer.style.display = 'none'; // Ocultamos el viejo badge en favor del stepper
-            document.getElementById('stepper-wrapper').style.display = 'flex';
-            etaText.style.display = 'block';
+        let activeTimer = null;
+        
+        // Setup timer to update realtime si tenemos ID
+        if (carId) {
+            setInterval(() => {
+                const vehiclesStr = localStorage.getItem('lavadero_active_vehicles');
+                if (vehiclesStr) {
+                    const vehicles = JSON.parse(vehiclesStr);
+                    const myCar = vehicles.find(v => v.id == carId);
+                    if (myCar) {
+                        zone = myCar.zone;
+                        type = myCar.wash_type;
+                        
+                        const esperaCars = vehicles.filter(v => v.zone === 'espera').sort((a,b) => new Date(a.entered_at) - new Date(b.entered_at));
+                        pos = esperaCars.findIndex(v => v.id == carId) + 1;
+                        if (pos <= 0) pos = 1;
+
+                        updateVisualStatus(vehicles, myCar);
+                    }
+                }
+            }, 1000);
+        }
+
+        function updateVisualStatus(allVehicles, myCar) {
+            const SPEED_MULTIPLIER = 10;
+            const now = new Date().getTime();
             
+            let remainingWashingSecs = 0;
+            const washingCar = allVehicles.find(v => v.zone === 'lavado');
+            if (washingCar && washingCar.entered_at) {
+                const start = new Date(washingCar.entered_at).getTime();
+                const elapsedSecs = Math.max(0, Math.floor(((now - start) * SPEED_MULTIPLIER) / 1000));
+                const totalWashingSecs = 7 * 60;
+                remainingWashingSecs = Math.max(0, totalWashingSecs - elapsedSecs);
+            }
+
             const step1 = document.getElementById('step-1');
             const step2 = document.getElementById('step-2');
             const step3 = document.getElementById('step-3');
             const line1 = document.getElementById('line-1');
             const line2 = document.getElementById('line-2');
-
             const queueCard = document.getElementById('queue-position-card');
             const progressCard = document.getElementById('progress-card');
 
-            queueCard.style.display = 'none';
-            progressCard.style.display = 'none';
-            displayContainer.classList.remove('in-wash');
+            // Reset classes
+            [step1, step2, step3, line1, line2].forEach(el => {
+                el.classList.remove('active', 'completed');
+            });
 
-            // Configurar estado visual
             if (zone === 'espera') {
                 step1.classList.add('active');
-                etaText.innerText = 'Relájate, ya casi es tu turno.';
-                
                 queueCard.style.display = 'block';
+                progressCard.style.display = 'none';
+                displayContainer.classList.remove('in-wash');
+
                 document.getElementById('queue-number').innerText = '#' + pos;
                 document.getElementById('queue-subtitle').innerText = pos === 1 ? '¡Eres el próximo!' : 'Autos delante tuyo';
+
+                const waitTotalSecs = remainingWashingSecs + ((pos - 1) * 7 * 60);
+                const mins = Math.floor(waitTotalSecs / 60);
+                const secs = waitTotalSecs % 60;
+                etaText.innerHTML = `Demora estimada: <strong style="color:var(--color-yellow); font-size:1.1em;">${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}</strong> min`;
 
             } else if (zone === 'lavado') {
                 step1.classList.add('completed');
                 line1.classList.add('active');
                 step2.classList.add('active');
-                
-                etaText.innerText = 'Estamos dejando tu auto impecable.';
-                displayContainer.classList.add('in-wash');
-                
+                queueCard.style.display = 'none';
                 progressCard.style.display = 'block';
-                // Animación simulada de progreso
-                setTimeout(() => {
-                    document.getElementById('wash-progress').style.width = '65%';
-                    document.getElementById('progress-text').innerText = 'Aprox. 8 min restantes';
-                }, 500);
+                displayContainer.classList.add('in-wash');
+
+                let progressRemainingSecs = 0;
+                let percent = 0;
+                if (myCar.entered_at) {
+                    const start = new Date(myCar.entered_at).getTime();
+                    const elapsedSecs = Math.max(0, Math.floor(((now - start) * SPEED_MULTIPLIER) / 1000));
+                    const totalWashingSecs = 7 * 60;
+                    progressRemainingSecs = Math.max(0, totalWashingSecs - elapsedSecs);
+                    percent = Math.min(100, Math.floor((elapsedSecs / totalWashingSecs) * 100));
+                }
+
+                const mins = Math.floor(progressRemainingSecs / 60);
+                const secs = progressRemainingSecs % 60;
+                
+                etaText.innerHTML = `Lavando... <strong style="color:var(--color-cyan)">${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}</strong> min restantes`;
+                document.getElementById('wash-progress').style.width = `${percent}%`;
+                document.getElementById('progress-text').innerText = `${Math.ceil(progressRemainingSecs / 60)} min aprox.`;
 
             } else if (zone === 'terminado') {
                 step1.classList.add('completed');
@@ -568,9 +616,21 @@
                 step2.classList.add('completed');
                 line2.classList.add('active');
                 step3.classList.add('active', 'completed');
-                
-                etaText.innerText = 'Tu vehículo ha quedado impecable. Te esperamos en la salida.';
+                queueCard.style.display = 'none';
+                progressCard.style.display = 'none';
+                displayContainer.classList.remove('in-wash');
+                etaText.innerHTML = '<strong style="color:var(--color-lime); font-size:1.1em;">¡Impecable!</strong><br>Te esperamos en la salida.';
             }
+        }
+
+        function initTrackingView() {
+            statusContainer.style.display = 'none';
+            document.getElementById('stepper-wrapper').style.display = 'flex';
+            etaText.style.display = 'block';
+            
+            // Primera carga manual
+            updateVisualStatus([], { entered_at: new Date().toISOString() });
+
 
             // Cargar detalles del servicio contratado
             const serviceCard = document.getElementById('service-card');
@@ -634,94 +694,13 @@
     </script>
 
     <footer class="app-footer">
-        &copy; 2026 <strong>Omar Adamo</strong>. Todos los derechos reservados. <br>
-        Lavadero Estética Vehicular • Software Independiente
+        &copy; 2026 <strong>Aura</strong>. Todos los derechos reservados. <br>
+        Lavadero Estética Vehicular • Desarrollado para Omar
     </footer>
 
+    <!-- Botón Flotante de WhatsApp -->
+    <a href="https://wa.me/5491100000000?text=Hola,%20tengo%20una%20consulta%20sobre%20el%20lavadero..." class="whatsapp-float" target="_blank" rel="noopener noreferrer">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
 </body>
 </html>
- : '-</div>
-                </div>
-                `;
-            });
-            grid.innerHTML = h;
-            
-            // Auto select URL parameter if present
-            const urlCat = urlParams.get('cat');
-            if (urlCat) {
-                const catNode = document.querySelector(`#config-cat-grid .wash-menu-card[data-cat="${urlCat}"]`);
-                if (catNode) {
-                    const found = VEHICLE_CATEGORIES.find(c => c.id === urlCat);
-                    selectCat(catNode, urlCat, found ? found.surcharge : 0);
-                    document.getElementById('config-cat-grid').parentElement.style.display = 'none'; // hide step 0 if pre-filled
-                }
-            } else if (VEHICLE_CATEGORIES.length > 0) {
-                // select first by default
-                const first = document.querySelector(`#config-cat-grid .wash-menu-card`);
-                if (first) selectCat(first, VEHICLE_CATEGORIES[0].id, VEHICLE_CATEGORIES[0].surcharge);
-            }
-        }
-
-        function selectCat(el, id, perc) {
-            document.querySelectorAll('#config-cat-grid .wash-menu-card').forEach(c => c.classList.remove('selected'));
-            el.classList.add('selected');
-            pendingCats = id;
-            currentMultiplier = 1 + (perc / 100);
-            renderCatMenu(); renderConfigMenu(); // re-render prices
-        }
-
-        let pendingTypeIds = [];
-
-        function renderConfigMenu() {
-            const grid = document.getElementById('config-wash-grid');
-            if(!grid) return;
-            let html = '';
-            for (const [id, details] of Object.entries(WASH_DETAILS)) {
-                const adjustedPrice = Math.round(details.price * currentMultiplier);
-                const isSelected = pendingTypeIds.includes(id) ? 'selected' : '';
-                html += `
-                <div class="wash-menu-card ${isSelected}" data-type="${id}" onclick="selectWash(this, '${id}')">
-                    <div class="check-badge">✓</div>
-                    <div class="wash-card-title" style="font-size: 0.75rem; min-height: 2.5em; display:flex; align-items:center; justify-content:center;">${details.name}</div>
-                    <div class="wash-card-price" style="font-size: 0.9rem;">${adjustedPrice.toLocaleString('es-AR')}</div>
-                </div>
-                `;
-            }
-            grid.innerHTML = html;
-        }
-
-        function selectWash(el, id) {
-            if (pendingTypeIds.includes(id)) {
-                pendingTypeIds = pendingTypeIds.filter(i => i !== id);
-                el.classList.remove('selected');
-            } else {
-                pendingTypeIds.push(id);
-                el.classList.add('selected');
-            }
-        }
-
-        function confirmarConfiguracion() {
-            if (!pendingCats) { alert('Por favor, selecciona qué vehículo tienes.'); return; }
-            if (pendingTypeIds.length === 0) { alert('Por favor, selecciona al menos un tipo de lavado.'); return; }
-            if (!pendingPay) { alert('Por favor, selecciona una forma de pago.'); return; }
-            
-            pendingType = pendingTypeIds.join(',');
-            
-            const newUrl = new URL(window.location);
-            newUrl.searchParams.set('cat', pendingCats);
-            newUrl.searchParams.set('t', pendingType);
-            newUrl.searchParams.set('pay', pendingPay);
-            window.history.pushState({}, '', newUrl);
-
-            type = pendingType;
-            payment = pendingPay;
-            
-            configView.style.display = 'none';
-            trackingView.style.display = 'block';
-            
-            document.getElementById('car-display-container').innerHTML = getCarSvg(color);
-            initTrackingView();
-        }
-
-
-        
