@@ -41,6 +41,7 @@ function initWashPackages() {
 initWashPackages();
 
 let selectedWashTypes = ['combo-limpieza-total'];
+let selectedWashType = 'combo-limpieza-total';
 
 // --- ESTADO GLOBAL ---
 let activeVehicles = [];
@@ -1072,11 +1073,6 @@ elFormRegister.addEventListener('submit', (e) => {
     elInputNickname.focus();
     
     showFloatingToast(`VehÃ­culo ${nickname} registrado.`);
-});
-
-// Toggle BotÃ³n SimulaciÃ³n
-elBtnSimulation.addEventListener('click', () => {
-    toggleSimulation();
 });
 
 // Arrancar AplicaciÃ³n
