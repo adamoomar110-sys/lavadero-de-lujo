@@ -170,7 +170,7 @@ async function loadRemoteConfig() {
             }
         }
     } catch (err) {
-        console.warn("Ã¢Å¡Â Ã¯Â¸Â No se pudo obtener la configuraciÃ³n remota (usando fallback local):", err);
+        console.warn("⚠️ No se pudo obtener la configuración remota (usando fallback local):", err);
     }
 }
 
@@ -179,17 +179,17 @@ function loadLocalData() {
     // Config
     const savedConfig = localStorage.getItem('lavadero_config');
     if (savedConfig) {
-        // Solo sobreescribir si no se cargÃ³ remotamente de Vercel
+        // Mezclar configuración guardada con los defaults
         const loadedConfig = JSON.parse(savedConfig);
-        if (!config.useSupabase) {
-            config = loadedConfig;
-        } else {
-            // Mantener las credenciales de Supabase del server pero recuperar otras preferencias si existieran
-            config.useSupabase = true;
+        config = { ...config, ...loadedConfig };
+        // Sincronizar credenciales para que la pantalla 3D de React las pueda leer
+        if (config.supabaseUrl && config.supabaseKey) {
+            localStorage.setItem('supabase_url', config.supabaseUrl);
+            localStorage.setItem('supabase_key', config.supabaseKey);
         }
     }
     
-    // VehÃ­culos Activos
+    // Vehículos Activos
     const savedVehicles = localStorage.getItem('lavadero_active_vehicles');
     if (savedVehicles) {
         activeVehicles = JSON.parse(savedVehicles);
