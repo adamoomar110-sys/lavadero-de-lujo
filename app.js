@@ -4,16 +4,16 @@ const ADJETIVOS = ["Red Bull", "Mercedes", "Ferrari", "McLaren", "Aston Martin",
 const COLORES = ["#00f0ff", "#84cc16", "#ffb800", "#3b82f6", "#ef4444", "#a855f7", "#f97316", "#ec4899", "#14b8a6", "#ff2800", "#00a19c", "#0600ef"];
 
 const DEFAULT_WASH_PACKAGES = [
-    { id: 'combo-limpieza-total', title: 'Limpieza Total', icon: 'ðŸŒ€', price: 18000, category: 'combos', items: ['Lavado exterior espuma activa', 'Aspirado alfombras/butacas', 'Limpieza cristales/pantallas', 'Silicona y perfumado clÃ¡sico'] },
-    { id: 'combo-vip-gold', title: 'VIP Gold', icon: 'ðŸ†', price: 25000, category: 'combos', items: ['Lavado pH neutro artesanal', 'Descontaminado de pintura', 'Encerado Carnauba brasileÃ±a', 'Aspirado con vapor'] },
-    { id: 'lavado-carroceria', title: 'Exterior Simple', icon: 'ðŸš—', price: 12000, category: 'lavados', items: ['Lavado shampoo pH balanceado', 'Secado manual microfibra', 'Acondicionado de neumÃ¡ticos'] },
-    { id: 'aspirado-interior', title: 'Interior Pro', icon: 'ðŸ’¨', price: 10000, category: 'lavados', items: ['Aspirado butacas y paneles', 'DesinfecciÃ³n de contacto', 'Acondicionado de plÃ¡sticos'] },
-    { id: 'lavado-express', title: 'Express', icon: 'âš¡', price: 8000, category: 'lavados', items: ['Lavado exterior a presiÃ³n', 'Secado rÃ¡pido', 'Brillo bÃ¡sico de cubiertas'] },
-    { id: 'lavado-motor', title: 'Motor Vapor', icon: 'ðŸ”¥', price: 15000, category: 'especiales', items: ['Limpieza tÃ©cnica a vapor', 'Desengrasantes biodegradables', 'Protector dielÃ©ctrico plÃ¡sticos'] },
-    { id: 'encerado-acrilico', title: 'Encerado', icon: 'ðŸ›¡ï¸', price: 22000, category: 'estetica', items: ['Lavado artesanal descontaminante', 'Cera selladora acrÃ­lica manual', 'Efecto hidrofÃ³bico extremo'] },
-    { id: 'lavado-chasis', title: 'Chasis', icon: 'ðŸ”©', price: 28000, category: 'especiales', items: ['Limpieza chasis inferior', 'Desengrasado pesado a vapor', 'Protector antioxidante metal'] },
-    { id: 'pulido-opticas', title: 'Ã“pticas', icon: 'ðŸ’¡', price: 16000, category: 'estetica', items: ['Lijado al agua multietapa', 'Pulido de policarbonato', 'Sellado UV de Ã³pticas'] },
-    { id: 'tratamiento-ceramico', title: 'CerÃ¡mico 9H', icon: 'ðŸ’Ž', price: 65000, category: 'estetica', items: ['CorrecciÃ³n de pintura 2 etapas', 'Sellador cerÃ¡mico 9H importado', 'ProtecciÃ³n contra rayones UV'], active: true }
+    { id: 'combo-limpieza-total', title: 'Limpieza Total', icon: '🌀', price: 18000, category: 'combos', items: ['Lavado exterior espuma activa', 'Aspirado alfombras/butacas', 'Limpieza cristales/pantallas', 'Silicona y perfumado clásico'] },
+    { id: 'combo-vip-gold', title: 'VIP Gold', icon: '🏆', price: 25000, category: 'combos', items: ['Lavado pH neutro artesanal', 'Descontaminado de pintura', 'Encerado Carnauba brasileña', 'Aspirado con vapor'] },
+    { id: 'lavado-carroceria', title: 'Exterior Simple', icon: '🚗', price: 12000, category: 'lavados', items: ['Lavado shampoo pH balanceado', 'Secado manual microfibra', 'Acondicionado de neumáticos'] },
+    { id: 'aspirado-interior', title: 'Interior Pro', icon: '💨', price: 10000, category: 'lavados', items: ['Aspirado butacas y paneles', 'Desinfección de contacto', 'Acondicionado de plásticos'] },
+    { id: 'lavado-express', title: 'Express', icon: '⚡', price: 8000, category: 'lavados', items: ['Lavado exterior a presión', 'Secado rápido', 'Brillo básico de cubiertas'] },
+    { id: 'lavado-motor', title: 'Motor Vapor', icon: '🔥', price: 15000, category: 'especiales', items: ['Limpieza técnica a vapor', 'Desengrasantes biodegradables', 'Protector dieléctrico plásticos'] },
+    { id: 'encerado-acrilico', title: 'Encerado', icon: '🛡️', price: 22000, category: 'estetica', items: ['Lavado artesanal descontaminante', 'Cera selladora acrílica manual', 'Efecto hidrofóbico extremo'] },
+    { id: 'lavado-chasis', title: 'Chasis', icon: '🔩', price: 28000, category: 'especiales', items: ['Limpieza chasis inferior', 'Desengrasado pesado a vapor', 'Protector antioxidante metal'] },
+    { id: 'pulido-opticas', title: 'Ópticas', icon: '💡', price: 16000, category: 'estetica', items: ['Lijado al agua multietapa', 'Pulido de policarbonato', 'Sellado UV de ópticas'] },
+    { id: 'tratamiento-ceramico', title: 'Cerámico 9H', icon: '💎', price: 65000, category: 'estetica', items: ['Corrección de pintura 2 etapas', 'Sellador cerámico 9H importado', 'Protección contra rayones UV'], active: true }
 ];
 
 let WASH_PACKAGES = [];
@@ -21,8 +21,8 @@ let WASH_NAMES = {};
 
 function initWashPackages() {
     let saved = localStorage.getItem('lavadero_wash_settings');
-    // Auto-fix for corrupted emojis
-    if (saved && (saved.includes('Ã°Å¸') || saved.includes('Ã¢Å¡'))) {
+    // Auto-fix para localStorage con emojis corruptos (cualquier variante)
+    if (saved && (saved.includes('\u00c3\u00b0') || saved.includes('ðŸ') || saved.includes('Ã°') || saved.includes('â\u0082¬'))) {
         localStorage.removeItem('lavadero_wash_settings');
         saved = null;
     }
@@ -263,32 +263,46 @@ async function syncFromSupabase() {
         const queueData = await fetchSupabase(`${config.queueTable}?select=*&order=entered_at.asc`);
         if (queueData && Array.isArray(queueData)) {
             activeVehicles = queueData.map(dbCar => {
-                let washType = 'combo-limpieza-total';
-                if (dbCar.description) {
+                // Decodificar nickname JSON (encodado por tablet_ingreso)
+                let extra = {};
+                try {
+                    if (dbCar.nickname && dbCar.nickname.startsWith('{')) {
+                        extra = JSON.parse(dbCar.nickname);
+                    }
+                } catch(e) { /* nickname es texto plano, no JSON */ }
+
+                const realNickname = extra.name || dbCar.nickname || 'Vehículo';
+                const plate = extra.plate || dbCar.plate || '';
+                const budget = extra.budget || dbCar.budget || 0;
+                const description = extra.description || dbCar.description || '';
+
+                // Resolver wash_type
+                let washType = extra.wash_type || dbCar.wash_type || 'combo-limpieza-total';
+                if (!WASH_NAMES[washType] && description) {
                     for (const key in WASH_NAMES) {
-                        if (dbCar.description.toLowerCase().includes(key.toLowerCase()) || 
-                            dbCar.description.toLowerCase().includes(WASH_NAMES[key].toLowerCase())) {
-                            washType = key;
-                            break;
+                        if (description.toLowerCase().includes(key.toLowerCase())) {
+                            washType = key; break;
                         }
                     }
                 }
+
                 return {
                     id: dbCar.id,
                     tracking_id: dbCar.tracking_id || Math.floor(Math.random() * 100),
-                    nickname: dbCar.nickname || 'VehÃ­culo Especial',
-                    plate: dbCar.plate || '',
+                    nickname: realNickname,
+                    plate: plate,
                     color: dbCar.color || '#06b6d4',
                     zone: dbCar.zone || 'espera',
-                    budget: dbCar.budget || 0,
-                    wash_type: dbCar.wash_type || washType,
-                    description: dbCar.description || '',
+                    budget: budget,
+                    wash_type: washType,
+                    description: description,
                     entered_at: dbCar.entered_at || new Date().toISOString(),
                     created_at: dbCar.created_at || new Date().toISOString()
                 };
             });
             saveStateLocally(false);
         }
+
 
         const historyData = await fetchSupabase(`${config.serviceTable}?status=eq.completed`);
         if (historyData && Array.isArray(historyData)) {

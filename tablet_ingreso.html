@@ -244,14 +244,27 @@
         let washPackages = [];
 
         function loadServices() {
-            const saved = localStorage.getItem('lavadero_wash_settings');
-            if(saved) {
+            let saved = localStorage.getItem('lavadero_wash_settings');
+            // Limpiar si hay emojis corruptos
+            if (saved && (saved.includes('ðŸ') || saved.includes('Ã') || saved.includes('â\x80'))) {
+                localStorage.removeItem('lavadero_wash_settings');
+                saved = null;
+            }
+            if (saved) {
                 washPackages = JSON.parse(saved);
             } else {
-                // Fallback default
+                // Fallback completo con emojis correctos
                 washPackages = [
-                    { id: 'combo-limpieza-total', title: 'Limpieza Total', icon: '🌪️', price: 18000 },
-                    { id: 'lavado-express', title: 'Express', icon: '⚡', price: 8000 }
+                    { id: 'combo-limpieza-total', title: 'Limpieza Total', icon: '🌀', price: 18000 },
+                    { id: 'combo-vip-gold',       title: 'VIP Gold',       icon: '🏆', price: 25000 },
+                    { id: 'lavado-carroceria',    title: 'Exterior Simple', icon: '🚗', price: 12000 },
+                    { id: 'aspirado-interior',    title: 'Interior Pro',    icon: '💨', price: 10000 },
+                    { id: 'lavado-express',       title: 'Express',        icon: '⚡', price: 8000  },
+                    { id: 'lavado-motor',         title: 'Motor Vapor',    icon: '🔥', price: 15000 },
+                    { id: 'encerado-acrilico',    title: 'Encerado',       icon: '🛡️', price: 22000 },
+                    { id: 'lavado-chasis',        title: 'Chasis',         icon: '🔩', price: 28000 },
+                    { id: 'pulido-opticas',       title: 'Ópticas',        icon: '💡', price: 16000 },
+                    { id: 'tratamiento-ceramico', title: 'Cerámico 9H',    icon: '💎', price: 65000 }
                 ];
             }
 
@@ -262,6 +275,7 @@
             });
             updatePrice();
         }
+
 
         function updatePrice() {
             const select = document.getElementById('in-service');
@@ -377,35 +391,105 @@
             document.getElementById('in-color').value = '#ffffff';
         }
         
+        // Configuración Supabase fija — mismo proyecto que el Panel principal
+        const PANEL_CONFIG = {
+            supabaseUrl: 'https://hacmhlyvyyysnvekvhya.supabase.co',
+            supabaseKey: 'sb_publishable_oEB1MoOee7lM99mvHCu_aA_T98vg3NA',
+            queueTable: 'lavadero_camera_queue'
+        };
+
+        // --- SISTEMA OFFLINE & COLA DE SINCRONIZACIÓN ---
+        function queueForSync(payload) {
+            const queue = JSON.parse(localStorage.getItem('lavadero_offline_queue') || '[]');
+            queue.push(payload);
+            localStorage.setItem('lavadero_offline_queue', JSON.stringify(queue));
+            console.log('[Tablet] 💾 Guardado en cola offline. Pendientes:', queue.length);
+        }
+
+        async function processOfflineQueue() {
+            if (!navigator.onLine) return;
+            const queue = JSON.parse(localStorage.getItem('lavadero_offline_queue') || '[]');
+            if (queue.length === 0) return;
+
+            console.log('[Tablet] 🔄 Sincronizando', queue.length, 'registros offline...');
+            const localConfig = JSON.parse(localStorage.getItem('lavadero_config') || '{}');
+            const url_base = (localConfig.supabaseUrl && localConfig.supabaseKey) ? localConfig.supabaseUrl : PANEL_CONFIG.supabaseUrl;
+            const key = (localConfig.supabaseUrl && localConfig.supabaseKey) ? localConfig.supabaseKey : PANEL_CONFIG.supabaseKey;
+            const table = localConfig.queueTable || PANEL_CONFIG.queueTable;
+
+            const pending = [];
+            for (const payload of queue) {
+                try {
+                    const res = await fetch(`${url_base}/rest/v1/${table}`, {
+                        method: 'POST',
+                        headers: { 'apikey': key, 'Authorization': `Bearer ${key}`, 'Content-Type': 'application/json', 'Prefer': 'return=representation' },
+                        body: JSON.stringify(payload)
+                    });
+                    if (!res.ok) throw new Error("Fallo sync de registro");
+                    console.log('[Tablet] ✅ Sincronizado ticket', payload.tracking_id);
+                } catch(err) {
+                    pending.push(payload); // Falla, vuelve a la cola
+                }
+            }
+            localStorage.setItem('lavadero_offline_queue', JSON.stringify(pending));
+            if(pending.length === 0 && queue.length > 0) alert('Sincronización offline completada');
+        }
+
+        window.addEventListener('online', processOfflineQueue);
+        setInterval(processOfflineQueue, 15000); // Reintento periodico por si acaso
+
         async function pushVehicleToSupabase(car) {
-            const config = JSON.parse(localStorage.getItem('lavadero_config') || '{}');
-            if (!config.useSupabase || !config.supabaseUrl || !config.supabaseKey) return;
+            const localConfig = JSON.parse(localStorage.getItem('lavadero_config') || '{}');
+            const url_base = (localConfig.supabaseUrl && localConfig.supabaseKey) ? localConfig.supabaseUrl : PANEL_CONFIG.supabaseUrl;
+            const key = (localConfig.supabaseUrl && localConfig.supabaseKey) ? localConfig.supabaseKey : PANEL_CONFIG.supabaseKey;
+            const table = localConfig.queueTable || PANEL_CONFIG.queueTable;
+
+            const nicknamePayload = JSON.stringify({
+                name: car.nickname,
+                plate: car.plate,
+                budget: car.budget,
+                wash_type: car.wash_type,
+                description: car.description
+            });
+
+            const payload = {
+                id: car.id,
+                tracking_id: car.tracking_id,
+                nickname: nicknamePayload,
+                color: car.color,
+                zone: car.zone,
+                entered_at: car.entered_at
+            };
+
+            if (!navigator.onLine) {
+                queueForSync(payload);
+                return;
+            }
+
             try {
-                const url = `${config.supabaseUrl}/rest/v1/${config.queueTable}`;
-                // Adapt to schema
-                const payload = {
-                    tracking_id: car.tracking_id,
-                    nickname: car.nickname,
-                    plate: car.plate,
-                    color: car.color,
-                    zone: car.zone,
-                    budget: car.budget,
-                    wash_type: car.wash_type,
-                    description: car.description
-                };
-                
-                await fetch(url, {
+                const res = await fetch(`${url_base}/rest/v1/${table}`, {
                     method: 'POST',
-                    headers: {
-                        'apikey': config.supabaseKey,
-                        'Authorization': `Bearer ${config.supabaseKey}`,
-                        'Content-Type': 'application/json',
-                        'Prefer': 'return=representation'
-                    },
+                    headers: { 'apikey': key, 'Authorization': `Bearer ${key}`, 'Content-Type': 'application/json', 'Prefer': 'return=representation' },
                     body: JSON.stringify(payload)
                 });
-            } catch (err) { }
+
+                if (res.ok) {
+                    console.log('[Tablet] ✅ Auto enviado al panel — Ticket #' + car.tracking_id);
+                } else {
+                    const errText = await res.text();
+                    console.error('[Tablet] ❌ Error Supabase:', res.status, errText);
+                    queueForSync(payload);
+                }
+            } catch (err) {
+                console.error('[Tablet] ❌ Sin conexión a Supabase:', err);
+                queueForSync(payload);
+            }
         }
+        
+        // Al arrancar procesamos posibles rezagados
+        processOfflineQueue();
+
+
 
         loadServices();
     </script>

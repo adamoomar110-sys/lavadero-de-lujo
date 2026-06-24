@@ -510,11 +510,14 @@
     </div>
 
     <script>
-
         // Cargar configuración de localStorage si existe (modo compartido en el mismo dispositivo)
         let WASH_DETAILS = {};
-        const savedSettings = localStorage.getItem('lavadero_wash_settings');
-        
+        let savedSettings = localStorage.getItem('lavadero_wash_settings');
+        if (savedSettings && (savedSettings.includes('\u00c3\u00b0') || savedSettings.includes('ðŸ') || savedSettings.includes('Ã°') || savedSettings.includes('â\u0082¬'))) {
+            localStorage.removeItem('lavadero_wash_settings');
+            savedSettings = null;
+        }
+
         if (savedSettings) {
             const packages = JSON.parse(savedSettings);
             packages.forEach(pkg => {
@@ -527,11 +530,16 @@
         } else {
             // Fallback por defecto si no hay localStorage
             WASH_DETAILS = {
-                'combo-limpieza-total': { name: 'Combo Limpieza Total ðŸŒ€', price: 18000, items: ['Lavado exterior espuma activa', 'Aspirado alfombras/butacas', 'Limpieza cristales/pantallas', 'Silicona y perfumado clásico'] },
-                'combo-vip-gold': { name: 'Combo VIP Gold ðŸ†', price: 25000, items: ['Lavado pH neutro artesanal', 'Descontaminado de pintura', 'Encerado Carnauba brasileña', 'Aspirado con vapor'] },
-                'lavado-carroceria': { name: 'Lavado Exterior Simple 🚗', price: 12000, items: ['Lavado shampoo pH balanceado', 'Secado manual microfibra', 'Acondicionado de neumáticos'] },
-                'aspirado-interior': { name: 'Aspirado e Interior Pro ðŸ’¨', price: 10000, items: ['Aspirado butacas y paneles', 'Desinfección de contacto', 'Acondicionado de plásticos'] },
-                'lavado-express': { name: 'Lavado Express ⚡', price: 8000, items: ['Lavado exterior a presión', 'Secado rápido', 'Brillo básico de cubiertas'] }
+                'combo-limpieza-total': { name: 'Limpieza Total 🌀', price: 18000, items: ['Lavado exterior espuma activa', 'Aspirado alfombras/butacas', 'Limpieza cristales/pantallas', 'Silicona y perfumado clásico'] },
+                'combo-vip-gold': { name: 'VIP Gold 🏆', price: 25000, items: ['Lavado pH neutro artesanal', 'Descontaminado de pintura', 'Encerado Carnauba brasileña', 'Aspirado con vapor'] },
+                'lavado-carroceria': { name: 'Exterior Simple 🚗', price: 12000, items: ['Lavado shampoo pH balanceado', 'Secado manual microfibra', 'Acondicionado de neumáticos'] },
+                'aspirado-interior': { name: 'Interior Pro 💨', price: 10000, items: ['Aspirado butacas y paneles', 'Desinfección de contacto', 'Acondicionado de plásticos'] },
+                'lavado-express': { name: 'Express ⚡', price: 8000, items: ['Lavado exterior a presión', 'Secado rápido', 'Brillo básico de cubiertas'] },
+                'lavado-motor': { name: 'Motor Vapor 🔥', price: 15000, items: ['Limpieza técnica a vapor', 'Desengrasantes biodegradables'] },
+                'encerado-acrilico': { name: 'Encerado 🛡️', price: 22000, items: ['Lavado artesanal descontaminante', 'Cera selladora acrílica manual'] },
+                'lavado-chasis': { name: 'Chasis 🔩', price: 28000, items: ['Limpieza chasis inferior', 'Desengrasado pesado a vapor'] },
+                'pulido-opticas': { name: 'Ópticas 💡', price: 16000, items: ['Lijado al agua multietapa', 'Pulido de policarbonato'] },
+                'tratamiento-ceramico': { name: 'Cerámico 9H 💎', price: 65000, items: ['Corrección de pintura 2 etapas', 'Sellador cerámico 9H importado'] }
             };
         }
 
@@ -602,14 +610,19 @@
         // Lógica de Selección de Configuración
         
         let VEHICLE_CATEGORIES = [];
-        const savedCatSettings = localStorage.getItem('lavadero_vehicle_categories');
+        let savedCatSettings = localStorage.getItem('lavadero_vehicle_categories');
+        if (savedCatSettings && (savedCatSettings.includes('\u00c3\u00b0') || savedCatSettings.includes('ðŸ') || savedCatSettings.includes('Ã°') || savedCatSettings.includes('â\u0082¬'))) {
+            localStorage.removeItem('lavadero_vehicle_categories');
+            savedCatSettings = null;
+        }
+
         if (savedCatSettings) {
             VEHICLE_CATEGORIES = JSON.parse(savedCatSettings);
         } else {
             VEHICLE_CATEGORIES = [
                 { id: 'Auto', surcharge: 0, icon: '🚗' },
                 { id: 'SUV', surcharge: 20, icon: '🚙' },
-                { id: 'Camioneta', surcharge: 50, icon: '🛻' }
+                { id: 'Camioneta', surcharge: 50, icon: '🚐' }
             ];
         }
 
@@ -622,10 +635,11 @@
             let h = '';
             VEHICLE_CATEGORIES.forEach(cat => {
                 h += `
-                <div class="wash-menu-card" data-cat="${cat.id}" onclick="selectCat(this, '${cat.id}', ${cat.surcharge})">
+                <div class="cat-menu-card" data-cat="${cat.id}" onclick="selectCat(this, '${cat.id}', ${cat.surcharge})">
                     <div class="check-badge">✓</div>
-                    <div class="wash-card-icon" style="font-size: 1.5rem;">${cat.icon}</div>
-                    <div class="wash-card-title" style="font-size: 0.65rem;">${cat.id} ${cat.surcharge > 0 ? '(+'+cat.surcharge+'%)' : ''}</div>
+                    <div class="cat-card-icon">${cat.icon}</div>
+                    <div class="cat-card-title">${cat.id}</div>
+                    ${cat.surcharge > 0 ? `<div class="cat-card-subtitle">+${cat.surcharge}%</div>` : ''}
                 </div>
                 `;
             });
@@ -634,7 +648,7 @@
             // Auto select URL parameter if present
             const urlCat = urlParams.get('cat');
             if (urlCat) {
-                const catNode = document.querySelector(`#config-cat-grid .wash-menu-card[data-cat="${urlCat}"]`);
+                const catNode = document.querySelector(`#config-cat-grid .cat-menu-card[data-cat="${urlCat}"]`);
                 if (catNode) {
                     const found = VEHICLE_CATEGORIES.find(c => c.id === urlCat);
                     selectCat(catNode, urlCat, found ? found.surcharge : 0);
@@ -642,17 +656,17 @@
                 }
             } else if (VEHICLE_CATEGORIES.length > 0) {
                 // select first by default
-                const first = document.querySelector(`#config-cat-grid .wash-menu-card`);
+                const first = document.querySelector(`#config-cat-grid .cat-menu-card`);
                 if (first) selectCat(first, VEHICLE_CATEGORIES[0].id, VEHICLE_CATEGORIES[0].surcharge);
             }
         }
 
         function selectCat(el, id, perc) {
-            document.querySelectorAll('#config-cat-grid .wash-menu-card').forEach(c => c.classList.remove('selected'));
+            document.querySelectorAll('#config-cat-grid .cat-menu-card').forEach(c => c.classList.remove('selected'));
             el.classList.add('selected');
             pendingCats = id;
             currentSurcharge = perc;
-            renderCatMenu(); renderConfigMenu(); // re-render prices
+            renderConfigMenu(); // re-render prices
         }
 
         let pendingTypeIds = [];
@@ -662,13 +676,14 @@
             if(!grid) return;
             let html = '';
             for (const [id, details] of Object.entries(WASH_DETAILS)) {
-                const adjustedPrice = details.price + currentSurcharge;
+                // currentSurcharge is a percentage (e.g., 20 for SUV)
+                const adjustedPrice = details.price * (1 + (currentSurcharge / 100));
                 const isSelected = pendingTypeIds.includes(id) ? 'selected' : '';
                 html += `
                 <div class="wash-menu-card ${isSelected}" data-type="${id}" onclick="selectWash(this, '${id}')">
                     <div class="check-badge">✓</div>
                     <div class="wash-card-title" style="font-size: 0.75rem; min-height: 2.5em; display:flex; align-items:center; justify-content:center;">${details.name}</div>
-                    <div class="wash-card-price" style="font-size: 0.9rem;">${adjustedPrice.toLocaleString('es-AR')}</div>
+                    <div class="wash-card-price" style="font-size: 0.9rem;">$${adjustedPrice.toLocaleString('es-AR')}</div>
                 </div>
                 `;
             }
@@ -709,27 +724,44 @@
         }
 
 
+        // ── Config Supabase (mismo proyecto que el panel) ──
+        const SB_URL  = 'https://hacmhlyvyyysnvekvhya.supabase.co';
+        const SB_KEY  = 'sb_publishable_oEB1MoOee7lM99mvHCu_aA_T98vg3NA';
+        const SB_TABLE = 'lavadero_camera_queue';
+
         let activeTimer = null;
         
         // Setup timer to update realtime si tenemos ID
         if (carId) {
-            setInterval(() => {
-                const vehiclesStr = localStorage.getItem('lavadero_active_vehicles');
-                if (vehiclesStr) {
-                    const vehicles = JSON.parse(vehiclesStr);
-                    const myCar = vehicles.find(v => v.id == carId);
-                    if (myCar) {
-                        zone = myCar.zone;
-                        type = myCar.wash_type;
+            setInterval(async () => {
+                try {
+                    // Obtener todos los autos para calcular posición en cola
+                    const allRes = await fetch(`${SB_URL}/rest/v1/${SB_TABLE}?select=id,zone,entered_at,wash_type,nickname&order=entered_at.asc`, {
+                        headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}` }
+                    });
+                    
+                    if (allRes.ok) {
+                        const vehicles = await allRes.json();
+                        const myCar = vehicles.find(v => v.id == carId);
                         
-                        const esperaCars = vehicles.filter(v => v.zone === 'espera').sort((a,b) => new Date(a.entered_at) - new Date(b.entered_at));
-                        pos = esperaCars.findIndex(v => v.id == carId) + 1;
-                        if (pos <= 0) pos = 1;
+                        if (myCar) {
+                            zone = myCar.zone || zone;
 
-                        updateVisualStatus(vehicles, myCar);
+                            let extra = {};
+                            try { if (myCar.nickname && myCar.nickname.startsWith('{')) extra = JSON.parse(myCar.nickname); } catch(e) {}
+                            const washType = extra.wash_type || myCar.wash_type || type;
+
+                            const esperaCars = vehicles.filter(v => v.zone === 'espera');
+                            pos = esperaCars.findIndex(v => v.id == carId) + 1;
+                            if (pos <= 0) pos = 1;
+
+                            updateVisualStatus(vehicles, myCar);
+                        }
                     }
+                } catch(e) {
+                    console.log("Offline or error fetching from DB, keeping last state", e);
                 }
-            }, 1000);
+            }, 5000);
         }
 
         function updateVisualStatus(allVehicles, myCar) {
