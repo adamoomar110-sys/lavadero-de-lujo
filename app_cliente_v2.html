@@ -866,7 +866,15 @@
         // INIT LOGIC
         if (!type || !payment) {
             // Entra en modo Configuración si falta algún dato
-            window.location.replace('app_cliente_v2.html');
+            document.getElementById('config-view').style.display = 'block';
+            document.getElementById('status-container').style.display = 'none';
+            const stepper = document.getElementById('stepper-wrapper');
+            if (stepper) stepper.style.display = 'none';
+            if (etaText) etaText.style.display = 'none';
+            
+            // Si las funciones existen en este script, renderizamos
+            if (typeof renderCatMenu === 'function') renderCatMenu();
+            if (typeof renderWashMenu === 'function') renderWashMenu();
         } else {
             // Ya está configurado, entra en modo Tracking Directamente
             initTrackingView();
