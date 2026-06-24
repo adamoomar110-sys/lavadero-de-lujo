@@ -354,9 +354,47 @@
         }
         .btn-primary:active { transform: scale(0.98); }
 
+        .ticker-wrap {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            border-bottom: 1px solid var(--color-cyan);
+            overflow: hidden;
+            white-space: nowrap;
+            padding: 8px 0;
+            z-index: 1000;
+        }
+        .ticker-content {
+            display: inline-block;
+            white-space: nowrap;
+            padding-left: 100%;
+            animation: ticker 30s linear infinite;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.85rem;
+            color: var(--color-cyan);
+            font-weight: 600;
+        }
+        @keyframes ticker {
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-100%, 0, 0); }
+        }
+        .ticker-item {
+            display: inline-block;
+            padding: 0 2rem;
+            letter-spacing: 1px;
+        }
     </style>
 </head>
-<body>
+<body style="padding-top: 40px;">
+
+    <!-- Marquesina de Precios -->
+    <div class="ticker-wrap">
+        <div class="ticker-content" id="price-ticker">
+            <!-- Cargando precios... -->
+        </div>
+    </div>
 
     <div class="premium-card">
         <div class="client-header">
@@ -496,6 +534,21 @@
                 'lavado-express': { name: 'Lavado Express ⚡', price: 8000, items: ['Lavado exterior a presión', 'Secado rápido', 'Brillo básico de cubiertas'] }
             };
         }
+
+        // --- Renderizar Marquesina de Precios ---
+        function renderTicker() {
+            const ticker = document.getElementById('price-ticker');
+            if(!ticker) return;
+            let htmlStr = '';
+            for (const [id, details] of Object.entries(WASH_DETAILS)) {
+                htmlStr += `<span class="ticker-item">🔹 ${details.name}: $${details.price.toLocaleString('es-AR')}</span>`;
+            }
+            htmlStr += `<span class="ticker-item" style="color: #fff">💳 Aceptamos Efectivo, Transferencia y Tarjetas</span>`;
+            
+            // Duplicar para que el loop sea más fluido
+            ticker.innerHTML = htmlStr + htmlStr;
+        }
+        renderTicker();
 
         // Dibujo de Auto SVG adaptado
         
