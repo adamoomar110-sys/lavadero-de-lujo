@@ -48,6 +48,7 @@ let activeVehicles = [];
 let washHistory = [];
 let empleados = [];
 let insumos = [];
+let isSyncing = false;
 let config = {
     useSupabase: true,
     supabaseUrl: 'https://hacmhlyvyyysnvekvhya.supabase.co',
@@ -58,6 +59,49 @@ let config = {
 let isSimulationActive = false;
 let simulationIntervalId = null;
 let realtimeTickerId = null;
+
+// --- FUNCIÓN ACTUALIZAR ESTADO CONEXIÓN ---
+function updateConnectionStatus(status) {
+    if (!elConnectionStatus) return;
+    const dot = elConnectionStatus.querySelector('.status-indicator-dot');
+    const label = elConnectionStatus.querySelector('.status-label');
+    if (status === 'Connected') {
+        elConnectionStatus.className = 'connection-status supabase-active';
+        if (label) label.innerText = 'Supabase Activo';
+        if (dot) dot.style.backgroundColor = '#84cc16';
+    } else if (status === 'Syncing...') {
+        elConnectionStatus.className = 'connection-status syncing';
+        if (label) label.innerText = 'Sincronizando...';
+        if (dot) dot.style.backgroundColor = '#ffb800';
+    } else if (status === 'Error') {
+        elConnectionStatus.className = 'connection-status error';
+        if (label) label.innerText = 'Error BD';
+        if (dot) dot.style.backgroundColor = '#ef4444';
+    } else {
+        elConnectionStatus.className = 'connection-status';
+        if (label) label.innerText = 'Modo Local';
+        if (dot) dot.style.backgroundColor = '';
+    }
+}
+
+// --- FUNCIÓN ACTUALIZAR REVENUE NETO ---
+function updateRevenueDisplay() {
+    // Recaudación real (historial completado)
+    const realRevenue = washHistory.reduce((acc, curr) => acc + (curr.budget || 0), 0);
+    // Gastos y sueldos pagados
+    const totalGastos = (typeof FINANZAS !== 'undefined' ? FINANZAS.gastos : []).filter(g => g.estado === 'Pagado').reduce((acc, g) => acc + (g.monto || 0), 0);
+    const totalSueldos = (typeof FINANZAS !== 'undefined' ? FINANZAS.sueldos : []).reduce((acc, s) => acc + (s.monto || 0), 0);
+    const gananciaNeta = realRevenue - totalGastos - totalSueldos;
+    
+    const elRevReal = document.getElementById('revenue-real-display');
+    const elGanancia = document.getElementById('ganancia-neta-display');
+    
+    if (elRevReal) elRevReal.innerText = `$${realRevenue.toLocaleString('es-AR')}`;
+    if (elGanancia) {
+        elGanancia.innerText = `$${gananciaNeta.toLocaleString('es-AR')}`;
+        elGanancia.style.color = gananciaNeta >= 0 ? 'var(--color-lime)' : 'var(--color-red)';
+    }
+}
 
 // --- DIBUJO DE AUTO SVG (ESTILO F1 VISTA SUPERIOR) ---
 function getCarSvg(color) {
@@ -732,6 +776,27 @@ function renderAll() {
     calculateRevenue();
 }
 
+// Variable global para demora manual
+let manualDelayOverride = null;
+
+// Botón de demora manual
+const elBtnManualDelay = document.getElementById('btn-manual-delay');
+if (elBtnManualDelay) {
+    elBtnManualDelay.addEventListener('click', () => {
+        const val = prompt("Ingresa el tiempo de demora manual en minutos (o deja vacío para volver al modo automático):", manualDelayOverride || "");
+        if (val === null) return; // Canceló
+        if (val.trim() === '') {
+            manualDelayOverride = null;
+        } else {
+            const num = parseInt(val, 10);
+            if (!isNaN(num)) {
+                manualDelayOverride = num;
+            }
+        }
+        calculateETA();
+    });
+}
+
 // Calcular Demora Estimada
 function calculateETA() {
     let etaMinutos = 0;
@@ -748,6 +813,9 @@ function calculateETA() {
         etaMinutos = esperaCount * 7;
     }
 
+    if (manualDelayOverride !== null) {
+        etaMinutos = manualDelayOverride;
+    }
     
     // Calculate Densidad Cola
     const densidadDisplay = document.getElementById('densidad-display');
@@ -775,7 +843,7 @@ function calculateETA() {
         elEtaDisplay.innerText = "Sin Demoras ⚡";
         elEtaDisplay.className = "eta-value text-cyan";
     } else {
-        elEtaDisplay.innerText = `~ ${etaMinutos} MINUTOS`;
+        elEtaDisplay.innerText = `~ ${etaMinutos} MINUTOS${manualDelayOverride !== null ? ' (Manual)' : ''}`;
         elEtaDisplay.className = "eta-value text-yellow";
     }
 }
@@ -1911,10 +1979,10 @@ window.openScannerModal = function() {
     
     setTimeout(() => {
         feed.classList.add('scanning-active');
-        text.innerText = "ANALIZANDO VEHÃCULO...";
+        text.innerText = "ANALIZANDO VEHÍCULO...";
         
         setTimeout(() => {
-            text.innerText = "Â¡VEHÃCULO DETECTADO!";
+            text.innerText = "¡VEHÍCULO DETECTADO!";
             feed.classList.remove('scanning-active');
             feed.style.background = 'radial-gradient(circle at center, rgba(0,240,255,0.2) 0%, #000 100%)';
             
@@ -1950,7 +2018,7 @@ window.openScannerModal = function() {
             setTimeout(() => {
                 if(window.closeScannerModal) window.closeScannerModal();
                 else modal.style.display = 'none';
-                if(typeof showFloatingToast === 'function') showFloatingToast("Datos del vehÃ­culo cargados por IA.");
+                if(typeof showFloatingToast === 'function') showFloatingToast("Datos del vehículo cargados por IA.");
                 if (realImg) {
                     realImg.style.opacity = '0';
                     setTimeout(() => { realImg.style.display = 'none'; }, 500);
@@ -1961,8 +2029,24 @@ window.openScannerModal = function() {
     }, 500);
 }
 
+window.closeScannerModal = function() {
+    const modal = document.getElementById('modal-scanner-ia');
+    if (!modal) return;
+    modal.classList.remove('active');
+    setTimeout(() => {
+        modal.style.display = 'none';
+        const feed = document.querySelector('.scanner-feed');
+        const text = document.getElementById('scanner-text');
+        if (feed) {
+            feed.classList.remove('scanning-active');
+            feed.style.background = '';
+        }
+        if (text) text.innerText = 'INICIANDO CÁMARA...';
+    }, 300);
+};
 
-// --- GESTIÃ“N DE CATEGORÃAS DE VEHÃCULOS ---
+
+// --- GESTIÃ“N DE CATEGORÃ AS DE VEHÃ CULOS ---
 const DEFAULT_VEHICLE_CATEGORIES = [
         { id: 'Auto', percentage: 0, icon: 'ðŸš—' },
         { id: 'SUV', percentage: 10, icon: 'ðŸš™' },
@@ -2244,8 +2328,9 @@ function populateEmpleadosSueldos() {
     if(!select) return;
     select.innerHTML = '<option value="">Seleccione empleado...</option>';
     
-    // Extraer empleados unicos del registro de horas
-    const unicos = [...new Set(EMPLOYEE_RECORDS.map(e => e.name))];
+    // Extraer empleados únicos del registro de horas (usando array global de empleados)
+    const empSource = Array.isArray(empleados) && empleados.length > 0 ? empleados : JSON.parse(localStorage.getItem('lavadero_empleados') || '[]');
+    const unicos = [...new Set(empSource.map(e => e.name).filter(Boolean))];
     unicos.forEach(emp => {
         const opt = document.createElement('option');
         opt.value = emp;
