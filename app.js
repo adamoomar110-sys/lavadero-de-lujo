@@ -265,7 +265,8 @@ function loadLocalData() {
     }
 }
 
-// --- CONEXIÃ“N DE DATOS & SYNC SUPABASE ---function updateConnectionStatus(msg, className) {
+// --- CONEXIÓN DE DATOS & SYNC SUPABASE ---
+function updateConnectionStatus(msg, className) {
     console.log("Supabase Status:", msg);
 }
 
