@@ -23,7 +23,14 @@ export default function RootLayout({
         <SettingsProvider>
           <SplashScreen />
           <AuthProvider>
-            {children}
+            <div className="flex flex-col min-h-screen">
+              <main className="flex-grow">
+                {children}
+              </main>
+              <footer className="w-full bg-[#0a0a0a] text-white/50 text-center py-4 text-sm mt-auto border-t border-white/10">
+                &copy; {new Date().getFullYear()} Aura. Todos los derechos reservados.
+              </footer>
+            </div>
           </AuthProvider>
         </SettingsProvider>
       </body>

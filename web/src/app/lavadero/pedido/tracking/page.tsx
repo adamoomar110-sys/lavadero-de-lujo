@@ -40,7 +40,11 @@ function QueueTimer({ enteredAt, zone }: { enteredAt: string | null; zone: strin
 
   useEffect(() => {
     if (!enteredAt) return;
-    const start = new Date(enteredAt).getTime();
+    let safeDate = enteredAt.replace(' ', 'T');
+    if (!safeDate.endsWith('Z') && !safeDate.includes('+') && safeDate.split('T')[1] && safeDate.split('T')[1].length <= 8) {
+       safeDate += 'Z';
+    }
+    const start = new Date(safeDate).getTime();
     
     const update = () => {
       const now = new Date().getTime();
@@ -341,7 +345,7 @@ export default function TrackingClienteMovi() {
           <span>•</span>
           <a href="https://wa.me/5491178295317" target="_blank" rel="noopener noreferrer" className="hover:text-orange-500 transition-colors">WhatsApp</a>
           <span>•</span>
-          <span className="text-zinc-600 font-black">v1.1</span>
+          <span className="text-zinc-600 font-black">v1.5</span>
         </div>
       </footer>
     </div>

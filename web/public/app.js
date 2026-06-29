@@ -50,8 +50,8 @@ let empleados = [];
 let insumos = [];
 let config = {
     useSupabase: true,
-    supabaseUrl: 'https://hacmhlyvyyysnvekvhya.supabase.co',
-    supabaseKey: 'sb_publishable_oEB1MoOee7lM99mvHCu_aA_T98vg3NA',
+    supabaseUrl: 'https://actxvqczpnbstlatrvto.supabase.co',
+    supabaseKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFjdHh2cWN6cG5ic3RsYXRydnRvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA1MzU2NTIsImV4cCI6MjA5NjExMTY1Mn0.AmjLZzpc_nDPt3_ZDFgOuo-YcM9JHSBsCIUL7TtbMi8',
     queueTable: 'lavadero_camera_queue',
     serviceTable: 'service_orders'
 };
@@ -249,6 +249,49 @@ function loadLocalData() {
 
     if (config.useSupabase) {
         elSupabaseFields.classList.remove('hidden');
+    }
+}
+
+function updateConnectionStatus(status, className = '') {
+    if (!elConnectionStatus) return;
+    const labelEl = elConnectionStatus.querySelector('.status-label');
+    const dotEl = elConnectionStatus.querySelector('.status-indicator-dot');
+    if (!labelEl) return;
+
+    if (status === "Syncing...") {
+        elConnectionStatus.className = "connection-status";
+        labelEl.innerText = "Sincronizando...";
+        if (dotEl) {
+            dotEl.style.backgroundColor = "var(--color-cyan)";
+            dotEl.style.boxShadow = "0 0 6px var(--color-cyan)";
+        }
+    } else if (status === "Connected") {
+        elConnectionStatus.className = "connection-status supabase-active";
+        labelEl.innerText = "Supabase Sincronizado";
+        if (dotEl) {
+            dotEl.style.backgroundColor = "var(--color-lime)";
+            dotEl.style.boxShadow = "0 0 6px var(--color-lime)";
+        }
+    } else if (status === "Error") {
+        elConnectionStatus.className = "connection-status";
+        labelEl.innerText = "Error de Conexión";
+        if (dotEl) {
+            dotEl.style.backgroundColor = "#ef4444";
+            dotEl.style.boxShadow = "0 0 6px #ef4444";
+        }
+    } else if (status === "Local") {
+        elConnectionStatus.className = "connection-status";
+        labelEl.innerText = "Modo Local";
+        if (dotEl) {
+            dotEl.style.backgroundColor = "#a6a6a6";
+            dotEl.style.boxShadow = "none";
+        }
+    } else {
+        labelEl.innerText = status;
+        if (className === "bg-danger" && dotEl) {
+            dotEl.style.backgroundColor = "#ef4444";
+            dotEl.style.boxShadow = "0 0 6px #ef4444";
+        }
     }
 }
 

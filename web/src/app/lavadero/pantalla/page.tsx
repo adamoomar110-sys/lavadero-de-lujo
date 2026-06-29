@@ -63,7 +63,11 @@ function VehicleTimer({ enteredAt, zone }: { enteredAt: string; zone: 'espera' |
   const [seconds, setSeconds] = useState(0);
 
   useEffect(() => {
-    const start = new Date(enteredAt).getTime();
+    let safeDate = enteredAt.replace(' ', 'T');
+    if (!safeDate.endsWith('Z') && !safeDate.includes('+') && safeDate.split('T')[1] && safeDate.split('T')[1].length <= 8) {
+       safeDate += 'Z';
+    }
+    const start = new Date(safeDate).getTime();
     
     const update = () => {
       const now = new Date().getTime();

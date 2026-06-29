@@ -228,7 +228,7 @@ export default function SplashScreen() {
                   className="text-[9px] tracking-widest"
                   style={{ color: '#4b5563', fontFamily: 'monospace' }}
                 >
-                  © 2026 Omar Adamo  •  v1.1
+                  © 2026 Omar Adamo  •  v1.5
                 </motion.p>
               </motion.div>
             )}
