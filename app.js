@@ -1054,7 +1054,7 @@ function startRealtimeTicker() {
 
     realtimeTickerId = setInterval(() => {
         const now = new Date().getTime();
-        const WASH_DURATION_SECS = 15 * 60; // 15 minutos en segundos
+        const WASH_DURATION_SECS = 7 * 60; // 7 minutos en segundos
 
         // Calcular cuánto tiempo restante le queda al auto que se está lavando
         let remainingWashingSecs = 0;
