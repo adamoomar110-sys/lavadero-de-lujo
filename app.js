@@ -253,7 +253,10 @@ function loadLocalData() {
     }
 }
 
-// --- CONEXIÃ“N DE DATOS & SYNC SUPABASE ---
+// --- CONEXIÃ“N DE DATOS & SYNC SUPABASE ---function updateConnectionStatus(msg, className) {
+    console.log("Supabase Status:", msg);
+}
+
 async function syncFromSupabase() {
     if (!config.useSupabase || !config.supabaseUrl || !config.supabaseKey) return;
     
@@ -1189,13 +1192,23 @@ elBtnSaveConfig.addEventListener('click', async () => {
     }
 });
 
-// Limpiar historial
-elBtnClearHistory.addEventListener('click', () => {
-    if (confirm("Â¿EstÃ¡s completamente seguro de borrar todo el historial y estadÃ­sticas de recaudaciÃ³n local?")) {
+elBtnClearHistory.addEventListener('click', async () => {
+    if (confirm("¿Estás completamente seguro de borrar todo el historial y estadísticas de recaudación?")) {
         washHistory = [];
         saveStateLocally(false);
         renderAll();
-        showFloatingToast("Historial borrado.");
+        
+        if (config.useSupabase) {
+            try {
+                await fetchSupabase(`${config.serviceTable}?status=eq.completed`, { method: 'DELETE' });
+                showFloatingToast("Historial borrado en local y en la nube.");
+            } catch(e) {
+                console.error(e);
+                showFloatingToast("Historial borrado localmente.");
+            }
+        } else {
+            showFloatingToast("Historial borrado.");
+        }
     }
 });
 
@@ -2245,6 +2258,15 @@ function initFinanzas() {
     }
     renderFinanzas();
     populateEmpleadosSueldos();
+}
+function updateRevenueDisplay() {
+    const elRevenue = document.getElementById('total-revenue-display');
+    if (elRevenue) {
+        // Calcular de washHistory si no estÃ¡ en FINANZAS o si asÃ­ lo requiere la UI
+        let sum = 0;
+        washHistory.forEach(w => sum += Number(w.budget || 0));
+        elRevenue.innerText = `$${sum.toLocaleString()}`;
+    }
 }
 
 function saveFinanzas() {
