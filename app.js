@@ -725,8 +725,17 @@ function createVehicleElement(car, index = -1) {
                     <div class="wash-progress-fill" data-progress-fill="${car.entered_at}" style="width: 0%"></div>
                 </div>
             `;
+        } else if (car.zone === 'aspirado') {
+            timerHtml = `
+                <div class="timer-badge washing">
+                    <span data-timer-type="vacuuming" data-start="${car.entered_at}">07:00</span>
+                </div>
+                <div class="wash-progress-bar">
+                    <div class="wash-progress-fill" data-progress-fill-vacuum="${car.entered_at}" style="width: 0%"></div>
+                </div>
+            `;
         } else if (car.zone === 'terminado') {
-            timerHtml = `<span class="timer-badge finished">âœ” LISTO</span>`;
+            timerHtml = `<span class="timer-badge finished">✔ LISTO</span>`;
         }
 
         container.innerHTML = `
@@ -1098,6 +1107,31 @@ function startRealtimeTicker() {
         // 3. Barra de progreso asumiendo un lavado real promedio de 15 minutos (900 seg)
         document.querySelectorAll('[data-progress-fill]').forEach(el => {
             const startStr = el.getAttribute('data-progress-fill');
+            if (startStr) {
+                const start = new Date(startStr).getTime();
+                const elapsedSecs = Math.max(0, Math.floor((now - start) / 1000));
+                const percent = Math.min(100, Math.floor((elapsedSecs / WASH_DURATION_SECS) * 100));
+                el.style.width = `${percent}%`;
+            }
+        });
+
+        // 4. Relojes en aspirado
+        document.querySelectorAll('[data-timer-type="vacuuming"]').forEach(el => {
+            const startStr = el.getAttribute('data-start');
+            if (startStr) {
+                const start = new Date(startStr).getTime();
+                const elapsedSecs = Math.max(0, Math.floor((now - start) / 1000));
+                const remainingSecs = Math.max(0, WASH_DURATION_SECS - elapsedSecs);
+
+                const mins = Math.floor(remainingSecs / 60);
+                const secs = remainingSecs % 60;
+                el.innerText = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+            }
+        });
+
+        // 5. Barra de progreso aspirado
+        document.querySelectorAll('[data-progress-fill-vacuum]').forEach(el => {
+            const startStr = el.getAttribute('data-progress-fill-vacuum');
             if (startStr) {
                 const start = new Date(startStr).getTime();
                 const elapsedSecs = Math.max(0, Math.floor((now - start) / 1000));
