@@ -280,7 +280,20 @@ export default function PantallaLavadero() {
                     <p className="text-xs font-black uppercase tracking-wider">Línea Libre</p>
                   </motion.div>
                 ) : (
-                  vehicles.filter(v => v.zone === 'espera').map((v) => (
+                  vehicles.filter(v => v.zone === 'espera').map((v) => {
+                    let parsedNickname = v.nickname;
+                    let isPaid = false;
+                    try {
+                      if (v.nickname && v.nickname.startsWith('{')) {
+                        const parsed = JSON.parse(v.nickname);
+                        parsedNickname = parsed.name || v.nickname;
+                        isPaid = parsed.isPaid || false;
+                      }
+                    } catch (e) {
+                      // fallback to original if JSON parsing fails
+                    }
+                    
+                    return (
                     <motion.div
                       key={v.id}
                       layoutId={v.id}
@@ -288,17 +301,34 @@ export default function PantallaLavadero() {
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: 50, scale: 0.9 }}
                       transition={{ type: 'spring', stiffness: 200, damping: 20 }}
-                      className="flex flex-col items-center gap-3 relative"
+                      className="relative overflow-hidden rounded-md border-2 border-zinc-800 shadow-xl flex flex-col w-28 h-40"
                     >
-                      <div className="transform rotate-180">
-                        <RetroCar color={v.color} />
+                      {/* Top part: Car color */}
+                      <div 
+                        className="flex-1 flex flex-col items-center justify-center relative"
+                        style={{ backgroundColor: v.color }}
+                      >
+                        <div className="absolute inset-0 bg-black/10" />
+                        <div className="transform rotate-180 z-10 scale-[0.6] mt-[-10px]">
+                          <RetroCar color={v.color} />
+                        </div>
                       </div>
-                      <div className="text-center">
-                        <p className="text-[11px] font-black tracking-tight text-black uppercase">{v.nickname}</p>
+                      
+                      {/* Bottom part: Payment Status */}
+                      <div 
+                        className={`h-[4.5rem] flex flex-col items-center justify-center z-10 ${
+                          isPaid 
+                            ? 'bg-green-500 text-green-950' 
+                            : 'bg-red-500 text-red-950'
+                        }`}
+                      >
+                        <p className="text-[11px] font-black tracking-tight uppercase px-1 truncate w-full text-center">
+                          {parsedNickname}
+                        </p>
                         <VehicleTimer enteredAt={v.entered_at} zone="espera" />
                       </div>
                     </motion.div>
-                  ))
+                  )})
                 )}
               </AnimatePresence>
             </div>

@@ -8,6 +8,7 @@ const DEFAULT_WASH_PACKAGES = [
     { id: 'combo-vip-gold', title: 'VIP Gold', icon: '🏆', price: 25000, category: 'combos', items: ['Lavado pH neutro artesanal', 'Descontaminado de pintura', 'Encerado Carnauba brasileña', 'Aspirado con vapor'] },
     { id: 'lavado-carroceria', title: 'Exterior Simple', icon: '🚗', price: 12000, category: 'lavados', items: ['Lavado shampoo pH balanceado', 'Secado manual microfibra', 'Acondicionado de neumáticos'] },
     { id: 'aspirado-interior', title: 'Interior Pro', icon: '💨', price: 10000, category: 'lavados', items: ['Aspirado butacas y paneles', 'Desinfección de contacto', 'Acondicionado de plásticos'] },
+    { id: 'solo-aspirado', title: 'Solo Aspirado', icon: '💨', price: 5000, category: 'lavados', items: ['Aspirado básico interior'] },
     { id: 'lavado-express', title: 'Express', icon: '⚡', price: 8000, category: 'lavados', items: ['Lavado exterior a presión', 'Secado rápido', 'Brillo básico de cubiertas'] },
     { id: 'lavado-motor', title: 'Motor Vapor', icon: '🔥', price: 15000, category: 'especiales', items: ['Limpieza técnica a vapor', 'Desengrasantes biodegradables', 'Protector dieléctrico plásticos'] },
     { id: 'encerado-acrilico', title: 'Encerado', icon: '🛡️', price: 22000, category: 'estetica', items: ['Lavado artesanal descontaminante', 'Cera selladora acrílica manual', 'Efecto hidrofóbico extremo'] },
@@ -29,6 +30,17 @@ function initWashPackages() {
 
     if (saved) {
         WASH_PACKAGES = JSON.parse(saved);
+        // Sincronizar paquetes nuevos que no estén en localStorage
+        let updated = false;
+        DEFAULT_WASH_PACKAGES.forEach(defPkg => {
+            if (!WASH_PACKAGES.find(p => p.id === defPkg.id)) {
+                WASH_PACKAGES.push(defPkg);
+                updated = true;
+            }
+        });
+        if (updated) {
+            localStorage.setItem('lavadero_wash_settings', JSON.stringify(WASH_PACKAGES));
+        }
     } else {
         WASH_PACKAGES = [...DEFAULT_WASH_PACKAGES];
         localStorage.setItem('lavadero_wash_settings', JSON.stringify(WASH_PACKAGES));
@@ -459,7 +471,7 @@ async function saveStateLocally(syncRemote = true) {
 // --- OPERACIONES DE VEHÃCULOS ---
 
 // Agregar VehÃ­culo
-async function addVehicle(nickname, plate, color, budgetStr, washType, phone = '', clientType = 'normal', paymentMethod = 'efectivo') {
+async function addVehicle(nickname, plate, color, budgetStr, washType, phone = '', clientType = 'normal', paymentMethod = 'efectivo', isPaid = false) {
     const budget = budgetStr ? parseFloat(budgetStr) : 0;
     const wType = washType || 'combo-limpieza-total';
     const washName = WASH_NAMES[wType] || 'Combo Limpieza Total';
@@ -487,6 +499,7 @@ async function addVehicle(nickname, plate, color, budgetStr, washType, phone = '
         phone,
         clientType,
         paymentMethod,
+        isPaid,
         color,
         zone: 'espera',
         budget,
@@ -500,13 +513,19 @@ async function addVehicle(nickname, plate, color, budgetStr, washType, phone = '
     saveStateLocally(true);
 
     if (config.useSupabase) {
+        const nicknamePayload = JSON.stringify({
+            name: newCar.nickname,
+            isPaid: isPaid,
+            paymentMethod: paymentMethod
+        });
+        
         // Registrar en lavadero_camera_queue de Supabase
         await fetchSupabase(config.queueTable, {
             method: 'POST',
             body: JSON.stringify({
                 id: newCar.id,
                 tracking_id: newCar.tracking_id,
-                nickname: newCar.nickname,
+                nickname: nicknamePayload,
                 zone: newCar.zone,
                 color: newCar.color,
                 entered_at: newCar.entered_at
@@ -1280,16 +1299,18 @@ elFormRegister.addEventListener('submit', (e) => {
     const phone = elInputPhone ? elInputPhone.value.trim() : '';
     const clientType = elInputClientType ? elInputClientType.value : 'normal';
     const paymentMethod = elInputPaymentMethod ? elInputPaymentMethod.value : 'efectivo';
+    const isPaid = document.getElementById('input-is-paid') ? document.getElementById('input-is-paid').checked : false;
     const color = elInputColor.value;
     const budget = elInputBudget.value;
     const washType = selectedWashTypes.join(',');
 
-    addVehicle(nickname, plate, color, budget, washType, phone, clientType, paymentMethod);
+    addVehicle(nickname, plate, color, budget, washType, phone, clientType, paymentMethod, isPaid);
 
     // Resetear formulario
     elInputNickname.value = '';
     elInputPlate.value = '';
-    selectedWashTypes = ['combo-limpieza-total'];
+    elInputPhone.value = '';
+    if(document.getElementById('input-is-paid')) document.getElementById('input-is-paid').checked = false;
     elInputBudget.value = '18000';
     renderWashMenu();
     
