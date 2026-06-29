@@ -491,19 +491,26 @@ async function addVehicle(nickname, plate, color, budgetStr, washType, phone = '
             })
         });
     }
+        let initialZone = 'espera';
+        if (wType === 'aspirado-interior') {
+            const aspiradoCount = activeVehicles.filter(v => v.zone === 'aspirado').length;
+            if (aspiradoCount < 2) {
+                initialZone = 'aspirado';
+            }
+        }
 
-    const newCar = {
-        id: crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).substring(2, 15),
-        tracking_id: Math.floor(Math.random() * 900) + 100,
-        nickname,
-        plate: uppercasePlate,
-        phone,
-        clientType,
-        paymentMethod,
-        isPaid,
-        color,
-        zone: 'espera',
-        budget,
+        const newCar = {
+            id: crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).substring(2, 15),
+            tracking_id: Math.floor(Math.random() * 900) + 100,
+            nickname,
+            plate: uppercasePlate,
+            phone,
+            clientType,
+            paymentMethod,
+            isPaid,
+            color,
+            zone: initialZone,
+            budget,
         wash_type: wType,
         description: `Servicio: ${washName}. Lavado estándar y detallado de carrocería.`,
         entered_at: new Date().toISOString(),
@@ -929,7 +936,11 @@ function renderOperatorTable() {
             advanceBtn.addEventListener('click', () => {
                 let nextZone = 'terminado';
                 if (car.zone === 'espera') {
-                    nextZone = 'lavado';
+                    if (car.wash_type === 'aspirado-interior') {
+                        nextZone = 'aspirado';
+                    } else {
+                        nextZone = 'lavado';
+                    }
                 } else if (car.zone === 'lavado') {
                     // Si el servicio incluye aspirado, pasar a aspirado. Si no, terminado.
                     const serviciosConAspirado = ['combo-limpieza-total', 'combo-vip-gold', 'aspirado-interior'];
@@ -2546,10 +2557,19 @@ setInterval(() => {
         
         lavadoCars = activeVehicles.filter(v => v.zone === 'lavado');
         if (lavadoCars.length === 0) {
-            let esperaCars = activeVehicles.filter(v => v.zone === 'espera');
-            if (esperaCars.length > 0) {
-                esperaCars.sort((a, b) => new Date(a.entered_at) - new Date(b.entered_at));
-                updateVehicleZone(esperaCars[0].id, 'lavado');
+            let esperaLavadoCars = activeVehicles.filter(v => v.zone === 'espera' && v.wash_type !== 'aspirado-interior');
+            if (esperaLavadoCars.length > 0) {
+                esperaLavadoCars.sort((a, b) => new Date(a.entered_at) - new Date(b.entered_at));
+                updateVehicleZone(esperaLavadoCars[0].id, 'lavado');
+            }
+        }
+
+        aspiradoCars = activeVehicles.filter(v => v.zone === 'aspirado');
+        if (aspiradoCars.length < 2) {
+            let esperaAspiradoCars = activeVehicles.filter(v => v.zone === 'espera' && v.wash_type === 'aspirado-interior');
+            if (esperaAspiradoCars.length > 0) {
+                esperaAspiradoCars.sort((a, b) => new Date(a.entered_at) - new Date(b.entered_at));
+                updateVehicleZone(esperaAspiradoCars[0].id, 'aspirado');
             }
         }
     } catch (e) {
