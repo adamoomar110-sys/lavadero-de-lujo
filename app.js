@@ -556,9 +556,6 @@ async function addVehicle(nickname, plate, color, budgetStr, washType, phone = '
     }
 
     renderAll();
-    
-    // Mostrar modal QR al registrar
-    showQrModal(newCar);
 }
 
 // Cambiar Zona de un Vehículo
@@ -930,9 +927,6 @@ function renderOperatorTable() {
             </td>
             <td>
                 <div class="table-actions" style="flex-wrap: wrap;">
-                    <button class="btn btn-secondary btn-sm btn-qr-link" data-car-id="${car.id}" title="Copiar Link Cliente">
-                        🔗 LINK
-                    </button>
                     ${car.zone === 'terminado' ? `
                         <button class="btn btn-primary btn-sm btn-finish-car" data-car-id="${car.id}">
                             Entregar
@@ -998,13 +992,6 @@ function renderOperatorTable() {
                 deleteVehicle(car.id);
             }
         });
-
-        const qrBtn = tr.querySelector('.btn-qr-link');
-        if (qrBtn) {
-            qrBtn.addEventListener('click', () => {
-                showQrModal(car);
-            });
-        }
 
         const wpBtn = tr.querySelector('.btn-whatsapp');
         if (wpBtn) {
@@ -1954,41 +1941,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // --- FUNCIONES NUEVAS: QR Y COMPARTIR ---
-function showQrModal(car) {
-    const colorHex = car.color.replace('#', '');
-    let baseUrl = window.location.origin + window.location.pathname;
-    baseUrl = baseUrl.replace('index.html', '');
-    if(!baseUrl.endsWith('/')) baseUrl += '/';
-    
-    // Calcular pos (Posición en la fila)
-    const esperaCars = activeVehicles.filter(v => v.zone === 'espera');
-    let pos = esperaCars.findIndex(v => v.id === car.id) + 1;
-    if (pos <= 0) pos = 1;
-
-    const url = `${baseUrl}cliente.html?n=${encodeURIComponent(car.nickname)}&c=${colorHex}&p=${encodeURIComponent(car.plate || 'SIN PATENTE')}&z=${car.zone}&t=${encodeURIComponent(car.wash_type || 'combo-limpieza-total')}&pos=${pos}&id=${car.id}`;
-    
-    const qrModal = document.getElementById('modal-ticket-qr');
-    if(!qrModal) return;
-
-    const qrImage = document.getElementById('qr-image');
-    const qrLinkText = document.getElementById('qr-link-text');
-    const btnCopy = document.getElementById('btn-copy-ticket');
-
-    // Usar API de QR pública para generar la imagen
-    qrImage.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(url)}&color=00f0ff&bgcolor=18181b`;
-    // Make link clickable and QR image clickable
-    qrLinkText.innerHTML = `<a href="${url}" target="_blank" style="color: var(--color-cyan); text-decoration: underline; word-break: break-all;">${url}</a>`;
-    qrImage.style.cursor = 'pointer';
-    qrImage.onclick = () => window.open(url, '_blank');
-    
-    btnCopy.onclick = () => {
-        navigator.clipboard.writeText(url).then(() => {
-            showFloatingToast("Enlace del cliente copiado al portapapeles.");
-        });
-    };
-
-    qrModal.style.display = 'flex';
-}
 
 function copyPostularLink() {
     let baseUrl = window.location.origin + window.location.pathname;
