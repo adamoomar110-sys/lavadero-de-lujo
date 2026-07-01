@@ -161,6 +161,34 @@
             height: 100%;
             object-fit: contain;
         }
+
+        /* Toast Notification */
+        .toast-notification {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: rgba(132, 204, 22, 0.95);
+            border: 1px solid var(--color-lime);
+            color: #000;
+            padding: 1rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: bold;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: slideIn 0.3s forwards, fadeOut 0.3s 3.7s forwards;
+            font-family: var(--font-sans);
+        }
+        @keyframes slideIn {
+            from { transform: translateY(100px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
     </style>
 </head>
 <body>
@@ -173,26 +201,28 @@
         <!-- Panel Izquierdo: Escáner y Datos -->
         <div class="panel">
             <h2 style="margin-top:0; color: var(--color-lime);">1. Datos del Vehículo</h2>
-            <div class="scanner-placeholder" id="btn-scan" onclick="startScan()">
-                <div class="scan-line" id="scan-line"></div>
-                <div style="font-size: 3rem; margin-bottom:1rem;">📷</div>
-                <h3>Tocar para Escanear Patente con IA</h3>
-                <p style="color: var(--color-text-dim)">Autocompletará Modelo y Color</p>
-            </div>
-
-            <div style="margin-top: 2rem;">
-                <div class="form-group">
-                    <label>Patente</label>
-                    <input type="text" id="in-plate" placeholder="Ej: AA123ZZ">
+            <div class="datos-vehiculo-flex" style="display: flex; gap: 1.5rem; flex: 1; align-items: stretch;">
+                <div class="scanner-placeholder" id="btn-scan" onclick="startScan()" style="flex: 1; max-width: 220px; height: 100%;">
+                    <div class="scan-line" id="scan-line"></div>
+                    <div style="font-size: 3.5rem; margin-bottom: 0.5rem;">📷</div>
+                    <h3 style="font-size: 1.1rem; text-align: center; padding: 0 10px; margin: 0.5rem 0;">Escanear Patente</h3>
+                    <p style="color: var(--color-text-dim); font-size: 0.8rem; text-align: center; padding: 0 10px; margin: 0;">Autocompletará Modelo y Color</p>
                 </div>
-                <div style="display:flex; gap:1rem;">
-                    <div class="form-group" style="flex:1;">
-                        <label>Modelo / Apodo</label>
-                        <input type="text" id="in-model" placeholder="Ej: Toyota Hilux">
+
+                <div style="flex: 2; display: flex; flex-direction: column; justify-content: center; gap: 1.5rem;">
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label>Patente</label>
+                        <input type="text" id="in-plate" placeholder="Ej: AA123ZZ">
                     </div>
-                    <div class="form-group" style="width: 100px;">
-                        <label>Color</label>
-                        <input type="color" id="in-color" value="#ffffff" style="padding:0; height: 3.5rem; cursor:pointer;">
+                    <div style="display:flex; gap:1rem;">
+                        <div class="form-group" style="flex:1; margin-bottom: 0;">
+                            <label>Modelo / Apodo</label>
+                            <input type="text" id="in-model" placeholder="Ej: Toyota Hilux">
+                        </div>
+                        <div class="form-group" style="width: 100px; margin-bottom: 0;">
+                            <label>Color</label>
+                            <input type="color" id="in-color" value="#ffffff" style="padding:0; height: 3.5rem; cursor:pointer;">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -244,14 +274,27 @@
         let washPackages = [];
 
         function loadServices() {
-            const saved = localStorage.getItem('lavadero_wash_settings');
-            if(saved) {
+            let saved = localStorage.getItem('lavadero_wash_settings');
+            // Limpiar si hay emojis corruptos
+            if (saved && (saved.includes('ðŸ') || saved.includes('Í') || saved.includes('â\x80'))) {
+                localStorage.removeItem('lavadero_wash_settings');
+                saved = null;
+            }
+            if (saved) {
                 washPackages = JSON.parse(saved);
             } else {
-                // Fallback default
+                // Fallback completo con emojis correctos
                 washPackages = [
-                    { id: 'combo-limpieza-total', title: 'Limpieza Total', icon: '🌪️', price: 18000 },
-                    { id: 'lavado-express', title: 'Express', icon: '⚡', price: 8000 }
+                    { id: 'combo-limpieza-total', title: 'Limpieza Total', icon: '🌀', price: 18000 },
+                    { id: 'combo-vip-gold',       title: 'VIP Gold',       icon: '🏆', price: 25000 },
+                    { id: 'lavado-carroceria',    title: 'Exterior Simple', icon: '🚗', price: 12000 },
+                    { id: 'aspirado-interior',    title: 'Interior Pro',    icon: '💨', price: 10000 },
+                    { id: 'lavado-express',       title: 'Express',        icon: '⚡', price: 8000  },
+                    { id: 'lavado-motor',         title: 'Motor Vapor',    icon: '🔥', price: 15000 },
+                    { id: 'encerado-acrilico',    title: 'Encerado',       icon: '🛡️', price: 22000 },
+                    { id: 'lavado-chasis',        title: 'Chasis',         icon: '🔩', price: 28000 },
+                    { id: 'pulido-opticas',       title: 'Ópticas',        icon: '💡', price: 16000 },
+                    { id: 'tratamiento-ceramico', title: 'Cerámico 9H',    icon: '💎', price: 65000 }
                 ];
             }
 
@@ -262,6 +305,7 @@
             });
             updatePrice();
         }
+
 
         function updatePrice() {
             const select = document.getElementById('in-service');
@@ -276,14 +320,90 @@
             document.getElementById(`pay-${method}`).classList.add('active');
         }
 
+        let detectedOnlineId = null;
+
+        function showToast(msg, type = 'success') {
+            const toast = document.createElement('div');
+            toast.className = 'toast-notification';
+            if (type === 'error') {
+                toast.style.background = 'rgba(239, 68, 68, 0.95)';
+                toast.style.borderColor = '#ef4444';
+                toast.style.color = '#fff';
+            }
+            toast.innerHTML = `<span>${msg}</span>`;
+            document.body.appendChild(toast);
+            setTimeout(() => {
+                toast.style.animation = 'fadeOut 0.3s forwards';
+                setTimeout(() => toast.remove(), 300);
+            }, 3700);
+        }
+
+        async function checkOnlinePreRegistration(plate) {
+            if (!plate || plate.trim().length < 6) {
+                detectedOnlineId = null;
+                return;
+            }
+            
+            const cleanPlate = plate.trim().toUpperCase();
+            const localConfig = JSON.parse(localStorage.getItem('lavadero_config') || '{}');
+            const url_base = (localConfig.supabaseUrl && localConfig.supabaseKey) ? localConfig.supabaseUrl : PANEL_CONFIG.supabaseUrl;
+            const key = (localConfig.supabaseUrl && localConfig.supabaseKey) ? localConfig.supabaseKey : PANEL_CONFIG.supabaseKey;
+            const table = localConfig.queueTable || PANEL_CONFIG.queueTable;
+
+            try {
+                const res = await fetch(`${url_base}/rest/v1/${table}?plate=eq.${cleanPlate}&status=eq.waiting&order=entered_at.desc&limit=1`, {
+                    method: 'GET',
+                    headers: { 
+                        'apikey': key, 
+                        'Authorization': `Bearer ${key}`, 
+                        'Content-Type': 'application/json' 
+                    }
+                });
+
+                if (!res.ok) throw new Error("Error en la consulta");
+
+                const data = await res.json();
+                if (data && data.length > 0) {
+                    const onlineReg = data[0];
+                    detectedOnlineId = onlineReg.id;
+
+                    // Autocompletar campos
+                    document.getElementById('in-model').value = onlineReg.model || `Vehículo ${onlineReg.plate}`;
+                    
+                    // Seleccionar servicio
+                    if (onlineReg.wash_type) {
+                        const selectService = document.getElementById('in-service');
+                        selectService.value = onlineReg.wash_type;
+                        updatePrice();
+                    }
+
+                    // Seleccionar método de pago
+                    if (onlineReg.payment_method) {
+                        let mappedPay = 'efectivo';
+                        if (onlineReg.payment_method === 'transferencia' || onlineReg.payment_method === 'qr') {
+                            mappedPay = 'qr';
+                        } else if (onlineReg.payment_method === 'tarjeta') {
+                            mappedPay = 'tarjeta';
+                        }
+                        selectPay(mappedPay);
+                    }
+
+                    showToast(`✅ ¡Pre-registro Online Detectado para la patente ${cleanPlate}! Datos cargados.`, 'success');
+                } else {
+                    detectedOnlineId = null;
+                }
+            } catch (err) {
+                console.warn('[Tablet] Error verificando pre-registro:', err);
+                detectedOnlineId = null;
+            }
+        }
+
         function startScan() {
             document.getElementById('scan-line').style.display = 'block';
             
-            // Simular 2 segundos de escaneo IA
             setTimeout(() => {
                 document.getElementById('scan-line').style.display = 'none';
                 
-                // Datos mock de la IA
                 const plates = ["AF452ZZ", "AD123BC", "AB987CD", "AC333EE"];
                 const models = ["VW Amarok", "Toyota Corolla", "Ford Ranger", "Peugeot 208"];
                 const colors = ["#ffffff", "#000000", "#1e3a8a", "#dc2626"];
@@ -293,8 +413,10 @@
                 document.getElementById('in-model').value = models[r];
                 document.getElementById('in-color').value = colors[r];
                 
-                // Mostrar tostada verde
-                alert("Escáner IA: Vehículo identificado con 98% de confianza.");
+                showToast("Escáner IA: Vehículo identificado con 98% de confianza.");
+                
+                // Disparar validación de pre-registro
+                checkOnlinePreRegistration(plates[r]);
             }, 2000);
         }
 
@@ -342,7 +464,7 @@
         function finishIngreso() {
             // Guardar auto en LocalStorage
             const car = {
-                id: Math.random().toString(36).substr(2, 9),
+                id: detectedOnlineId || Math.random().toString(36).substr(2, 9),
                 tracking_id: Math.floor(Math.random() * 900) + 100,
                 nickname: document.getElementById('in-model').value,
                 plate: document.getElementById('in-plate').value.toUpperCase(),
@@ -362,7 +484,7 @@
             
             // Disparar evento para otras pestañas (como en el mismo window no se dispara onstorage, lo disparamos manual si hiciera falta)
             window.dispatchEvent(new Event('storage'));
-            pushVehicleToSupabase(car); // Enviar a Supabase
+            pushVehicleToSupabase(car, detectedOnlineId); // Enviar a Supabase
 
             // Ocultar modal y mostrar éxito
             cancelPayment();
@@ -375,37 +497,161 @@
             document.getElementById('in-plate').value = '';
             document.getElementById('in-model').value = '';
             document.getElementById('in-color').value = '#ffffff';
+            detectedOnlineId = null; // Limpiar después de procesar
         }
         
-        async function pushVehicleToSupabase(car) {
-            const config = JSON.parse(localStorage.getItem('lavadero_config') || '{}');
-            if (!config.useSupabase || !config.supabaseUrl || !config.supabaseKey) return;
-            try {
-                const url = `${config.supabaseUrl}/rest/v1/${config.queueTable}`;
-                // Adapt to schema
-                const payload = {
+        // Configuración Supabase fija — mismo proyecto que el Panel principal
+        const PANEL_CONFIG = {
+            supabaseUrl: 'https://hacmhlyvyyysnvekvhya.supabase.co',
+            supabaseKey: 'sb_publishable_oEB1MoOee7lM99mvHCu_aA_T98vg3NA',
+            queueTable: 'lavadero_camera_queue'
+        };
+
+        // --- SISTEMA OFFLINE & COLA DE SINCRONIZACIÓN ---
+        function queueForSync(payload) {
+            const queue = JSON.parse(localStorage.getItem('lavadero_offline_queue') || '[]');
+            queue.push(payload);
+            localStorage.setItem('lavadero_offline_queue', JSON.stringify(queue));
+            console.log('[Tablet] 💾 Guardado en cola offline. Pendientes:', queue.length);
+        }
+
+        async function processOfflineQueue() {
+            if (!navigator.onLine) return;
+            const queue = JSON.parse(localStorage.getItem('lavadero_offline_queue') || '[]');
+            if (queue.length === 0) return;
+
+            console.log('[Tablet] 🔄 Sincronizando', queue.length, 'registros offline...');
+            const localConfig = JSON.parse(localStorage.getItem('lavadero_config') || '{}');
+            const url_base = (localConfig.supabaseUrl && localConfig.supabaseKey) ? localConfig.supabaseUrl : PANEL_CONFIG.supabaseUrl;
+            const key = (localConfig.supabaseUrl && localConfig.supabaseKey) ? localConfig.supabaseKey : PANEL_CONFIG.supabaseKey;
+            const table = localConfig.queueTable || PANEL_CONFIG.queueTable;
+
+            const pending = [];
+            for (const payload of queue) {
+                try {
+                    const res = await fetch(`${url_base}/rest/v1/${table}`, {
+                        method: 'POST',
+                        headers: { 'apikey': key, 'Authorization': `Bearer ${key}`, 'Content-Type': 'application/json', 'Prefer': 'return=representation' },
+                        body: JSON.stringify(payload)
+                    });
+                    if (!res.ok) throw new Error("Fallo sync de registro");
+                    console.log('[Tablet] ✅ Sincronizado ticket', payload.tracking_id);
+                } catch(err) {
+                    pending.push(payload); // Falla, vuelve a la cola
+                }
+            }
+            localStorage.setItem('lavadero_offline_queue', JSON.stringify(pending));
+            if(pending.length === 0 && queue.length > 0) alert('Sincronización offline completada');
+        }
+
+        window.addEventListener('online', processOfflineQueue);
+        setInterval(processOfflineQueue, 15000); // Reintento periodico por si acaso
+
+        async function pushVehicleToSupabase(car, isUpdateId = null) {
+            const localConfig = JSON.parse(localStorage.getItem('lavadero_config') || '{}');
+            const url_base = (localConfig.supabaseUrl && localConfig.supabaseKey) ? localConfig.supabaseUrl : PANEL_CONFIG.supabaseUrl;
+            const key = (localConfig.supabaseUrl && localConfig.supabaseKey) ? localConfig.supabaseKey : PANEL_CONFIG.supabaseKey;
+            const table = localConfig.queueTable || PANEL_CONFIG.queueTable;
+
+            const nicknamePayload = JSON.stringify({
+                name: car.nickname,
+                plate: car.plate,
+                budget: car.budget,
+                wash_type: car.wash_type,
+                description: car.description
+            });
+
+            // Payload varía si es UPDATE o INSERT
+            const payload = isUpdateId ? {
+                nickname: nicknamePayload,
+                color: car.color,
+                zone: car.zone,
+                entered_at: car.entered_at,
+                status: 'active'
+            } : {
+                id: car.id,
+                tracking_id: car.tracking_id,
+                nickname: nicknamePayload,
+                color: car.color,
+                zone: car.zone,
+                entered_at: car.entered_at
+            };
+
+            if (!navigator.onLine) {
+                // En modo offline, encolamos el POST de inserción
+                const fallbackPayload = {
+                    id: car.id,
                     tracking_id: car.tracking_id,
-                    nickname: car.nickname,
-                    plate: car.plate,
+                    nickname: nicknamePayload,
                     color: car.color,
                     zone: car.zone,
-                    budget: car.budget,
-                    wash_type: car.wash_type,
-                    description: car.description
+                    entered_at: car.entered_at
                 };
-                
-                await fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'apikey': config.supabaseKey,
-                        'Authorization': `Bearer ${config.supabaseKey}`,
-                        'Content-Type': 'application/json',
-                        'Prefer': 'return=representation'
+                queueForSync(fallbackPayload);
+                return;
+            }
+
+            try {
+                const url = isUpdateId 
+                    ? `${url_base}/rest/v1/${table}?id=eq.${isUpdateId}` 
+                    : `${url_base}/rest/v1/${table}`;
+                const method = isUpdateId ? 'PATCH' : 'POST';
+
+                const res = await fetch(url, {
+                    method: method,
+                    headers: { 
+                        'apikey': key, 
+                        'Authorization': `Bearer ${key}`, 
+                        'Content-Type': 'application/json', 
+                        'Prefer': 'return=representation' 
                     },
                     body: JSON.stringify(payload)
                 });
-            } catch (err) { }
+
+                if (res.ok) {
+                    console.log(`[Tablet] ✅ Auto ${isUpdateId ? 'actualizado' : 'enviado'} al panel — Ticket #${car.tracking_id}`);
+                } else {
+                    const errText = await res.text();
+                    console.error('[Tablet] ❌ Error Supabase:', res.status, errText);
+                    const fallbackPayload = {
+                        id: car.id,
+                        tracking_id: car.tracking_id,
+                        nickname: nicknamePayload,
+                        color: car.color,
+                        zone: car.zone,
+                        entered_at: car.entered_at
+                    };
+                    queueForSync(fallbackPayload);
+                }
+            } catch (err) {
+                console.error('[Tablet] ❌ Sin conexión a Supabase:', err);
+                const fallbackPayload = {
+                    id: car.id,
+                    tracking_id: car.tracking_id,
+                    nickname: nicknamePayload,
+                    color: car.color,
+                    zone: car.zone,
+                    entered_at: car.entered_at
+                };
+                queueForSync(fallbackPayload);
+            }
         }
+        
+        // Al arrancar procesamos posibles rezagados
+        processOfflineQueue();
+
+
+
+        // Escuchar cambios en la patente para validación online
+        document.getElementById('in-plate').addEventListener('input', (e) => {
+            const val = e.target.value.toUpperCase();
+            e.target.value = val;
+            if (val.length >= 6) {
+                checkOnlinePreRegistration(val);
+            } else {
+                detectedOnlineId = null;
+            }
+        });
 
         loadServices();
     </script>
