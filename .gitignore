@@ -1,2 +1,4 @@
 .vercel
 .env*
+node_modules/
+l1deres/web/node_modules/
